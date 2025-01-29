@@ -4,11 +4,18 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
+import {v2 as cloudinary} from "cloudinary"
 
 import postRoutes from './routes/posts.routes.js'
 import authRoutes from './routes/auth.routes.js'
 
 dotenv.config()
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API,
+  api_secret: process.env.CLOUDINARY_SECRET,
+})
 
 const app = express();
 app.use(cookieParser());
