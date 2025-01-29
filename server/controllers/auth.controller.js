@@ -6,7 +6,7 @@ function generateAndSaveToken(userId, res) {
   const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
   res.cookie("token", token, {
     maxAge: 60 * 60 * 1000,
-    httpOnly: false,
+    httpOnly: true,
     secure: false,
     sameSite: "none"
   });

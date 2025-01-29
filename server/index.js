@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
 
 import postRoutes from './routes/posts.routes.js'
 import authRoutes from './routes/auth.routes.js'
@@ -10,6 +11,7 @@ import authRoutes from './routes/auth.routes.js'
 dotenv.config()
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({credentials: true}));
