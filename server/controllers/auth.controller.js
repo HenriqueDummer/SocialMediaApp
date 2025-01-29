@@ -1,17 +1,40 @@
 import User from "../models/user.model.js"
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+
+function generateAndSaveToken(userId, res) {
+  const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  res.cookie("token", token, { 
+    maxAge: 60 * 60 * 1000,
+    httpOnly: false,
+    secure: false,
+    sameSite: "none"
+  });
+}
 
 export const signin = async (req, res) => {
   const { email, password } = req.body
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" })
-  }
-
-
-
   try {
-    res.status(200).json({ result: "Sign in success" })
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password are required" })
+    }
+  
+    const user = await User.findOne({email})
+  
+    if (!user) {
+      return res.status(400).json({ message: "Email does not exist" })
+    }
+  
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if(!passwordMatch) {
+      return res.status(400).json({ message: "Invalid credentials" })
+    }
+
+    
+    generateAndSaveToken(user._id, res);
+    res.status(200).json({ message: "Signin successful" })
+  
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })
@@ -28,6 +51,10 @@ export const signup = async (req, res) => {
     if (password !== confirmPassword)
       return res.status(400).json({ message: "Passwords do not match" })
 
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters" })
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email))
       return res.status(400).json({ error: "Email format is invalid" });
@@ -41,8 +68,11 @@ export const signup = async (req, res) => {
 
     const newUser = new User({ email, password: hashedPassword, username })
 
-    if(newUser){
+    if (newUser) {
+      generateAndSaveToken(newUser._id, res);
       await newUser.save();
+    } else {
+      return res.status(400).json({ message: "User could not be created" })
     }
 
     res.status(200).json({ result: newUser })

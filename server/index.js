@@ -8,7 +8,6 @@ import postRoutes from './routes/posts.routes.js'
 import authRoutes from './routes/auth.routes.js'
 
 dotenv.config()
-console.log(process.env.CONNECTION_URL)
 
 const app = express();
 app.use(express.json({ limit: "30mb", extended: true }));
@@ -21,10 +20,7 @@ app.use('/auth', authRoutes);
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
 
-app.listen(PORT, () => {
-  console.log(CONNECTION_URL)
-})
-// mongoose.connect(CONNECTION_URL)
-//   .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
-//   .catch((error) => console.log(error.message));
+mongoose.connect(CONNECTION_URL)
+  .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
+  .catch((error) => console.log(error.message));
 
