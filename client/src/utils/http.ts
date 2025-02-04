@@ -7,8 +7,14 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
-export const signin = (data: LoginInputSchema) => {
-  axios.post("/auth/sign-in", data).then((res) => {
-    console.log(res);
-  });
+export const signIn = async (data: LoginInputSchema) => {
+  const res = await axios.post("/auth/sign-in", data)
+
+  console.log(res)
 };
+
+export const getMe = async () => {
+  const res = await axios.get("/auth/me")
+    
+  console.log(res.data)
+}

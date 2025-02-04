@@ -8,7 +8,7 @@ function generateAndSaveToken(userId, res) {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
     secure: false,
-    sameSite: "none"
+    sameSite: "Lax"
   });
 }
 
@@ -121,3 +121,18 @@ export const signup = async (req, res) => {
   }
 }
 
+export const getMe = async (req, res) => {
+  try{
+    const user = await User.findById(req.user._id).select("-password");
+    return res.status(200).json({
+      success: true,
+      user
+    })
+  }catch(error){
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong, please try again later"
+    })
+  }
+}

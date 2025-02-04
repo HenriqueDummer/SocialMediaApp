@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signin } from "../../utils/http";
+import { signIn } from "../../utils/http";
 
 const loginInputSchema = z.object({
   email: z.string().email(),
@@ -19,7 +19,7 @@ export type LoginInputSchema = z.infer<typeof loginInputSchema>;
 
 const SigninForm = () => {
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: LoginInputSchema) => signin(data),
+    mutationFn: async (data: LoginInputSchema) => signIn(data),
     onSuccess: () => {
       console.log("Success");
     },

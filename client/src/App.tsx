@@ -4,7 +4,15 @@ import SignupForm from "./_auth/forms/SignupForm";
 import AuthLayout from "./_auth/AuthLayout";
 import Home from "./_root/pages/Home";
 
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "./utils/http";
+
 function App() {
+  const { data: authUser, isLoading } = useQuery({
+    queryKey: ["auth"],
+    queryFn: getMe
+  })
+
   return (
     <>
       <Routes>

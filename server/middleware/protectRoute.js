@@ -31,7 +31,7 @@ export const protectRoute = async (req, res, next) => {
       next();
     }
   } catch(error){
-    console.log(error)
+    console.log("middle")
     res.status(500).json({
       success: false,
       message: "Something went wrong, please try again later"
