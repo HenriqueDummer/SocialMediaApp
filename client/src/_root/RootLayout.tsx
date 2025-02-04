@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom'
 
 const RootLayout = () => {
   return (
-    <div>
+    <div className='w-full h-screen'>
       <Outlet />
     </div>
   )
