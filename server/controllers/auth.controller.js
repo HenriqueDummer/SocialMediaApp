@@ -57,10 +57,10 @@ export const signin = async (req, res) => {
 }
 
 export const signup = async (req, res) => {
-  const { email, password, confirmPassword, username } = req.body;
+  const { email, password, confirmPassword, username, fullName } = req.body;
 
   try {
-    if (!email || !password || !confirmPassword || !username)
+    if (!email || !password || !confirmPassword || !username || !fullName)
       return res.status(400).json({
         success: false,
         message: "All fields are required"
@@ -129,6 +129,22 @@ export const getMe = async (req, res) => {
       user
     })
   }catch(error){
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong, please try again later"
+    })
+  }
+}
+
+export const logout = async (req, res) => {
+  try {
+    res.cookie("token", "", { maxAge: 0 });
+    return res.status(200).json({
+      success: true,
+      message: "Signout successful"
+    })
+  } catch (error) {
     console.log(error)
     return res.status(500).json({
       success: false,

@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "../../utils/http";
+import { useNavigate } from "react-router-dom";
 
 const loginInputSchema = z.object({
   email: z.string().email(),
@@ -18,10 +19,13 @@ const loginInputSchema = z.object({
 export type LoginInputSchema = z.infer<typeof loginInputSchema>;
 
 const SigninForm = () => {
+  const navigate = useNavigate();
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: LoginInputSchema) => signIn(data),
     onSuccess: () => {
       console.log("Success");
+      navigate("/")
     },
   });
 
@@ -51,7 +55,7 @@ const SigninForm = () => {
         {errors.email && <p>{errors.email.message}</p>}
         {errors.password && <p>{errors.password.message}</p>}
         <Button className="mt-5 w-full" type="submit">
-          Login
+          {isPending ? "Loading..." : "Login"}
         </Button>
       </form>
     </div>

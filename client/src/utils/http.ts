@@ -8,13 +8,34 @@ axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
 export const signIn = async (data: LoginInputSchema) => {
-  const res = await axios.post("/auth/sign-in", data)
-
-  console.log(res)
+  try{
+    const res = await axios.post("/auth/sign-in", data)
+    return res
+  } catch(error){
+    console.log(error)
+    throw error
+  }
 };
 
 export const getMe = async () => {
-  const res = await axios.get("/auth/me")
-    
-  console.log(res.data)
+  try{
+    const res = await axios.get("/auth/me")
+    return res.data.user ?? null
+  }catch(error){
+    console.log(error)
+    throw error
+  }
+  
+}
+
+export const logout = async () => {
+  try{
+    const res = await axios.get("/auth/logout")
+    console.log(res)
+
+    return res
+  } catch(error){
+    console.log(error)
+    throw error
+  }
 }

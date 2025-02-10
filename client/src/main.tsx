@@ -7,11 +7,9 @@ import App from "./App.tsx";
 import "./output.css";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </BrowserRouter>
-  </StrictMode>
+  <BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  </BrowserRouter>
 );
