@@ -4,14 +4,15 @@ import SigninForm from "./_auth/forms/SigninForm";
 import SignupForm from "./_auth/forms/SignupForm";
 import AuthLayout from "./_auth/AuthLayout";
 import Home from "./_root/pages/Home";
+import Profile from "./_root/pages/Profile";
 import RootLayout from "./_root/RootLayout";
 
 import { useQuery } from "@tanstack/react-query";
-import type { User } from "./types/types";
+import type { UserType } from "./types/types";
 import { getMe } from "./utils/http";
 
 function App() {
-  const { data: authUser, isLoading } = useQuery<User>({
+  const { data: authUser, isLoading } = useQuery<UserType>({
     queryKey: ["authUser"],
     queryFn: getMe,
     retry: false,
@@ -42,6 +43,12 @@ function App() {
             path="/"
             element={
               authUser ? <Home /> : <Navigate to="/sign-in" />
+            }
+          />
+          <Route
+            path="/profile/:id"
+            element={
+              authUser ? <Profile /> : <Navigate to="/sign-in" />
             }
           />
         </Route>

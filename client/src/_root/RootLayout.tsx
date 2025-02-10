@@ -1,17 +1,17 @@
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import { useQuery } from '@tanstack/react-query'
-import type { User } from '../types/types'
+import type { UserType } from '../types/types'
 
 const RootLayout = () => {
-  const { data: authUser } = useQuery<User>({ queryKey: ["authUser"] });
+  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
 
   return (
-    <div className='w-full h-screen bg-dark_bg flex'>
-      <Outlet />
+    <div className='w-full h-screen bg-dark_bg flex p-5 gap-5'>
       {
         authUser && <Sidebar />
       }
+      <Outlet />
     </div>
   )
 }

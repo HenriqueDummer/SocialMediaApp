@@ -19,9 +19,15 @@ export const getPosts = async (req, res) => {
       })
 
     if(posts.length === 0){
-      return res.status(404).json([])
+      return res.status(404).json({ 
+        success: true,
+        posts: []
+      })
     } else {
-      return res.status(200).json(posts)
+      return res.status(200).json({ 
+        success: true,
+        posts
+      })
     }
 
   }catch(error){

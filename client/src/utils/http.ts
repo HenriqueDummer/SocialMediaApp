@@ -39,3 +39,13 @@ export const logout = async () => {
     throw error
   }
 }
+
+export const getAllPosts = async () => {
+  try{
+    const res = await axios.get("/posts")
+    return res.data.posts
+  } catch(error){
+    console.log(error)
+    throw error
+  }
+}
