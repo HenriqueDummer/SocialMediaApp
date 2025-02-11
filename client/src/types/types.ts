@@ -13,7 +13,7 @@ export type PostType = {
   user: UserType,
   text: string,
   selectedFile: string,
-  likeCounte: number,
+  likes: [string],
   comments: [{
     text: string,
     user: UserType

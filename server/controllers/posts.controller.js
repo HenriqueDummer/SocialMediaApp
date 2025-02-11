@@ -1,7 +1,7 @@
 import Post from "../models/post.model.js";
 
 export const getPosts = async (req, res) => {
-  try{
+  try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -18,21 +18,21 @@ export const getPosts = async (req, res) => {
         select: ("-password")
       })
 
-    if(posts.length === 0){
-      return res.status(404).json({ 
+    if (posts.length === 0) {
+      return res.status(404).json({
         success: true,
         posts: []
       })
     } else {
-      return res.status(200).json({ 
+      return res.status(200).json({
         success: true,
         posts
       })
     }
 
-  }catch(error){
+  } catch (error) {
     console.log(error)
-    res.status(500).json({message: "Something went wrong, please try again later"})
+    res.status(500).json({ message: "Something went wrong, please try again later" })
   }
 }
 
@@ -40,17 +40,17 @@ export const createPost = async (req, res) => {
   const user = req.user;
   const post = req.body;
 
-  try{
-    const {text, image} = post;
+  try {
+    const { text, image } = post;
 
-    if(!user && !image){
+    if (!user && !image) {
       return res.status(400).json({
         success: false,
         message: "Must provide text or image"
       })
     }
 
-    if(image){
+    if (image) {
       const uploadedResponse = await cloudinary.uploader.upload(image)
 
       image = uploadedResponse.secure_url;
@@ -66,8 +66,40 @@ export const createPost = async (req, res) => {
 
     res.status(201).json(newPost);
 
-  }catch(error){
+  } catch (error) {
     console.log(error);
-    res.status(500).json({message: "Something went wrong, please try again later"})
+    res.status(500).json({ message: "Something went wrong, please try again later" })
+  }
+}
+
+export const likePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const user = req.user;
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found"
+      })
+    }
+
+    if (post.likes.includes(user._id)) {
+      post.likes = post.likes.filter((id) => id.toString() !== user._id.toString());
+    } else {
+      post.likes.push(user._id);
+    }
+
+    await post.save();
+
+    return res.status(200).json({
+      success: true,
+      likes: post.likes
+    })
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Something went wrong, please try again later" })
   }
 }

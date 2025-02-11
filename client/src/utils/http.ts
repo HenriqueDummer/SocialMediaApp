@@ -49,3 +49,13 @@ export const getAllPosts = async () => {
     throw error
   }
 }
+
+export const likePost = async (postId: string) => {
+  try{
+    const {data} = await axios.post(`/posts/${postId}/like`)
+    return data
+  } catch(error){
+    console.log(error)
+    throw error
+  }
+}

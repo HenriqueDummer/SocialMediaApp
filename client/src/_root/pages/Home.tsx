@@ -12,10 +12,10 @@ const Home = () => {
   console.log(posts)
   return (
     <div className='flex flex-col w-2/4 '>
-      {posts && (
-        posts.map((post) => {
+      {(posts ?? []).length > 0 && (
+        posts!.map((post) => {
           return (
-            <Post post={post} />
+            <Post key={post._id} post={post} />
           )
         })
       )}
