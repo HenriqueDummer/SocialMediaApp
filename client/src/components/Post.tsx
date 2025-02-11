@@ -11,7 +11,7 @@ import { likePost, queryClient } from "../utils/http";
 const Post = ({ post }: { post: PostType }) => {
   const {data} = useQuery({queryKey: ["posts"]})
 
-  const { mutate: like } = useMutation({
+  const { mutate: like, isError, error } = useMutation({
     mutationFn: (postId: string) => likePost(postId),
     onSuccess: (updatedLikes) => {
       queryClient.setQueryData(["posts"], (oldData: PostType[]) => {

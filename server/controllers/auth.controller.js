@@ -18,7 +18,6 @@ export const signin = async (req, res) => {
   try {
     if (!email || !password) {
       return res.status(400).json({
-        success: false,
         message: "Email and password are required"
       })
     }
@@ -27,7 +26,6 @@ export const signin = async (req, res) => {
 
     if (!user) {
       return res.status(400).json({
-        success: false,
         message: "Invalid credentials"
       })
     }
@@ -35,7 +33,6 @@ export const signin = async (req, res) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(400).json({
-        success: false,
         message: "Invalid credentials"
       })
     }
@@ -43,14 +40,12 @@ export const signin = async (req, res) => {
 
     generateAndSaveToken(user._id, res);
     res.status(200).json({
-      success: true,
       message: "Signin successful"
     })
 
   } catch (error) {
     console.log(error)
     res.status(500).json({
-      success: false,
       message: "Something went wrong, please try again later"
     })
   }
@@ -62,19 +57,16 @@ export const signup = async (req, res) => {
   try {
     if (!email || !password || !confirmPassword || !username || !fullName)
       return res.status(400).json({
-        success: false,
         message: "All fields are required"
       })
 
     if (password !== confirmPassword)
       return res.status(400).json({
-        success: false,
         message: "Passwords do not match"
       })
 
     if (password.length < 6) {
       return res.status(400).json({
-        success: false,
         message: "Password must be at least 6 characters"
       })
     }
@@ -82,14 +74,12 @@ export const signup = async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email))
       return res.status(400).json({
-        success: false,
         message: "Email format is invalid"
       });
 
     const emailExists = await User.findOne({ email })
     if (emailExists)
       return res.status(400).json({
-        success: false,
         message: "Email already exists"
       })
 
@@ -103,19 +93,17 @@ export const signup = async (req, res) => {
       await newUser.save();
     } else {
       return res.status(400).json({
-        success: false,
+
         message: "User could not be created"
       })
     }
 
     res.status(200).json({
-      success: true,
-      result: newUser
+      newUser
     })
   } catch (error) {
     console.log(error)
     res.status(500).json({
-      success: false,
       message: error.message
     })
   }
@@ -125,13 +113,11 @@ export const getMe = async (req, res) => {
   try{
     const user = await User.findById(req.user._id).select("-password");
     return res.status(200).json({
-      success: true,
       user
     })
   }catch(error){
     console.log(error)
     return res.status(500).json({
-      success: false,
       message: "Something went wrong, please try again later"
     })
   }
@@ -141,13 +127,11 @@ export const logout = async (req, res) => {
   try {
     res.cookie("token", "", { maxAge: 0 });
     return res.status(200).json({
-      success: true,
       message: "Signout successful"
     })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
-      success: false,
       message: "Something went wrong, please try again later"
     })
   }

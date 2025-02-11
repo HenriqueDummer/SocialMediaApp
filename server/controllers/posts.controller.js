@@ -20,12 +20,10 @@ export const getPosts = async (req, res) => {
 
     if (posts.length === 0) {
       return res.status(404).json({
-        success: true,
         posts: []
       })
     } else {
       return res.status(200).json({
-        success: true,
         posts
       })
     }
@@ -45,7 +43,6 @@ export const createPost = async (req, res) => {
 
     if (!user && !image) {
       return res.status(400).json({
-        success: false,
         message: "Must provide text or image"
       })
     }
@@ -80,7 +77,6 @@ export const likePost = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
-        success: false,
         message: "Post not found"
       })
     }
@@ -94,12 +90,11 @@ export const likePost = async (req, res) => {
     await post.save();
 
     return res.status(200).json({
-      success: true,
       likes: post.likes
     })
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: "Something went wrong, please try again later" })
+    res.status(500).json({ message: "Something went wrong, please try again later" })
   }
 }
