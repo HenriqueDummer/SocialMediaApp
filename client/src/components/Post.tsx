@@ -7,6 +7,7 @@ import { MdOutlineModeComment } from "react-icons/md";
 import { RxLoop } from "react-icons/rx";
 
 import { likePost, queryClient } from "../utils/http";
+import { Button } from "./ui/button";
 
 const Post = ({ post }: { post: PostType }) => {
   const {data} = useQuery({queryKey: ["posts"]})
@@ -23,15 +24,15 @@ const Post = ({ post }: { post: PostType }) => {
       });
     },
   });
+  
   const isLiked = post.likes?.includes(post.user._id)
 
   const handleLike = () => {
-    console.log("lkajsd");
     like(post._id);
   };
 
   return (
-    <div className="bg-light_bg p-4 rounded-xl flex">
+    <div className="bg-light_bg p-4 rounded-xl flex mt-5">
       <div>
         <div
           className="w-20 aspect-square rounded-full bg-center bg-cover"
@@ -57,32 +58,32 @@ const Post = ({ post }: { post: PostType }) => {
           <img className="rounded-lg" src={post.selectedFile} alt="post" />
         )}
         <div className="flex mt-4 gap-4">
-          <button
+          <Button
             onClick={() => handleLike()}
             className="bg-slate-700 px-4 py-2 rounded-lg"
           >
             <p className="flex items-center gap-2 text-slate-400">
               {isLiked ?
-                <IoHeartOutline className="text-xl" />
-                :
                 <IoHeart className="text-xl text-red-500" />
+                :
+                <IoHeartOutline className="text-xl" />
               }
               
               Like
             </p>
-          </button>
-          <button className="bg-slate-700 px-4 py-2 rounded-lg">
+          </Button>
+          <Button className="bg-slate-700 px-4 py-2 rounded-lg">
             <p className="flex items-center gap-2 text-slate-400">
               <RxLoop className="text-xl" />
               Repost
             </p>
-          </button>
-          <button className="bg-slate-700 px-4 py-2 rounded-lg">
+          </Button>
+          <Button className="bg-slate-700 px-4 py-2 rounded-lg">
             <p className="flex items-center gap-2 text-slate-400">
               <MdOutlineModeComment />
               Comment
             </p>
-          </button>
+          </Button>
         </div>
       </div>
     </div>

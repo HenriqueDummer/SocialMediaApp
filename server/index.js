@@ -11,6 +11,7 @@ import authRoutes from './routes/auth.routes.js'
 
 dotenv.config()
 
+console.log(process.env.CLOUDINARY_API)
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API,

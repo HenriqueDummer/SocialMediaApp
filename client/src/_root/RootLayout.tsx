@@ -7,7 +7,7 @@ const RootLayout = () => {
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
 
   return (
-    <div className='w-full h-screen bg-dark_bg flex p-5 gap-5'>
+    <div className='w-full h-screen bg-dark_bg flex p-5 pb-0 gap-5'>
       {
         authUser && <Sidebar />
       }

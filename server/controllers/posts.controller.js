@@ -1,4 +1,5 @@
 import Post from "../models/post.model.js";
+import { v2 as cloudinary } from 'cloudinary';
 
 export const getPosts = async (req, res) => {
   try {
@@ -39,24 +40,25 @@ export const createPost = async (req, res) => {
   const post = req.body;
 
   try {
-    const { text, image } = post;
+    let { text, selectedFile } = post;
 
-    if (!user && !image) {
+    if (!user && !selectedFile) {
       return res.status(400).json({
         message: "Must provide text or image"
       })
     }
 
-    if (image) {
-      const uploadedResponse = await cloudinary.uploader.upload(image)
+    if (selectedFile) {
+      const uploadedResponse = await cloudinary.uploader.upload(selectedFile)
 
-      image = uploadedResponse.secure_url;
+      selectedFile = uploadedResponse.secure_url;
+      console.log(selectedFile)
     }
 
     const newPost = new Post({
       user: user._id,
       text,
-      image
+      selectedFile
     })
 
     await newPost.save();

@@ -4,6 +4,7 @@ import type { LoginInputSchema } from "../_auth/forms/SigninForm";
 export const queryClient = new QueryClient();
 
 import axios from "axios";
+import type { PostType } from "../types/types";
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
@@ -62,3 +63,13 @@ export const likePost = async (postId: string) => {
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
+
+export const createPost = async (postData): Promise<PostType> => {
+  try {
+    const {data} = await axios.post("/posts", postData);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+}
