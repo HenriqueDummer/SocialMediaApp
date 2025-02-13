@@ -47,7 +47,7 @@ const Post = ({ post }: { post: PostType }) => {
             <p className="text-lg font-semibold text-slate-300">
               {post.user.fullName}
             </p>
-            <p className="text-md text-slate-400">@{post.user.username}</p>
+            <p className="text-md text-slate-300 opacity-50 font-semibold">@{post.user.username}</p>
           </div>
           <p className="text-slate-400">3 hours ago</p>
         </div>

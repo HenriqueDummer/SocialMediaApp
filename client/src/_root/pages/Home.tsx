@@ -12,7 +12,7 @@ const Home = () => {
 
   console.log(posts)
   return (
-    <div className='flex flex-col w-2/4 overflow-auto no_scrollbar'>
+    <div className='flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar'>
       <CreatePost />
       {(posts ?? []).length > 0 && (
         posts!.map((post) => {

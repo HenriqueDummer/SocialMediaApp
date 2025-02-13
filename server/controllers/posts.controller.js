@@ -18,6 +18,7 @@ export const getPosts = async (req, res) => {
         path: ("comments.user"),
         select: ("-password")
       })
+      .sort({ createdAt: -1 });
 
     if (posts.length === 0) {
       return res.status(404).json({
@@ -42,7 +43,7 @@ export const createPost = async (req, res) => {
   try {
     let { text, selectedFile } = post;
 
-    if (!user && !selectedFile) {
+    if (!text && !selectedFile) {
       return res.status(400).json({
         message: "Must provide text or image"
       })
