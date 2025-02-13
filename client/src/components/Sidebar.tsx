@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { UserType } from "../types/types";
 import { logout, queryClient } from "../utils/http";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Sidebar = () => {
   });
 
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
-  console.log(authUser)
+
   return (
     <nav className="w-1/4 flex flex-col items-center">
       <div className="rounded-3xl overflow-hidden w-[90%] bg-light_bg w-full min-h-16">
@@ -37,15 +38,26 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center mt-12">
-          <p>@{authUser!.username}</p>
-          <h2 className="text-xl font-semibold text-slate-200">
+          <h2 className="text-xl leading-5 font-semibold text-slate-200">
             {authUser!.fullName}
           </h2>
-          <p>{authUser!.bio}</p>
+          <p className="text-slate-200 opacity-40 text-lg">@{authUser!.username}</p>
+          <p className="text-lg text-slate-300 my-3">{authUser!.bio}</p>
         </div>
-        <button onClick={() => logoutFn()} className="">
+        <div className="flex items-center border-t border-b border-slate-700">
+          <div className="flex-1 flex flex-col justify-center items-center py-10">
+            <p className="text-lg text-slate-300 font-semibold">234</p>
+            <p className="text-slate-400">Followers</p>
+          </div>
+          <div className="h-20 w-[1px] bg-slate-700"></div>
+          <div className="flex-1 flex flex-col justify-center items-center py-10">
+            <p className="text-lg text-slate-300 font-semibold">234</p>
+            <p className="text-slate-400">Following</p>
+          </div>
+        </div>
+        <Button className="w-full flex justify-center items-center py-8 bg-transparent" onClick={() => logoutFn()}>
           {isPending ? "Logging out..." : "Logout"}
-        </button>
+        </Button>
       </div>
     </nav>
   );

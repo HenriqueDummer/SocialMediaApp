@@ -7,25 +7,25 @@ import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signIn } from "../../utils/http";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
-const loginInputSchema = z.object({
+const signInInputSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-export type LoginInputSchema = z.infer<typeof loginInputSchema>;
+export type SignInInputSchema = z.infer<typeof signInInputSchema>;
 
 const SigninForm = () => {
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: LoginInputSchema) => signIn(data),
+    mutationFn: async (data: SignInInputSchema) => signIn(data),
     onSuccess: () => {
       console.log("Success");
-      navigate("/")
+      navigate("/");
     },
   });
 
@@ -33,11 +33,11 @@ const SigninForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInputSchema>({
-    resolver: zodResolver(loginInputSchema),
+  } = useForm<SignInInputSchema>({
+    resolver: zodResolver(signInInputSchema),
   });
 
-  function handleLogin(data: LoginInputSchema) {
+  function handleLogin(data: SignInInputSchema) {
     mutate(data);
   }
 
@@ -58,6 +58,10 @@ const SigninForm = () => {
           {isPending ? "Loading..." : "Login"}
         </Button>
       </form>
+      <div>
+        <p>Don't have an accout?</p>
+        <NavLink to="/sign-up">Sign up</NavLink>
+      </div>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Post = ({ post }: { post: PostType }) => {
     <div className="bg-light_bg p-4 rounded-xl flex mt-5">
       <div>
         <div
-          className="w-20 aspect-square rounded-full bg-center bg-cover"
+          className="w-16 aspect-square rounded-full bg-center bg-cover"
           style={{
             backgroundImage: `url(${post.user.profilePicture})`,
           }}
