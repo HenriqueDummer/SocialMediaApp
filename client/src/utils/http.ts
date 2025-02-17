@@ -111,3 +111,14 @@ export const postReply = async (postId: string, text: string): Promise<Reply> =>
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 }
+
+export const likeReply = async (replyId: string, postId: string) => {
+  try{
+    const {data} = await axios.post("/posts/reply/like/" + postId, {replyId})
+
+    console.log(data)
+  }catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+}

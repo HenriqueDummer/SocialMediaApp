@@ -40,10 +40,10 @@ const PostPage = () => {
         <>
           <Post post={postData} />
           <CreateReply postId={postId!} />
-          {postData.comments.length > 0 && (
-            postData.comments.map((comment) => {
+          {postData.replies.length > 0 && (
+            postData.replies.map((reply) => {
               return (
-                <Reply replyData={comment} />
+                <Reply key={reply._id} replyData={reply} postId={postId!}/>
               )
             })
           )}

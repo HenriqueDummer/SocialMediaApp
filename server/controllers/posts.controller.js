@@ -16,10 +16,6 @@ export const getPosts = async (req, res) => {
         path: "user",
         select: ("-password")
       })
-      .populate({
-        path: ("comments.user"),
-        select: ("-password")
-      })
       .sort({ createdAt: -1 });
 
     if (posts.length === 0) {
@@ -127,7 +123,7 @@ export const likePost = async (req, res) => {
 }
 
 export const getPostById = async (req, res) => {
-  try{
+  try {
     const { postId } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(postId)) {
@@ -136,47 +132,87 @@ export const getPostById = async (req, res) => {
 
     const post = await Post.findById(postId)
       .populate({ path: "user", select: ("-password") })
-      .populate({ path: "comments.user", select: ("-password") });
+      .populate({ path: "replies.user", select: ("-password") });
 
-    if(!post){
+    if (!post) {
       return res.status(404).json({ message: "Post not found" })
     }
 
     return res.status(200).json(post)
-  }catch(error){
+  } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong, please try again later" })
   }
 }
 
 export const postReply = async (req, res) => {
-  try{
-    const {postId} = req.params;
+  try {
+    const { postId } = req.params;
 
     const user = req.user;
 
     const post = await Post.findById(postId);
-    if(!post){
+    if (!post) {
       return res.status(404).json({ message: "Post not found" })
     }
 
     const { text } = req.body;
     console.log(text)
-    if(!text){
+    if (!text) {
       return res.status(400).json({ message: "Reply must have text" })
     }
 
-    const newComment = {
-      text, 
+    const newReply = {
+      text,
       user: user._id
     }
 
-    post.comments.push(newComment);
+    post.replies.push(newReply);
     await post.save();
 
     return res.status(201).json(post);
-  }catch(error){
+  } catch (error) {
     console.log(error);
+    res.status(500).json({ message: "Something went wrong, please try again later" })
+  }
+}
+
+export const likeReply = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const userId = req.user._id.toString();
+
+    const { replyId } = req.body;
+    if (!replyId) {
+      return res.status(404).json({ message: "Must provide reply id" })
+    }
+
+    let post = await Post.findById(postId)
+    if (!post) {
+      return res.status(404).json({ message: "Post not fund" })
+    }
+
+    const reply = post.replies.id(replyId)
+    if (!reply) {
+      return res.status(404).json({ message: "Reply not found" });
+    }
+
+    const isReplyLiked = reply.likes.includes(userId)
+    const updateQuery = isReplyLiked ?
+      // $ -> updates only the matched reply
+      { $pull: { "replies.$.likes": userId } }
+      :
+      { $addToSet: { "replies.$.likes": userId } }
+
+    post = await Post.updateOne(
+      {_id: postId, "replies._id": replyId},
+      updateQuery
+    )
+
+    return res.status(201).json(post)
+
+  } catch (error) {
+    console.log(error)
     res.status(500).json({ message: "Something went wrong, please try again later" })
   }
 }

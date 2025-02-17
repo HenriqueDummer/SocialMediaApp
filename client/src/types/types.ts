@@ -14,7 +14,7 @@ export type PostType = {
   text: string,
   selectedFile: string,
   likes: [string],
-  comments: [{
+  replies: [{
     _id: string,
     text: string,
     user: UserType,
@@ -24,6 +24,8 @@ export type PostType = {
 }
 
 export type Reply = {
+  _id: string,
   user: UserType,
   text: string,
+  likes: [string]
 }

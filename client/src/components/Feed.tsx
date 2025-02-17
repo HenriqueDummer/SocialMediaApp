@@ -9,8 +9,8 @@ const Feed = ({posts}: {posts: PostType[]}) => {
       {(posts ?? []).length > 0 && (
         posts!.map((post) => {
           return (
-            <div onClick={() => navigate(`/posts/${post._id}`)} className='cursor-pointer mb-5'>
-              <Post key={post._id} post={post} />
+            <div key={post._id} onClick={() => navigate(`/posts/${post._id}`)} className='cursor-pointer mb-5'>
+              <Post post={post} />
             </div>
           )
         })

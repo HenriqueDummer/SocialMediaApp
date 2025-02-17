@@ -8,7 +8,7 @@ const Sidebar = () => {
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
 
   return (
-    <Container className="w-1/4 p-0 self-start rounded-3xl overflow-hidden">
+    <Container className="w-1/4 self-start overflow-hidden !p-0">
       <div
         className=" bg-slate-600 w-full h-24  flex justify-center items-end"
         style={{
