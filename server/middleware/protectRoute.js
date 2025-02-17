@@ -2,9 +2,9 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 export const protectRoute = async (req, res, next) => {
-  try{
+  try {
     const token = req.cookies.token;
-    if(!token){
+    if (!token) {
       return res.status(401).json({
         success: false,
         message: "Unauthorized"
@@ -12,15 +12,15 @@ export const protectRoute = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if(!decoded){
+    if (!decoded) {
       return res.status(401).json({
         success: false,
         message: "Token invalid"
       })
     }
 
-    const user = await User.findById(decoded.userId).select("-password");
-    if(!user){
+    const user = await User.findById(decoded.userId).select("-password")
+    if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found"
@@ -29,8 +29,8 @@ export const protectRoute = async (req, res, next) => {
       req.user = user;
       next();
     }
-  } catch(error){
-    console.log("middle")
+  } catch (error) {
+    console.log(error)
     res.status(500).json({
       success: false,
       message: "Something went wrong, please try again later"

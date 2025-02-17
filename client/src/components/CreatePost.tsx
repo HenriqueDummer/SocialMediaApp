@@ -4,7 +4,7 @@ import type { PostType, UserType } from '../types/types'
 import { Input } from './ui/input'
 
 import { FaRegImage } from "react-icons/fa6";
-import { IoSend } from "react-icons/io5";
+import { IoSend, IoCloseCircle  } from "react-icons/io5";
 import { Button } from './ui/button';
 import { useRef, useState, type ChangeEvent } from 'react';
 
@@ -56,32 +56,43 @@ const CreatePost = () => {
 
   const handlePost = () => {
     handleCreatePost(inputData)
+    setInputData((prev) => ({...prev, text: ""}))
+  }
+
+  const clearSelectedFile = () => {
+    setInputData((prev) => ({...prev, selectedFile: ""}))
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
   }
 
   return (
     <div className="bg-light_bg p-4 rounded-xl flex">
           <div>
             <div
-              className="w-20 aspect-square rounded-full bg-center bg-cover"
+              className="w-16 aspect-square rounded-full bg-center bg-cover"
               style={{
                 backgroundImage: `url(${authUser!.profilePicture})`,
               }}
             ></div>
           </div>
           <div className="ml-4 w-full">
-            <Input onChange={(e) => handleTextInputChange(e)} className='w-full h-14 mt-2 !text-lg text-slate-300 border-none' placeholder="What's happening?" />
+            <Input onChange={(e) => handleTextInputChange(e)} className='w-full h-14 !text-lg text-slate-300 border-none' placeholder="What's happening?" />
             {inputData.selectedFile && (
-              <div className='rounded-lg overflow-hidden my-4'>
+              <div className='rounded-lg overflow-hidden mt-4 relative'>
+                <Button className='absolute top-2 right-2 bg-slate-700  rounded-full text-4xl opacity-90' onClick={() => clearSelectedFile()}>
+                  <IoCloseCircle />
+                </Button>
                 <img className='w-full' src={inputData.selectedFile} alt="" />
               </div>
             )}
-            <div className='w-full flex justify-between'>
+            <div className='w-full flex justify-between mt-4'>
               <Input className='hidden' onChange={(e) => handleInputChange(e)} ref={fileInputRef} type="file" accept='image/png, image/jpeg, image/jpg' />
               <Button onClick={() => fileInputRef.current?.click()} className='bg-slate-700 px-4 flex items-center rounded-full' >
                 Add image
                 <FaRegImage />
               </Button>
-              <Button onClick={() => handlePost()} className='bg-slate-700 px-4 rounded-full font-semibold flex items-center'>
+              <Button onClick={() => handlePost()} className='bg-slate-700 text-cyan-600 px-4 rounded-full font-semibold flex items-center'>
                 Post
                 <IoSend/> 
               </Button>

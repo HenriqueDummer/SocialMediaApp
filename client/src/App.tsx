@@ -10,6 +10,7 @@ import RootLayout from "./_root/RootLayout";
 import { useQuery } from "@tanstack/react-query";
 import type { UserType } from "./types/types";
 import { getMe } from "./utils/http";
+import PostPage from "./_root/pages/PostPage";
 
 function App() {
   const { data: authUser, isLoading } = useQuery<UserType>({
@@ -49,6 +50,12 @@ function App() {
             path="/profile/:id"
             element={
               authUser ? <Profile /> : <Navigate to="/sign-in" />
+            }
+          />
+          <Route
+            path="/posts/:id"
+            element={
+              authUser ? <PostPage /> : <Navigate to="/sign-in" />
             }
           />
         </Route>

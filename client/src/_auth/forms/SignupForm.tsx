@@ -17,8 +17,15 @@ const signUpInputSchema = z.object({
    confirmPassword: z
     .string()
     .min(6, { message: "Password must be at least 6 characters long" }),
-  fullName: z.string().min(2, { message: "Full name must be at least 2 characters long" }).max(16, { message: "Full name must be at most 16 characters long" }),
-  username: z.string().min(2, { message: "Username must be at least 2 characters long" }).max(16, { message: "Username must be at most 16 characters long" }),
+  fullName: z
+    .string()
+    .min(2, { message: "Full name must be at least 2 characters long" })
+    .max(16, { message: "Full name must be at most 16 characters long" }),
+  username: z
+  .string()
+  .min(2, { message: "Username must be at least 2 characters long" })
+  .max(16, { message: "Username must be at most 16 characters long" })
+  .refine(s => !s.includes(" "), { message: "Username must not contain spaces" }),
 });
 
 export type LoginInputSchema = z.infer<typeof signUpInputSchema>;
