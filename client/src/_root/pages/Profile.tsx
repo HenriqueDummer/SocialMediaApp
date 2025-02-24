@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { getUserProfile } from "../../utils/http";
-import { useQuery } from "@tanstack/react-query";
+import { getUserProfile, queryClient } from "../../utils/http";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import Feed from "../../components/Feed";
 
 import { FiEdit3 } from "react-icons/fi";
 import type { UserType } from "../../types/types";
-
+import EditModal from "../../components/EditModal";
 const Profile = () => {
   const { id: username } = useParams();
 
@@ -19,7 +19,21 @@ const Profile = () => {
 
   const user = userProfile?.user;
   const userPosts = userProfile?.userPosts;
-  console.log(userPosts);
+
+  const onUpdate = (updatedProfile: UserType) => {
+    queryClient.setQueryData(["authUser"], (oldData: UserType) => {
+      return {
+        ...updatedProfile
+      }
+    })
+    queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
+      return {
+        ...oldData,
+        user: updatedProfile
+      }
+    })
+  }
+
   return (
     <div className="w-1/3 overflow-auto no_scrollbar min-w-[36rem]">
       <div className="self-start bg-light_bg rounded-3xl overflow-hidden">
@@ -40,10 +54,13 @@ const Profile = () => {
         <div className="p-4">
           <div className="flex justify-end">
             {authUser?.username === user?.username ? (
-              <Button className="text-cyan-600">
-                <FiEdit3 />
-                Edit Profile
-              </Button>
+              <EditModal
+                type="profile"
+                initialData={authUser!}
+                updateFn={onUpdate}
+              >
+                <Button className="text-cyan-600">Edit Profile</Button>
+              </EditModal>
             ) : (
               <Button className="text-cyan-600">
                 <FiEdit3 />

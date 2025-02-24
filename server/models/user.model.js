@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
   },
   coverPicture: {
     type: String,
-    default: "",
+    default: "https://img.freepik.com/free-vector/abstract-paper-cut-shape-wave-background_474888-4433.jpghttps://img.freepik.com/free-vector/abstract-paper-cut-shape-wave-background_474888-4433.jpg",
   },
   bio:{
     type: String,

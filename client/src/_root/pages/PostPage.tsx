@@ -27,7 +27,7 @@ const PostPage = () => {
 
   return (
     <div className="flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar">
-      <div className="p-2 h-12 flex items-center gap-4">
+      <div className="w-full p-2 h-12 flex items-center gap-4 fixed bg-dark_bg opacity-90">
         <Button
           onClick={() => navigate(-1)}
           className="w-10 bg-transparent aspect-square rounded-full"
@@ -37,7 +37,7 @@ const PostPage = () => {
         <h1 className=" text-slate-200 text-xl font-semibold">Post</h1>
       </div>
       {postData ? (
-        <>
+        <div className="mt-14">
           <Post post={postData} />
           <CreateReply postId={postId!} />
           {postData.replies.length > 0 && (
@@ -47,7 +47,7 @@ const PostPage = () => {
               )
             })
           )}
-        </>
+        </div>
       ) : (
         <h1>Post not found!</h1>
       )}

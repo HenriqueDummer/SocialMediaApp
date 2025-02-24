@@ -43,6 +43,8 @@ export const logout = async () => {
   }
 };
 
+
+
 // -------------------- POSTS ------------------------------
 
 export const getAllPosts = async () => {
@@ -93,7 +95,7 @@ export const getUserProfile = async (
 export const getPostById = async (postId: string): Promise<PostType> => {
   try {
     const { data } = await axios.get("/posts/" + postId);
-    console.log(data)
+    console.log(data);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -101,24 +103,57 @@ export const getPostById = async (postId: string): Promise<PostType> => {
   }
 };
 
-export const postReply = async (postId: string, text: string): Promise<Reply> => {
+export const postReply = async (
+  postId: string,
+  text: string
+): Promise<Reply> => {
   try {
-    const {data} = await axios.post("/posts/reply/" + postId, {text});
+    const { data } = await axios.post("/posts/reply/" + postId, { text });
 
     return data;
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
-}
+};
 
 export const likeReply = async (replyId: string, postId: string) => {
-  try{
-    const {data} = await axios.post("/posts/reply/like/" + postId, {replyId})
+  try {
+    const { data } = await axios.post("/posts/reply/like/" + postId, {
+      replyId,
+    });
 
-    console.log(data)
-  }catch (error: any) {
+    console.log(data);
+  } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
-}
+};
+
+export const updatePost = async (
+  formData: PostType
+): Promise<PostType> => {
+  try {
+    const { data } = await axios.post("/auth/profile/update", formData);
+
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const updateProfile = async (
+  formData: UserType
+): Promise<UserType> => {
+  try {
+    console.log("Updating")
+    const { data } = await axios.post("/auth/profile/update", formData);
+
+    console.log(data)
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};

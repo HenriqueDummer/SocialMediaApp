@@ -51,7 +51,6 @@ export const createPost = async (req, res) => {
       const uploadedResponse = await cloudinary.uploader.upload(selectedFile)
 
       selectedFile = uploadedResponse.secure_url;
-      console.log(selectedFile)
     }
 
     const newPost = new Post({

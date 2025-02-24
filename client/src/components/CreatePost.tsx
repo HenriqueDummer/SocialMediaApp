@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 
 import type { PostType, UserType } from '../types/types'
-import { Input } from './ui/input'
+import { Input } from './ui/input';
+import TextareaAutosize from 'react-textarea-autosize';
 
 import { FaRegImage } from "react-icons/fa6";
 import { IoSend, IoCloseCircle  } from "react-icons/io5";
@@ -47,7 +48,7 @@ const CreatePost = () => {
     }
   }
 
-  const handleTextInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTextInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputData((prev) => ({
       ...prev,
       text: e.target.value,
@@ -77,7 +78,7 @@ const CreatePost = () => {
             ></div>
           </div>
           <div className="ml-4 w-full">
-            <Input onChange={(e) => handleTextInputChange(e)} className='w-full h-14 !text-lg text-slate-300 border-none' placeholder="What's happening?" />
+            <TextareaAutosize onChange={(e) => handleTextInputChange(e)} className='w-full mt-4 !text-lg resize-none pl-2 text-slate-300 border-none bg-transparent' placeholder="What's happening?" />
             {inputData.selectedFile && (
               <div className='rounded-lg overflow-hidden mt-4 relative'>
                 <Button className='absolute top-2 right-2 bg-slate-700  rounded-full text-4xl opacity-90' onClick={() => clearSelectedFile()}>

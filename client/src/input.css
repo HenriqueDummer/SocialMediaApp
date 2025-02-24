@@ -73,3 +73,7 @@
     scrollbar-width: none;
   }
 }
+
+html {
+  color: #cbd5e1; /* Equivalent to text-slate-200 */
+}

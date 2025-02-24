@@ -110,12 +110,12 @@ export const signup = async (req, res) => {
 }
 
 export const getMe = async (req, res) => {
-  try{
+  try {
     const user = await User.findById(req.user._id).select("-password");
     return res.status(200).json({
       user
     })
-  }catch(error){
+  } catch (error) {
     console.log(error)
     return res.status(500).json({
       message: "Something went wrong, please try again later"
@@ -129,6 +129,58 @@ export const logout = async (req, res) => {
     return res.status(200).json({
       message: "Signout successful"
     })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      message: "Something went wrong, please try again later"
+    })
+  }
+}
+export const updateProfile = async (req, res) => {
+  try {
+    const currentUser = req.user
+    const { fullName, bio, profilePicture, coverPicture } = req.body
+
+    const update = {}
+    if (fullName !== currentUser.fullName) {
+      update.fullName = fullName
+    }
+    if (bio !== currentUser.bio) {
+      update.bio = bio
+    }
+    if (profilePicture !== currentUser.profilePicture) {
+      update.profilePicture = profilePicture
+
+      await cloudinary.uploader.destroy(currentUser.profilePicture)
+      const uploadedResponse = await cloudinary.uploader.upload(update.profilePicture)
+
+      update.profilePicture = uploadedResponse.secure_url;
+    }
+    if (coverPicture !== currentUser.coverPicture) {
+      update.coverPicture = coverPicture
+
+      await cloudinary.uploader.destroy(currentUser.coverPicture)
+      const uploadedResponse = await cloudinary.uploader.upload(update.coverPicture)
+
+      update.coverPicture = uploadedResponse.secure_url;
+    }
+
+    if (Object.keys(update).length === 0) {
+      return res.status(200).json({
+        message: "No changes detected",
+        user: currentUser,
+      });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      currentUser._id,
+      { $set: update },
+      {new: true} // returns the updated version of User
+    ).select(
+      "-password"
+    )
+
+    res.status(200).json(updatedUser)
   } catch (error) {
     console.log(error)
     return res.status(500).json({
