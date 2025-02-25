@@ -141,6 +141,10 @@ export const updateProfile = async (req, res) => {
     const currentUser = req.user
     const { fullName, bio, profilePicture, coverPicture } = req.body
 
+    if(!fullName || !profilePicture || !coverPicture){
+      return res.status(400).json({message: "Must provide username, profilfe image and cover image"})
+    }
+
     const update = {}
     if (fullName !== currentUser.fullName) {
       update.fullName = fullName
@@ -157,10 +161,8 @@ export const updateProfile = async (req, res) => {
       update.profilePicture = uploadedResponse.secure_url;
     }
     if (coverPicture !== currentUser.coverPicture) {
-      update.coverPicture = coverPicture
-
       await cloudinary.uploader.destroy(currentUser.coverPicture)
-      const uploadedResponse = await cloudinary.uploader.upload(update.coverPicture)
+      const uploadedResponse = await cloudinary.uploader.upload(coverPicture)
 
       update.coverPicture = uploadedResponse.secure_url;
     }

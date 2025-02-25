@@ -30,6 +30,17 @@ const Post = ({ post }: { post: PostType }) => {
     },
   });
 
+  const onUpdate = (updatedPost: PostType) => {
+    console.log(updatedPost)
+    queryClient.setQueryData(["post", updatedPost._id], updatedPost);
+    queryClient.setQueryData(["posts"], (oldData: PostType[] | undefined) => {
+      if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
+      return oldData.map((oldPost) =>
+        oldPost._id === updatedPost._id ? updatedPost : oldPost
+      );
+    });
+  };
+
   const isLiked = post.likes?.includes(post.user._id);
 
   const handleLike = (e: any) => {
@@ -37,7 +48,7 @@ const Post = ({ post }: { post: PostType }) => {
     like(post._id);
   };
 
-  const canEdit = post.user._id === authUser!._id
+  const canEdit = post.user._id === authUser!._id;
 
   return (
     <Container>
@@ -76,7 +87,7 @@ const Post = ({ post }: { post: PostType }) => {
 
             <div>
               {canEdit && (
-                <EditModal initialData={post} updateFn={() => {}} type="post">
+                <EditModal initialData={post} updateFn={onUpdate} type="post">
                   <Button className="text-cyan-600">
                     <FiEdit3 />
                     Edit

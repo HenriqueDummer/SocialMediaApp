@@ -43,7 +43,18 @@ export const logout = async () => {
   }
 };
 
+export const updateProfile = async (formData: UserType): Promise<UserType> => {
+  try {
+    console.log("Updating");
+    const { data } = await axios.post("/auth/profile/update", formData);
 
+    console.log(data);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
 
 // -------------------- POSTS ------------------------------
 
@@ -59,7 +70,7 @@ export const getAllPosts = async () => {
 
 export const likePost = async (postId: string) => {
   try {
-    const { data } = await axios.post(`/posts/${postId}/like`);
+    const { data } = await axios.post(`/posts/like/${postId}`);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -130,9 +141,7 @@ export const likeReply = async (replyId: string, postId: string) => {
   }
 };
 
-export const updatePost = async (
-  formData: PostType
-): Promise<PostType> => {
+export const updatePost = async (formData: PostType): Promise<PostType> => {
   try {
     const { data } = await axios.post("/auth/profile/update", formData);
 
@@ -143,16 +152,15 @@ export const updatePost = async (
   }
 };
 
-export const updateProfile = async (
-  formData: UserType
-): Promise<UserType> => {
-  try {
-    console.log("Updating")
-    const { data } = await axios.post("/auth/profile/update", formData);
+export const editPost = async (
+  formData: PostType,
+  postId: string,
+): Promise<PostType> => {
+  try{
+    const {data} = await axios.put("/posts/edit/" + postId, formData)
 
-    console.log(data)
-    return data;
-  } catch (error: any) {
+    return data
+  }catch(error:  any){
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }

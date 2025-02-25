@@ -204,11 +204,58 @@ export const likeReply = async (req, res) => {
       { $addToSet: { "replies.$.likes": userId } }
 
     post = await Post.updateOne(
-      {_id: postId, "replies._id": replyId},
+      { _id: postId, "replies._id": replyId },
       updateQuery
     )
 
     return res.status(201).json(post)
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Something went wrong, please try again later" })
+  }
+}
+
+export const editPost = async (req, res) => {
+  try {
+    const { postId } = req.params
+    const { text, selectedFile } = req.body
+
+    const currentPost = Post.findById(postId)
+    if (!currentPost) return res.status(404).json({ message: "Post not found" })
+
+    console.log(currentPost)
+    if (!text && !selectedFile) {
+      return res.status(404).json({ message: "Must provide text or image" })
+    }
+
+    const update = {}
+    if (text && text !== currentPost.text) {
+      update.text = text
+    }
+    if (selectedFile && selectedFile !== currentPost.selectedFile) {
+      if(currentPost.selectedFile){
+        await cloudinary.uploader.destroy(currentPost.selectedFile)
+      }
+      const uploadedResponse = await cloudinary.uploader.upload(selectedFile)
+
+      update.selectedFile = uploadedResponse.secure_url;
+    }
+
+    if (Object.keys(update).length === 0) {
+      return res.status(200).json({
+        message: "No changes detected",
+        user: currentUser,
+      });
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $set: update },
+      { new: true }
+    ).populate({ path: "user", select: ("-password") })
+
+    return res.status(200).json(updatedPost)
 
   } catch (error) {
     console.log(error)

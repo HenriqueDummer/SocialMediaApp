@@ -1109,6 +1109,14 @@ body {
   padding-left: 0.5rem;
 }
 
+.pr-6 {
+  padding-right: 1.5rem;
+}
+
+.pr-10 {
+  padding-right: 2.5rem;
+}
+
 .text-center {
   text-align: center;
 }

@@ -3,8 +3,9 @@ import type { PostType, UserType } from "../types/types";
 import { useQuery } from "@tanstack/react-query";
 import { Input } from "./ui/input";
 
-
 import TextareaAutosize from "react-textarea-autosize";
+import { Button } from "./ui/button";
+import { FaRegImage } from "react-icons/fa6";
 
 const EditPostForm = ({
   formData,
@@ -32,21 +33,31 @@ const EditPostForm = ({
       <div className="ml-4 w-full">
         <TextareaAutosize
           onChange={(e) => onChange(e)}
-          className="w-full mt-4 !text-lg resize-none pl-2 text-slate-300 border-none bg-transparent"
+          className="w-full mt-4 !text-lg resize-none text-slate-300  bg-transparent focus:outline-none"
           placeholder="What's happening?"
           name="text"
           value={formData.text}
         />
         {formData.selectedFile && (
-          <div className="rounded-lg overflow-hidden mt-4 relative">
-            <img className="w-full" src={formData.selectedFile} alt="" />
+          <div className="rounded-lg overflow-hidden mt-4 relative cursor-pointer " onClick={() => fileInputRef.current!.click()}>
+            <img className="w-full duration-200 hover:opacity-60" src={formData.selectedFile} alt="" />
           </div>
+        )}
+        {!formData.selectedFile && (
+          <Button
+            onClick={() => fileInputRef.current?.click()}
+            className="bg-slate-700 px-4 flex items-center rounded-full"
+          >
+            Add image
+            <FaRegImage />
+          </Button>
         )}
         <div className="w-full flex justify-between mt-4">
           <Input
             className="hidden"
             onChange={(e) => onImageChange(e)}
             ref={fileInputRef}
+            name="selectedFile"
             type="file"
             accept="image/png, image/jpeg, image/jpg"
           />

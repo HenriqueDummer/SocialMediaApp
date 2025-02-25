@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { getUserProfile, queryClient } from "../../utils/http";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import Feed from "../../components/Feed";
 
