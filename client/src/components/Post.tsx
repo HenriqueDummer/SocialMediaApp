@@ -13,25 +13,63 @@ import { NavLink } from "react-router-dom";
 import Container from "./Container";
 import { FiEdit3 } from "react-icons/fi";
 import EditModal from "./EditModal";
+import { toast } from "react-toastify";
 
 const Post = ({ post }: { post: PostType }) => {
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
 
   const { mutate: like } = useMutation({
     mutationFn: (postId: string) => likePost(postId),
-    onSuccess: (updatedLikes) => {
-      queryClient.setQueryData(["posts"], (oldData: PostType[]) => {
-        return oldData.map((oldPost) => {
+    onSuccess: (res) => {
+      const updatedLikes = res.data;
+      queryClient.setQueryData(["posts"], (old: { data: PostType[] }) => {
+        if (!old || !old.data) {
+          return {data: []};
+        }
+
+        const oldData = old.data;
+        const updatedPosts = oldData.map((oldPost) => {
           return oldPost._id === post._id
-            ? { ...oldPost, likes: updatedLikes.likes }
+            ? { ...oldPost, likes: updatedLikes }
             : oldPost;
         });
+        return { data: updatedPosts };
+      });
+
+      queryClient.setQueryData(
+        ["userProfile"],
+        (old: { data: { posts: PostType[]; user: UserType } }) => {
+          if (!old || !old.data) {
+            return {data: [], user: {}};
+          }
+          
+          const oldData = old.data
+
+          const updatedPosts = oldData.posts.map((oldPost) => {
+            return oldPost._id === post._id
+              ? { ...oldPost, likes: updatedLikes }
+              : oldPost;
+          });
+          console.log(updatedPosts);
+
+          return {
+            data: {
+              ...oldData,
+              posts: updatedPosts,
+            },
+          };
+        }
+      );
+
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
       });
     },
   });
 
   const onUpdate = (updatedPost: PostType) => {
-    console.log(updatedPost)
+    console.log(updatedPost);
     queryClient.setQueryData(["post", updatedPost._id], updatedPost);
     queryClient.setQueryData(["posts"], (oldData: PostType[] | undefined) => {
       if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
@@ -39,6 +77,8 @@ const Post = ({ post }: { post: PostType }) => {
         oldPost._id === updatedPost._id ? updatedPost : oldPost
       );
     });
+
+    toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
   };
 
   const isLiked = post.likes?.includes(post.user._id);
@@ -52,7 +92,7 @@ const Post = ({ post }: { post: PostType }) => {
 
   return (
     <Container>
-      <div className="flex" onClick={(e) => e.stopPropagation()}>
+      <div className="flex">
         <div>
           <NavLink
             to={`/profile/${post.user.username}`}
@@ -88,7 +128,10 @@ const Post = ({ post }: { post: PostType }) => {
             <div>
               {canEdit && (
                 <EditModal initialData={post} updateFn={onUpdate} type="post">
-                  <Button className="text-cyan-600">
+                  <Button
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-cyan-600"
+                  >
                     <FiEdit3 />
                     Edit
                   </Button>
@@ -96,12 +139,15 @@ const Post = ({ post }: { post: PostType }) => {
               )}
             </div>
           </div>
-          {post.text && (
-            <p className="text-lg text-slate-300 py-2">{post.text}</p>
-          )}
-          {post.selectedFile && (
-            <img className="rounded-lg" src={post.selectedFile} alt="post" />
-          )}
+          <div className="pr-8">
+            {post.text && (
+              <p className="text-lg text-slate-300 py-2">{post.text}</p>
+            )}
+            {post.selectedFile && (
+              <img className="rounded-lg" src={post.selectedFile} alt="post" />
+            )}
+          </div>
+
           <div className="flex mt-4 gap-4">
             <Button
               onClick={(e) => handleLike(e)}

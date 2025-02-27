@@ -23,8 +23,9 @@ const SigninForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: SignInInputSchema) => signIn(data),
-    onSuccess: () => {
+    onSuccess: (res) => {
       console.log("Success");
+      console.log(res)
       navigate("/");
     },
   });

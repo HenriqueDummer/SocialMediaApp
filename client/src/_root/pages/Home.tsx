@@ -1,14 +1,16 @@
 import { PostType } from "../../types/types";
 import { useQuery } from "@tanstack/react-query";
-import { getAllPosts } from "../../utils/http";
+import { getAllPosts, type ApiResponse } from "../../utils/http";
 import CreatePost from "../../components/CreatePost";
 import Feed from "../../components/Feed";
 
 const Home = () => {
-  const { data: posts, isLoading } = useQuery<PostType[]>({
+  const { data: {data: posts} = {} as ApiResponse<PostType[]>, isLoading } = useQuery<ApiResponse<PostType[]>>({
     queryKey: ["posts"],
     queryFn: getAllPosts,
   });
+
+  console.log(posts)
 
   return (
     <div className="flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar">

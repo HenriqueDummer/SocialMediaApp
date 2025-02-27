@@ -9,21 +9,24 @@ import RootLayout from "./_root/RootLayout";
 
 import { useQuery } from "@tanstack/react-query";
 import type { UserType } from "./types/types";
-import { getMe } from "./utils/http";
+import { getMe, type ApiResponse } from "./utils/http";
 import PostPage from "./_root/pages/PostPage";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const { data: authUser, isLoading } = useQuery<UserType>({
+  const { data: {data: authUser} = {} as ApiResponse<UserType>, isLoading } = useQuery<ApiResponse<UserType>>({
     queryKey: ["authUser"],
     queryFn: getMe,
     retry: false,
+    // refetchOnWindowFocus: false,
+    // staleTime: 1000 
   });
-
 
   if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route element={<AuthLayout />}>
           <Route

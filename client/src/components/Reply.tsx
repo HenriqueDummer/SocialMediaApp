@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { likeReply, queryClient } from "./../utils/http";
 import { UserType } from "./../types/types.ts";
+import { toast } from "react-toastify";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
@@ -16,6 +17,12 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
       likeReply(replyId, postId),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
+      console.log(res.likes)
+      const liked = res.likes.includes(authUser?._id!)
+      toast(`Reply ${liked ? "liked" : "disliked"}`, {
+        theme: "dark",
+        autoClose: 2000,
+      });
     },
   });
 
@@ -62,9 +69,9 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
           onClick={() => handleLikeReply({ replyId: replyData._id, postId })}
         >
           {isLiked ? (
-            <IoHeart />
+            <IoHeart className="text-red-500" />
           ) : (
-            <IoHeartOutline className="text-2xl text-slate-200" />
+            <IoHeartOutline className="text-slate-200" />
           )}
         </Button>
       </div>

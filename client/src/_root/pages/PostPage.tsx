@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { IoArrowBack } from "react-icons/io5";
 
-import { getPostById } from "../../utils/http";
+import { getPostById, type ApiResponse } from "../../utils/http";
 
 import type { PostType } from "../../types/types";
 import { Button } from "../../components/ui/button";
@@ -16,17 +16,17 @@ const PostPage = () => {
   const navigate = useNavigate();
   const { id: postId } = useParams();
 
-  const { data: postData, isLoading } = useQuery<PostType>({
+  const { data: {data: postData} = {} as ApiResponse<PostType>, isLoading } = useQuery<ApiResponse<PostType>>({
     queryFn: () => getPostById(postId!),
     queryKey: ["post", postId],
   });
-
+  console.log(postData)
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
   return (
-    <div className="flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar">
+    <div className="flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar pb-4">
       <div className="w-full p-2 h-12 flex items-center gap-4 fixed bg-dark_bg opacity-90">
         <Button
           onClick={() => navigate(-1)}

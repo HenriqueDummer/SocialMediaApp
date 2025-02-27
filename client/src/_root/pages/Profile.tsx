@@ -1,27 +1,28 @@
 import { useParams } from "react-router-dom";
-import { getUserProfile, queryClient } from "../../utils/http";
+import { getUserProfile, queryClient, type ApiResponse } from "../../utils/http";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import Feed from "../../components/Feed";
 
 import { FiEdit3 } from "react-icons/fi";
-import type { UserType } from "../../types/types";
+import type { PostType, UserType } from "../../types/types";
 import EditModal from "../../components/EditModal";
+import { toast } from "react-toastify";
 const Profile = () => {
   const { id: username } = useParams();
 
   const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
 
-  const { data: userProfile, isLoading } = useQuery({
-    queryKey: ["userProfile"],
+  const { data: {data: userProfile} = {} as ApiResponse<{user: UserType, posts: PostType}>, isLoading } = useQuery<ApiResponse<{user: UserType, posts: PostType[]}>>({
     queryFn: () => getUserProfile(username!),
+    queryKey: ["userProfile"],
   });
 
   const user = userProfile?.user;
-  const userPosts = userProfile?.userPosts;
+  const userPosts = userProfile?.posts; 
 
   const onUpdate = (updatedProfile: UserType) => {
-    queryClient.setQueryData(["authUser"], (oldData: UserType) => {
+    queryClient.setQueryData(["authUser"], () => {
       return {
         ...updatedProfile
       }
@@ -32,7 +33,11 @@ const Profile = () => {
         user: updatedProfile
       }
     })
+
+    toast("Profile updated", {theme: "dark", autoClose:2000});
   }
+
+  if(isLoading) return <h1>Loading...</h1>
 
   return (
     <div className="w-1/3 overflow-auto no_scrollbar min-w-[36rem]">
@@ -89,7 +94,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      {userPosts && <Feed posts={userPosts} />}
+      {userPosts && <Feed posts={Array.isArray(userPosts) ? userPosts : [userPosts]} />}
     </div>
   );
 };

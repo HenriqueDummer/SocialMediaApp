@@ -1,55 +1,56 @@
 import { QueryClient } from "@tanstack/react-query";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
-
-export const queryClient = new QueryClient();
-
 import axios from "axios";
 import type { PostType, Reply, UserType } from "../types/types";
+
+export const queryClient = new QueryClient();
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
+// Define a generic response type for backend responses
+export type ApiResponse<T> = {
+  message?: string;
+  data: T;
+};
+
 // -------------------- AUTH --------------------------------
 
-export const signIn = async (data: SignInInputSchema) => {
+export const signIn = async (data: SignInInputSchema): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.post("/auth/sign-in", data);
-    return res;
+    return res.data; // Expecting { message, data: UserType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const getMe = async () => {
+export const getMe = async (): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.get("/auth/me");
-    return res.data.user ?? null;
+    return res.data ?? null; // Still returning UserType | null from data
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const logout = async () => {
+export const logout = async (): Promise<{ message: string }> => {
   try {
+    console.log("kajsldkajds")
     const res = await axios.get("/auth/logout");
-    console.log(res);
-
-    return res;
+    return res.data; // Expecting { message }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const updateProfile = async (formData: UserType): Promise<UserType> => {
+export const updateProfile = async (formData: UserType): Promise<ApiResponse<UserType>> => {
   try {
-    console.log("Updating");
     const { data } = await axios.post("/auth/profile/update", formData);
-
-    console.log(data);
-    return data;
+    return data; // Expecting { message, data: UserType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -58,20 +59,20 @@ export const updateProfile = async (formData: UserType): Promise<UserType> => {
 
 // -------------------- POSTS ------------------------------
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (): Promise<ApiResponse<PostType[]>> => {
   try {
     const res = await axios.get("/posts");
-    return res.data.posts;
+    return res.data; // Expecting { data: { posts } }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const likePost = async (postId: string) => {
+export const likePost = async (postId: string): Promise<ApiResponse<string[]>> => {
   try {
     const { data } = await axios.post(`/posts/like/${postId}`);
-    return data;
+    return data; // Expecting { message, data: { likes } }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -81,10 +82,10 @@ export const likePost = async (postId: string) => {
 export const createPost = async (postData: {
   text: string;
   selectedFile: string;
-}): Promise<PostType> => {
+}): Promise<ApiResponse<PostType>> => {
   try {
     const { data } = await axios.post("/posts", postData);
-    return data;
+    return data; // Expecting { message, data: PostType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -92,22 +93,21 @@ export const createPost = async (postData: {
 };
 
 export const getUserProfile = async (
-  id: string
-): Promise<{ user: UserType; userPosts: PostType[] }> => {
+  username: string
+): Promise<ApiResponse<{ user: UserType; posts: PostType[] }>> => {
   try {
-    const res = await axios.get("/posts/user/" + id);
-    return res.data;
+    const res = await axios.get(`/posts/user/${username}`);
+    return res.data; // Expecting { data: { user, posts } }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const getPostById = async (postId: string): Promise<PostType> => {
+export const getPostById = async (postId: string): Promise<ApiResponse<PostType>> => {
   try {
-    const { data } = await axios.get("/posts/" + postId);
-    console.log(data);
-    return data;
+    const { data } = await axios.get(`/posts/${postId}`);
+    return data; // Expecting { data: PostType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -117,35 +117,35 @@ export const getPostById = async (postId: string): Promise<PostType> => {
 export const postReply = async (
   postId: string,
   text: string
-): Promise<Reply> => {
+): Promise<ApiResponse<PostType>> => {
   try {
-    const { data } = await axios.post("/posts/reply/" + postId, { text });
-
-    return data;
+    const { data } = await axios.post(`/posts/reply/${postId}`, { text });
+    return data; // Expecting { message, data: PostType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const likeReply = async (replyId: string, postId: string) => {
+export const likeReply = async (
+  postId: string,
+  replyId: string
+): Promise<ApiResponse<{ likes: string[] }>> => {
   try {
-    const { data } = await axios.post("/posts/reply/like/" + postId, {
+    const { data } = await axios.post(`/posts/reply/like/${postId}`, {
       replyId,
     });
-
-    console.log(data);
+    return data; // Expecting { message, data: { likes } }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
 
-export const updatePost = async (formData: PostType): Promise<PostType> => {
+export const updatePost = async (formData: PostType): Promise<ApiResponse<PostType>> => {
   try {
-    const { data } = await axios.post("/auth/profile/update", formData);
-
-    return data;
+    const { data } = await axios.put(`/posts/edit/${formData._id}`, formData);
+    return data; // Expecting { message, data: PostType }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -154,13 +154,12 @@ export const updatePost = async (formData: PostType): Promise<PostType> => {
 
 export const editPost = async (
   formData: PostType,
-  postId: string,
-): Promise<PostType> => {
-  try{
-    const {data} = await axios.put("/posts/edit/" + postId, formData)
-
-    return data
-  }catch(error:  any){
+  postId: string
+): Promise<ApiResponse<PostType>> => {
+  try {
+    const { data } = await axios.put(`/posts/edit/${postId}`, formData);
+    return data; // Expecting { message, data: PostType }
+  } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }

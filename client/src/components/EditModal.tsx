@@ -14,6 +14,7 @@ import { Button } from "./ui/button";
 import EditProfileForm from "./EditProfileForm";
 import EditPostForm from "./EditPostForm";
 import { editPost, updateProfile } from "../utils/http";
+import { toast } from "react-toastify";
 
 interface EditModalProps<T extends UserType | PostType> {
   initialData: T;
@@ -44,7 +45,7 @@ const EditModal = <T extends UserType | PostType>({
       setOpen(false);
     },
     onError: (error) => {
-      console.error(`Failed to update ${type}:`, error);
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
     },
   });
 
@@ -80,7 +81,7 @@ const EditModal = <T extends UserType | PostType>({
 
   return (
     <Dialog open={open}>
-      <DialogTrigger className="text-cyan-600" onClick={() => setOpen(true)}>
+      <DialogTrigger asChild={true} className="text-cyan-600" onClick={() => setOpen(true)}>
         {children}
       </DialogTrigger>
       <DialogContent className="bg-light_bg">
@@ -107,7 +108,13 @@ const EditModal = <T extends UserType | PostType>({
             </div>
           </DialogHeader>
           <DialogFooter className="mt-4">
-            <Button onClick={() => setOpen(false)} variant={"destructive"} type="button">Cancel</Button>
+            <Button
+              onClick={() => setOpen(false)}
+              variant={"destructive"}
+              type="button"
+            >
+              Cancel
+            </Button>
             <Button
               className="text-cyan-600"
               disabled={isPending}
