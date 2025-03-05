@@ -119,7 +119,7 @@ export const likePost = async (req, res) => {
     await post.save();
 
     return res.status(200).json({
-      message: post.likes.includes(user._id) ? "Post liked" : "Post unliked",
+      message: post.likes.includes(user._id) ? "Post liked" : "Post disliked",
       data: post.likes,
     });
   } catch (error) {

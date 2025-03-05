@@ -1,13 +1,12 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { UserType } from "../types/types";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Container from "./Container";
 import type { ApiResponse } from "../utils/http";
 
 const Sidebar = () => {
- const { data: {data: authUser} = {} as ApiResponse<UserType>, isLoading } = useQuery<ApiResponse<UserType>>({queryKey: ["authUser"]});
-  console.log(authUser)
+ const { data: {data: authUser} = {} as ApiResponse<UserType> } = useQuery<ApiResponse<UserType>>({queryKey: ["authUser"]});
   return (
     <Container className="w-1/4 self-start overflow-hidden !p-0">
       <div

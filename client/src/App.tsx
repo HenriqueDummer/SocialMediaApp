@@ -11,34 +11,42 @@ import { useQuery } from "@tanstack/react-query";
 import type { UserType } from "./types/types";
 import { getMe, type ApiResponse } from "./utils/http";
 import PostPage from "./_root/pages/PostPage";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import type { PropsWithChildren } from "react";
 
 function App() {
-  const { data: {data: authUser} = {} as ApiResponse<UserType>, isLoading } = useQuery<ApiResponse<UserType>>({
-    queryKey: ["authUser"],
-    queryFn: getMe,
-    retry: false,
-    // refetchOnWindowFocus: false,
-    // staleTime: 1000 
-  });
+  const { data: { data: authUser } = {} as ApiResponse<UserType>, isLoading } =
+    useQuery<ApiResponse<UserType>>({
+      queryKey: ["authUser"],
+      queryFn: getMe,
+      retry: false,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    });
+
+  function ProtectedRoute({ children }: PropsWithChildren) {
+    if (!authUser) return <Navigate to="sign-in" replace />;
+
+    return <>{children}</>;
+  }
 
   if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <>
       <ToastContainer />
+      <ProtectedRoute></ProtectedRoute>
       <Routes>
         <Route element={<AuthLayout />}>
           <Route
             path="/sign-in"
-            element={
-              authUser ? <Navigate to="/" /> : <SigninForm />
-            }
+            element={authUser ? <Navigate to="/" /> : <SigninForm />}
           />
 
           <Route
             path="/sign-up"
-            element={ authUser ? <Navigate to="/" /> : <SignupForm />}
+            element={authUser ? <Navigate to="/" /> : <SignupForm />}
           />
         </Route>
 
@@ -46,19 +54,25 @@ function App() {
           <Route
             path="/"
             element={
-              authUser ? <Home /> : <Navigate to="/sign-in" />
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/profile/:id"
             element={
-              authUser ? <Profile /> : <Navigate to="/sign-in" />
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/posts/:id"
             element={
-              authUser ? <PostPage /> : <Navigate to="/sign-in" />
+              <ProtectedRoute>
+                <PostPage />
+              </ProtectedRoute>
             }
           />
         </Route>

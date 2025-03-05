@@ -11,6 +11,7 @@ import { useRef, useState, type ChangeEvent } from "react";
 
 import { useMutation } from "@tanstack/react-query";
 import { createPost, queryClient, type ApiResponse } from "./../utils/http";
+import { toast } from "react-toastify";
 
 const CreatePost = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +21,7 @@ const CreatePost = () => {
     selectedFile: "",
   });
 
-  const { mutate: handleCreatePost } = useMutation({
+  const { mutate: handleCreatePost, isPending } = useMutation({
     mutationFn: createPost,
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -28,6 +29,10 @@ const CreatePost = () => {
         text: "",
         selectedFile: "",
       });
+      toast.success(res.message, { theme: "dark", autoClose: 2000 });
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
     },
   });
 
@@ -113,9 +118,16 @@ const CreatePost = () => {
           <Button
             onClick={() => handlePost()}
             className="bg-slate-700 text-cyan-600 px-4 rounded-full font-semibold flex items-center"
+            disabled={isPending}
           >
-            Post
-            <IoSend />
+            {isPending ? (
+              "Posting..."
+            ) : (
+              <>
+                Post
+                <IoSend />
+              </>
+            )}
           </Button>
         </div>
       </div>

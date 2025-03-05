@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type {UserType } from "../types/types";
+import type { UserType } from "../types/types";
 import { Input } from "./ui/input";
 
-import { } from "react-icons/fa6";
+import {} from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
-import { useRef} from "react";
+import { useRef } from "react";
 
 import { useMutation } from "@tanstack/react-query";
-import { postReply, queryClient } from "./../utils/http";
+import { postReply, queryClient, type ApiResponse } from "./../utils/http";
 import Container from "./Container";
 import { toast } from "react-toastify";
 
@@ -26,7 +26,9 @@ const CreateReply = ({ postId }: { postId: string }) => {
     },
   });
 
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
+    ApiResponse<UserType>
+  >({ queryKey: ["authUser"] });
 
   const handlePost = () => {
     handlePostReply({ postId, text: fileInputRef.current!.value });

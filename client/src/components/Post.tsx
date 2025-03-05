@@ -1,5 +1,6 @@
 import type { PostType } from "../types/types";
 import type { UserType } from "../types/types";
+
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { IoHeartOutline } from "react-icons/io5";
@@ -7,7 +8,6 @@ import { IoHeart } from "react-icons/io5";
 import { MdOutlineModeComment } from "react-icons/md";
 import { RxLoop } from "react-icons/rx";
 
-import { likePost, queryClient } from "../utils/http";
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
 import Container from "./Container";
@@ -15,68 +15,35 @@ import { FiEdit3 } from "react-icons/fi";
 import EditModal from "./EditModal";
 import { toast } from "react-toastify";
 
+import { likePost, queryClient, type ApiResponse } from "../utils/http";
+import {
+  updateQueryLikesAllPosts,
+  updateQueryLikesUserProfile,
+  updateQueryPostEdit,
+} from "../utils/queryUpdates";
+
 const Post = ({ post }: { post: PostType }) => {
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
+    ApiResponse<UserType>
+  >({ queryKey: ["authUser"] });
 
   const { mutate: like } = useMutation({
     mutationFn: (postId: string) => likePost(postId),
     onSuccess: (res) => {
-      const updatedLikes = res.data;
-      queryClient.setQueryData(["posts"], (old: { data: PostType[] }) => {
-        if (!old || !old.data) {
-          return {data: []};
-        }
-
-        const oldData = old.data;
-        const updatedPosts = oldData.map((oldPost) => {
-          return oldPost._id === post._id
-            ? { ...oldPost, likes: updatedLikes }
-            : oldPost;
-        });
-        return { data: updatedPosts };
-      });
-
-      queryClient.setQueryData(
-        ["userProfile"],
-        (old: { data: { posts: PostType[]; user: UserType } }) => {
-          if (!old || !old.data) {
-            return {data: [], user: {}};
-          }
-          
-          const oldData = old.data
-
-          const updatedPosts = oldData.posts.map((oldPost) => {
-            return oldPost._id === post._id
-              ? { ...oldPost, likes: updatedLikes }
-              : oldPost;
-          });
-          console.log(updatedPosts);
-
-          return {
-            data: {
-              ...oldData,
-              posts: updatedPosts,
-            },
-          };
-        }
-      );
-
       toast.success(res.message, {
         theme: "dark",
         autoClose: 2000,
       });
+      const updatedLikes = res.data;
+
+      updateQueryLikesAllPosts(updatedLikes, post);
+      updateQueryLikesUserProfile(updatedLikes, post);
+      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
     },
   });
 
   const onUpdate = (updatedPost: PostType) => {
-    console.log(updatedPost);
-    queryClient.setQueryData(["post", updatedPost._id], updatedPost);
-    queryClient.setQueryData(["posts"], (oldData: PostType[] | undefined) => {
-      if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
-      return oldData.map((oldPost) =>
-        oldPost._id === updatedPost._id ? updatedPost : oldPost
-      );
-    });
+    updateQueryPostEdit({ data: updatedPost });
 
     toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
   };
@@ -122,16 +89,13 @@ const Post = ({ post }: { post: PostType }) => {
                   </p>
                 </div>
               </NavLink>
-              <p className="text-slate-400"> ago</p>
+              <p className="text-slate-400">3 hours ago</p>
             </div>
 
-            <div>
+            <div onClick={(e) => e.stopPropagation()}>
               {canEdit && (
                 <EditModal initialData={post} updateFn={onUpdate} type="post">
-                  <Button
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-cyan-600"
-                  >
+                  <Button className="text-cyan-600">
                     <FiEdit3 />
                     Edit
                   </Button>
@@ -141,10 +105,10 @@ const Post = ({ post }: { post: PostType }) => {
           </div>
           <div className="pr-8">
             {post.text && (
-              <p className="text-lg text-slate-300 py-2">{post.text}</p>
+              <p className="text-lg text-slate-300 mt-2">{post.text}</p>
             )}
             {post.selectedFile && (
-              <img className="rounded-lg" src={post.selectedFile} alt="post" />
+              <img className="rounded-lg mt-2" src={post.selectedFile} alt="post" />
             )}
           </div>
 

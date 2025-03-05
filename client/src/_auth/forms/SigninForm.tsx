@@ -6,8 +6,9 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { signIn } from "../../utils/http";
+import { queryClient, signIn } from "../../utils/http";
 import { useNavigate, NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const signInInputSchema = z.object({
   email: z.string().email(),
@@ -24,9 +25,15 @@ const SigninForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: SignInInputSchema) => signIn(data),
     onSuccess: (res) => {
-      console.log("Success");
-      console.log(res)
+      queryClient.setQueryData(["authUser"], {data: res.data})
       navigate("/");
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
     },
   });
 

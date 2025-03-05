@@ -6,19 +6,32 @@ import { Input } from "./ui/input";
 import TextareaAutosize from "react-textarea-autosize";
 import { Button } from "./ui/button";
 import { FaRegImage } from "react-icons/fa6";
+import type { ApiResponse } from "../utils/http";
+import { IoCloseCircle } from "react-icons/io5";
 
 const EditPostForm = ({
   formData,
   onChange,
   onImageChange,
+  onDeleteImage,
 }: {
   formData: PostType;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   onImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onDeleteImage: () => void;
 }) => {
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
+    ApiResponse<UserType>
+  >({ queryKey: ["authUser"] });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDeleteImage = () => {
+    onDeleteImage();
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   return (
     <div className="bg-light_bg mt-4 rounded-xl flex">
@@ -39,12 +52,20 @@ const EditPostForm = ({
           value={formData.text}
         />
         {formData.selectedFile && (
-          <div className="rounded-lg overflow-hidden mt-4 relative cursor-pointer " onClick={() => fileInputRef.current!.click()}>
-            <img className="w-full duration-200 hover:opacity-60" src={formData.selectedFile} alt="" />
+          <div className="rounded-lg overflow-hidden mt-4 relative">
+            <Button
+              type="button"
+              className="absolute top-2 right-2 bg-slate-700  rounded-full text-4xl opacity-90"
+              onClick={() => handleDeleteImage()}
+            >
+              <IoCloseCircle />
+            </Button>
+            <img className="w-full" src={formData.selectedFile} alt="" />
           </div>
         )}
         {!formData.selectedFile && (
           <Button
+            type="button"
             onClick={() => fileInputRef.current?.click()}
             className="bg-slate-700 px-4 flex items-center rounded-full"
           >

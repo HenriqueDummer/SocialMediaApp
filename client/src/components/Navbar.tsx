@@ -1,8 +1,7 @@
-import React from "react";
-import { logout, queryClient } from "../utils/http";
+import { logout, queryClient, type ApiResponse } from "../utils/http";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation} from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
@@ -11,10 +10,14 @@ const Navbar = () => {
   const { mutate: handleLogout, isPending } = useMutation({
     mutationFn: logout,
     onSuccess: (res) => {
-      queryClient.setQueryData(["authUser"], undefined);
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      toast.success(res.message, { theme: "dark", autoClose: 2000 });
-      navigate("/sign-in");
+      queryClient.setQueryData(["authUser"], {data: undefined});
+      queryClient.invalidateQueries({queryKey: ["authUser"]})
+      console.log("After setQueryData:", queryClient.getQueryData(["authUser"]));
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+      navigate("/sign-in")
     },
   });
 

@@ -142,21 +142,12 @@ export const likeReply = async (
   }
 };
 
-export const updatePost = async (formData: PostType): Promise<ApiResponse<PostType>> => {
-  try {
-    const { data } = await axios.put(`/posts/edit/${formData._id}`, formData);
-    return data; // Expecting { message, data: PostType }
-  } catch (error: any) {
-    console.log(error);
-    throw new Error(error.response?.data?.message || "Something went wrong");
-  }
-};
-
 export const editPost = async (
   formData: PostType,
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
+    console.log(formData)
     const { data } = await axios.put(`/posts/edit/${postId}`, formData);
     return data; // Expecting { message, data: PostType }
   } catch (error: any) {

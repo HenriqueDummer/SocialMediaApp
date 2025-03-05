@@ -41,7 +41,7 @@ export const signin = async (req, res) => {
 
     generateAndSaveToken(user._id, res);
     return res.status(200).json({
-      message: "Signin successful",
+      message: `Welcome back ${user.fullName}`,
       data: user  
     });
   } catch (error) {

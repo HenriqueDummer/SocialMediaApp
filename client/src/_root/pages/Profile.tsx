@@ -1,5 +1,9 @@
 import { useParams } from "react-router-dom";
-import { getUserProfile, queryClient, type ApiResponse } from "../../utils/http";
+import {
+  getUserProfile,
+  queryClient,
+  type ApiResponse,
+} from "../../utils/http";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import Feed from "../../components/Feed";
@@ -11,33 +15,42 @@ import { toast } from "react-toastify";
 const Profile = () => {
   const { id: username } = useParams();
 
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
+    ApiResponse<UserType>
+  >({ queryKey: ["authUser"] });
 
-  const { data: {data: userProfile} = {} as ApiResponse<{user: UserType, posts: PostType}>, isLoading } = useQuery<ApiResponse<{user: UserType, posts: PostType[]}>>({
+  const {
+    data: { data: userProfile } = {} as ApiResponse<{
+      user: UserType;
+      posts: PostType;
+    }>,
+    isLoading,
+  } = useQuery<ApiResponse<{ user: UserType; posts: PostType[] }>>({
     queryFn: () => getUserProfile(username!),
     queryKey: ["userProfile"],
   });
-
+  console.log(userProfile);
+  console.log(authUser);
   const user = userProfile?.user;
-  const userPosts = userProfile?.posts; 
+  const userPosts = userProfile?.posts;
 
   const onUpdate = (updatedProfile: UserType) => {
     queryClient.setQueryData(["authUser"], () => {
       return {
-        ...updatedProfile
-      }
-    })
+        ...updatedProfile,
+      };
+    });
     queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
       return {
         ...oldData,
-        user: updatedProfile
-      }
-    })
+        user: updatedProfile,
+      };
+    });
 
-    toast("Profile updated", {theme: "dark", autoClose:2000});
-  }
+    toast("Profile updated", { theme: "dark", autoClose: 2000 });
+  };
 
-  if(isLoading) return <h1>Loading...</h1>
+  if (isLoading) return <h1>Loading...</h1>;
 
   return (
     <div className="w-1/3 overflow-auto no_scrollbar min-w-[36rem]">
@@ -94,7 +107,9 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      {userPosts && <Feed posts={Array.isArray(userPosts) ? userPosts : [userPosts]} />}
+      {userPosts && (
+        <Feed posts={Array.isArray(userPosts) ? userPosts : [userPosts]} />
+      )}
     </div>
   );
 };

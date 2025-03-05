@@ -10,8 +10,6 @@ const Home = () => {
     queryFn: getAllPosts,
   });
 
-  console.log(posts)
-
   return (
     <div className="flex flex-col w-1/3 min-w-[36rem] overflow-auto no_scrollbar">
       <div className="p-2 flex justify-between items-center">

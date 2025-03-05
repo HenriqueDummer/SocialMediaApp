@@ -32,15 +32,16 @@ const EditModal = <T extends UserType | PostType>({
   const [formData, setFormData] = useState<T>(initialData);
   const [open, setOpen] = useState<boolean>(false);
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: T): Promise<T> => {
+    mutationFn: async (data: T): Promise<T> => {
       if (type === "profile") {
-        return updateProfile(data as UserType) as Promise<T>;
+        const response = await updateProfile(data as UserType);
+        return response.data as T;
       } else {
-        return editPost(data as PostType, initialData._id) as Promise<T>;
+        const response = await editPost(data as PostType, initialData._id);
+        return response.data as T;
       }
     },
     onSuccess: (updatedData: T) => {
-      // console.log("Updated data => ", updatedData)
       updateFn(updatedData);
       setOpen(false);
     },
@@ -73,6 +74,10 @@ const EditModal = <T extends UserType | PostType>({
     }));
   };
 
+  const clearSelectedFile = () => {
+    setFormData((prev) => ({ ...prev, selectedFile: "" })); //destroy on cloudinary
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     console.log("submit   ");
     e.preventDefault();
@@ -103,6 +108,7 @@ const EditModal = <T extends UserType | PostType>({
                   onChange={handleInputChange}
                   onImageChange={handleImageInputChange}
                   formData={formData as PostType}
+                  onDeleteImage={clearSelectedFile}
                 />
               )}
             </div>
