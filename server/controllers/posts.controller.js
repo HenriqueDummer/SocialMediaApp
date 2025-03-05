@@ -23,7 +23,7 @@ export const getPosts = async (req, res) => {
     }
 
     return res.status(200).json({
-      data: posts ,
+      data: posts,
     });
   } catch (error) {
     console.log(error);
@@ -264,15 +264,20 @@ export const editPost = async (req, res) => {
     }
 
     const update = {};
-    if (text && text !== currentPost.text) {
+    if (text !== currentPost.text) {
       update.text = text;
     }
-    if (selectedFile && selectedFile !== currentPost.selectedFile) {
-      if (currentPost.selectedFile) {
-        await cloudinary.uploader.destroy(currentPost.selectedFile);
+    if (!selectedFile && currentPost.selectedFile) {
+      update.selectedFile = ""
+      await cloudinary.uploader.destroy(currentPost.selectedFile);
+    } else {
+      if (selectedFile !== currentPost.selectedFile) {
+        if (currentPost.selectedFile) {
+          await cloudinary.uploader.destroy(currentPost.selectedFile);
+        }
+        const uploadedResponse = await cloudinary.uploader.upload(selectedFile);
+        update.selectedFile = uploadedResponse.secure_url;
       }
-      const uploadedResponse = await cloudinary.uploader.upload(selectedFile);
-      update.selectedFile = uploadedResponse.secure_url;
     }
 
     if (Object.keys(update).length === 0) {
