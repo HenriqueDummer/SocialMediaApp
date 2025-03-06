@@ -19,7 +19,9 @@ export type PostType = {
     text: string,
     user: UserType,
     likes: [string]
-  }]
+  }],
+  isRepost: boolean,
+  originalPost: PostType
   createdAt: string
 }
 

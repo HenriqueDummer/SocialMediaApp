@@ -42,7 +42,6 @@ const EditModal = <T extends UserType | PostType>({
       }
     },
     onSuccess: (updatedData: T) => {
-      console.log(updatedData)
       updateFn(updatedData);
       setOpen(false);
     },

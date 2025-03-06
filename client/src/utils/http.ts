@@ -16,7 +16,9 @@ export type ApiResponse<T> = {
 
 // -------------------- AUTH --------------------------------
 
-export const signIn = async (data: SignInInputSchema): Promise<ApiResponse<UserType>> => {
+export const signIn = async (
+  data: SignInInputSchema
+): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.post("/auth/sign-in", data);
     return res.data; // Expecting { message, data: UserType }
@@ -38,7 +40,7 @@ export const getMe = async (): Promise<ApiResponse<UserType>> => {
 
 export const logout = async (): Promise<{ message: string }> => {
   try {
-    console.log("kajsldkajds")
+    console.log("kajsldkajds");
     const res = await axios.get("/auth/logout");
     return res.data; // Expecting { message }
   } catch (error: any) {
@@ -47,7 +49,9 @@ export const logout = async (): Promise<{ message: string }> => {
   }
 };
 
-export const updateProfile = async (formData: UserType): Promise<ApiResponse<UserType>> => {
+export const updateProfile = async (
+  formData: UserType
+): Promise<ApiResponse<UserType>> => {
   try {
     const { data } = await axios.post("/auth/profile/update", formData);
     return data; // Expecting { message, data: UserType }
@@ -69,7 +73,9 @@ export const getAllPosts = async (): Promise<ApiResponse<PostType[]>> => {
   }
 };
 
-export const likePost = async (postId: string): Promise<ApiResponse<string[]>> => {
+export const likePost = async (
+  postId: string
+): Promise<ApiResponse<string[]>> => {
   try {
     const { data } = await axios.post(`/posts/like/${postId}`);
     return data; // Expecting { message, data: { likes } }
@@ -104,7 +110,9 @@ export const getUserProfile = async (
   }
 };
 
-export const getPostById = async (postId: string): Promise<ApiResponse<PostType>> => {
+export const getPostById = async (
+  postId: string
+): Promise<ApiResponse<PostType>> => {
   try {
     const { data } = await axios.get(`/posts/${postId}`);
     return data; // Expecting { data: PostType }
@@ -147,9 +155,20 @@ export const editPost = async (
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
-    console.log(formData)
     const { data } = await axios.put(`/posts/edit/${postId}`, formData);
     return data; // Expecting { message, data: PostType }
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const repostPost = async (
+  postId: string
+): Promise<ApiResponse<PostType>> => {
+  try {
+    const { data } = await axios.post("/posts/repost/" + postId);
+    return data;
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");

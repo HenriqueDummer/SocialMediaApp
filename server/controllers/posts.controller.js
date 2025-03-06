@@ -13,6 +13,8 @@ export const getPosts = async (req, res) => {
       .skip(skip)
       .limit(limit)
       .populate({ path: "user", select: "-password" })
+      .populate({ path: "originalPost" })
+      .populate({ path: "originalPost", populate: "user" })
       .sort({ createdAt: -1 });
 
     if (posts.length === 0) {
@@ -304,3 +306,48 @@ export const editPost = async (req, res) => {
     });
   }
 };
+
+export const repostPost = async (req, res) => {
+  const user = req.user
+  const { postId } = req.params
+
+  try {
+    const targetPost = await Post.findById(postId);
+
+    let repostReference = targetPost
+
+    if(targetPost.isRepost){
+      repostReference = targetPost.originalPost
+    }
+
+    if (!repostReference) {
+      throw new Error('Post not found');
+    }
+
+    const newPost = new Post({
+      user: user._id,
+      isRepost: true,
+      originalPost: repostReference._id
+    });
+
+    const repost = await newPost.save();
+
+    const populatedRepost = await repost.populate([
+      { path: "originalPost" },
+      { path: "user", select: "-password" },
+    ]);
+
+    console.log(populatedRepost)
+
+
+    return res.status(201).json({
+      message: "Successfully reposted",
+      data: populatedRepost
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}

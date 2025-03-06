@@ -29,15 +29,14 @@ const Profile = () => {
     queryFn: () => getUserProfile(username!),
     queryKey: ["userProfile"],
   });
-  console.log(userProfile);
-  console.log(authUser);
   const user = userProfile?.user;
   const userPosts = userProfile?.posts;
 
   const onUpdate = (updatedProfile: UserType) => {
+    console.log(updatedProfile)
     queryClient.setQueryData(["authUser"], () => {
       return {
-        ...updatedProfile,
+        data: user
       };
     });
     queryClient.setQueryData(["userProfile"], (oldData: UserType) => {

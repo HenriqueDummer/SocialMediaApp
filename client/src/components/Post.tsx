@@ -1,12 +1,11 @@
 import type { PostType } from "../types/types";
 import type { UserType } from "../types/types";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { MdOutlineModeComment } from "react-icons/md";
-import { RxLoop } from "react-icons/rx";
 
 import { Button } from "./ui/button";
 import { NavLink } from "react-router-dom";
@@ -15,33 +14,29 @@ import { FiEdit3 } from "react-icons/fi";
 import EditModal from "./EditModal";
 import { toast } from "react-toastify";
 
-import { likePost, queryClient, type ApiResponse } from "../utils/http";
+import { MdLoop } from "react-icons/md";
+
 import {
-  updateQueryLikesAllPosts,
-  updateQueryLikesUserProfile,
-  updateQueryPostEdit,
-} from "../utils/queryUpdates";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
+
+import { type ApiResponse } from "../utils/http";
+import { updateQueryPostEdit } from "../utils/queryUpdates";
+import { mutateLike, mutateRepost } from "../utils/hooks";
 
 const Post = ({ post }: { post: PostType }) => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
     ApiResponse<UserType>
   >({ queryKey: ["authUser"] });
 
-  const { mutate: like } = useMutation({
-    mutationFn: (postId: string) => likePost(postId),
-    onSuccess: (res) => {
-      toast.success(res.message, {
-        theme: "dark",
-        autoClose: 2000,
-      });
-      const updatedLikes = res.data;
+  const { mutate: like } = mutateLike(post);
+  const { mutate: repost } = mutateRepost();
 
-      updateQueryLikesAllPosts(updatedLikes, post);
-      updateQueryLikesUserProfile(updatedLikes, post);
-      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
-    },
-  });
-
+  const postData = post.isRepost ? post.originalPost : post
+  console.log(post)
   const onUpdate = (updatedPost: PostType) => {
     updateQueryPostEdit({ data: updatedPost });
 
@@ -59,16 +54,22 @@ const Post = ({ post }: { post: PostType }) => {
 
   return (
     <Container>
+      {post.isRepost && (
+        <p className="text-slate-400 flex items-center mb-2">
+          <MdLoop />
+          Reposted by {post.user.fullName}
+        </p>
+      )}
       <div className="flex">
         <div>
           <NavLink
-            to={`/profile/${post.user.username}`}
+            to={`/profile/${postData.user.username}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div
               className="w-16 aspect-square rounded-full bg-center bg-cover"
               style={{
-                backgroundImage: `url(${post.user.profilePicture})`,
+                backgroundImage: `url(${postData.user.profilePicture})`,
               }}
             ></div>
           </NavLink>
@@ -77,15 +78,15 @@ const Post = ({ post }: { post: PostType }) => {
           <div className="flex items-center justify-between">
             <div>
               <NavLink
-                to={`/profile/${post.user.username}`}
+                to={`/profile/${postData.user.username}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="items-center gap-2 inline-flex">
                   <p className="text-lg font-semibold text-slate-300">
-                    {post.user.fullName}
+                    {postData.user.fullName}
                   </p>
                   <p className="text-md text-slate-300 opacity-50 font-semibold">
-                    @{post.user.username}
+                    @{postData.user.username}
                   </p>
                 </div>
               </NavLink>
@@ -93,8 +94,8 @@ const Post = ({ post }: { post: PostType }) => {
             </div>
 
             <div onClick={(e) => e.stopPropagation()}>
-              {canEdit && (
-                <EditModal initialData={post} updateFn={onUpdate} type="post">
+              {canEdit && !post.isRepost && (
+                <EditModal initialData={postData} updateFn={onUpdate} type="post">
                   <Button className="text-cyan-600">
                     <FiEdit3 />
                     Edit
@@ -104,12 +105,17 @@ const Post = ({ post }: { post: PostType }) => {
             </div>
           </div>
           <div className="pr-8">
-            {post.text && (
-              <p className="text-lg text-slate-300 mt-2">{post.text}</p>
+            {postData.text && (
+              <p className="text-lg text-slate-300 mt-2">{postData.text}</p>
             )}
-            {post.selectedFile && (
-              <img className="rounded-lg mt-2" src={post.selectedFile} alt="post" />
+            {postData.selectedFile && (
+              <img
+                className="rounded-lg mt-2"
+                src={postData.selectedFile}
+                alt="post"
+              />
             )}
+            {postData.isRepost && <div></div>}
           </div>
 
           <div className="flex mt-4 gap-4">
@@ -126,12 +132,40 @@ const Post = ({ post }: { post: PostType }) => {
                 Like
               </p>
             </Button>
-            <Button className="bg-slate-700 px-4 py-2 rounded-lg">
+            <div onClick={(e) => e.stopPropagation()}>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="bg-slate-700 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400">
+                    <MdLoop />
+                    Repost
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-light_bg">
+                  <DropdownMenuItem className="p-0">
+                    <Button
+                      onClick={() => repost(postData._id)}
+                      className="w-full h-full bg-transparent items-start"
+                    >
+                      <MdLoop />
+                      Repost
+                    </Button>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="p-0">
+                    <Button className="w-full h-full bg-transparent">
+                      <FiEdit3 />
+                      Quote
+                    </Button>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* <Button className="bg-slate-700 px-4 py-2 rounded-lg">
               <p className="flex items-center gap-2 text-slate-400">
                 <RxLoop className="text-xl" />
                 Repost
               </p>
-            </Button>
+            </Button> */}
             <Button className="bg-slate-700 px-4 py-2 rounded-lg">
               <p className="flex items-center gap-2 text-slate-400">
                 <MdOutlineModeComment />

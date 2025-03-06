@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const postSchema = mongoose.Schema({ 
+const postSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -29,7 +29,16 @@ const postSchema = mongoose.Schema({
             }]
         }
     ],
-    createdAt: { type: Date, default: new Date() },
+    createdAt: { type: Date, default: Date.now() },
+    isRepost: {
+        type: Boolean,
+        default: false,
+    },
+    originalPost: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "posts",
+        default: null
+    }
 })
 
 const Post = mongoose.model('posts', postSchema);
