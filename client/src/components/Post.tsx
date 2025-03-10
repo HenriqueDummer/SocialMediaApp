@@ -32,7 +32,6 @@ import Quote from "./Quote";
 
 const Post = ({ post }: { post: PostType }) => {
   const actionModalRef = useRef<HTMLButtonElement>();
-  console.log(post);
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
     ApiResponse<UserType>
   >({ queryKey: ["authUser"] });

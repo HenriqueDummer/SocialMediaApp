@@ -31,7 +31,7 @@ const Profile = () => {
   });
   const user = userProfile?.user;
   const userPosts = userProfile?.posts;
-
+  console.log(userProfile)
   const onUpdate = (updatedProfile: UserType) => {
     console.log(updatedProfile)
     queryClient.setQueryData(["authUser"], () => {

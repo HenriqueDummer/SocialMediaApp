@@ -3,6 +3,7 @@ import { likePost, queryClient, repostPost } from "./http";
 import { toast } from "react-toastify";
 import {
   updateQueryLikesAllPosts,
+  updateQueryLikesPost,
   updateQueryLikesUserProfile,
 } from "./queryUpdates";
 import type { PostType } from "../types/types";
@@ -17,15 +18,14 @@ export const mutateLike = (post: PostType) => {
       });
       const updatedLikes = res.data;
 
+      updateQueryLikesPost(updatedLikes, post);
       updateQueryLikesAllPosts(updatedLikes, post);
       updateQueryLikesUserProfile(updatedLikes, post);
-      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
     },
   });
 };
 
 export const mutateRepost = () => {
-  console.log("dasd")
   return useMutation({
     mutationFn: (postId: string) => repostPost(postId),
     onSuccess: (res) => {

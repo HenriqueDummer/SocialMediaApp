@@ -89,7 +89,9 @@ export const getUserProfile = async (req, res) => {
     const userPosts = await Post
       .find({ user: user._id })
       .sort({ createdAt: -1 })
-      .populate({ path: "user", select: "-password" });
+      .populate({ path: "user", select: "-password" })
+      .populate({ path: "originalPost" })
+      .populate({ path: "originalPost", populate: "user" });
 
     return res.status(200).json({
       data: { user, posts: userPosts },
