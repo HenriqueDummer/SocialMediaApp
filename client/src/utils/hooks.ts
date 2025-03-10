@@ -25,6 +25,7 @@ export const mutateLike = (post: PostType) => {
 };
 
 export const mutateRepost = () => {
+  console.log("dasd")
   return useMutation({
     mutationFn: (postId: string) => repostPost(postId),
     onSuccess: (res) => {

@@ -40,7 +40,7 @@ export const createPost = async (req, res) => {
   const post = req.body;
 
   try {
-    let { text, selectedFile } = post;
+    let { text, selectedFile, originalPost, isQuote } = post;
 
     if (!text && !selectedFile) {
       return res.status(400).json({
@@ -57,6 +57,8 @@ export const createPost = async (req, res) => {
       user: user._id,
       text,
       selectedFile,
+      originalPost,
+      isQuote
     });
 
     await newPost.save();
@@ -144,7 +146,9 @@ export const getPostById = async (req, res) => {
 
     const post = await Post.findById(postId)
       .populate({ path: "user", select: "-password" })
-      .populate({ path: "replies.user", select: "-password" });
+      .populate({ path: "replies.user", select: "-password" })
+      .populate({ path: "originalPost" })
+      .populate({ path: "originalPost", populate: "user" })
 
     if (!post) {
       return res.status(404).json({
@@ -316,7 +320,7 @@ export const repostPost = async (req, res) => {
 
     let repostReference = targetPost
 
-    if(targetPost.isRepost){
+    if (targetPost.isRepost) {
       repostReference = targetPost.originalPost
     }
 

@@ -88,8 +88,11 @@ export const likePost = async (
 export const createPost = async (postData: {
   text: string;
   selectedFile: string;
+  originalPost: string | null;
+  isQuote: boolean;
 }): Promise<ApiResponse<PostType>> => {
   try {
+    console.log(postData)
     const { data } = await axios.post("/posts", postData);
     return data; // Expecting { message, data: PostType }
   } catch (error: any) {

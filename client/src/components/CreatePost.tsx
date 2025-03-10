@@ -12,13 +12,22 @@ import { useRef, useState, type ChangeEvent } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createPost, queryClient, type ApiResponse } from "./../utils/http";
 import { toast } from "react-toastify";
+import Quote from "./Quote";
 
-const CreatePost = () => {
+interface CreatePostProps {
+  isQuote: boolean;
+  originalPost: PostType | null;
+  closeModal?: () => void;
+}
+
+const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [inputData, setInputData] = useState({
     text: "",
     selectedFile: "",
+    originalPost: originalPost ? originalPost._id : null,
+    isQuote
   });
 
   const { mutate: handleCreatePost, isPending } = useMutation({
@@ -28,6 +37,8 @@ const CreatePost = () => {
       setInputData({
         text: "",
         selectedFile: "",
+        originalPost: null,
+        isQuote: false,
       });
       toast.success(res.message, { theme: "dark", autoClose: 2000 });
     },
@@ -61,11 +72,6 @@ const CreatePost = () => {
     }));
   };
 
-  const handlePost = () => {
-    handleCreatePost(inputData);
-    setInputData((prev) => ({ ...prev, text: "" }));
-  };
-
   const clearSelectedFile = () => {
     setInputData((prev) => ({ ...prev, selectedFile: "" }));
     if (fileInputRef.current) {
@@ -73,11 +79,19 @@ const CreatePost = () => {
     }
   };
 
+  const handlePost = () => {
+    handleCreatePost(inputData);
+    if(closeModal) closeModal();
+    if (inputData.selectedFile) clearSelectedFile();
+    setInputData((prev) => ({ ...prev, text: "" }));
+  };
+
+
   return (
-    <div className="bg-light_bg p-4 rounded-xl flex">
+    <div className={`bg-light_bg ${isQuote ? "" : "p-4"} rounded-xl flex`}>
       <div>
         <div
-          className="w-16 aspect-square rounded-full bg-center bg-cover"
+          className="w-12 aspect-square rounded-full bg-center bg-cover"
           style={{
             backgroundImage: `url(${authUser!.profilePicture})`,
           }}
@@ -86,8 +100,8 @@ const CreatePost = () => {
       <div className="ml-4 w-full">
         <TextareaAutosize
           onChange={(e) => handleTextInputChange(e)}
-          className="w-full mt-4 !text-lg resize-none pl-2 text-slate-300 border-none bg-transparent"
-          placeholder="What's happening?"
+          className="w-full mt-2 !text-lg resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
+          placeholder={isQuote ? "Add a comment" : "What's happening?"}
         />
         {inputData.selectedFile && (
           <div className="rounded-lg overflow-hidden mt-4 relative">
@@ -100,6 +114,8 @@ const CreatePost = () => {
             <img className="w-full" src={inputData.selectedFile} alt="" />
           </div>
         )}
+        {originalPost && <Quote originalPost={originalPost} />}
+
         <div className="w-full flex justify-between mt-4">
           <Input
             className="hidden"
@@ -110,25 +126,33 @@ const CreatePost = () => {
           />
           <Button
             onClick={() => fileInputRef.current?.click()}
-            className="bg-slate-700 px-4 flex items-center rounded-full"
+            className="!bg-slate-700 px-4 flex items-center rounded-full text-semibold text-cyan-600"
           >
             Add image
             <FaRegImage />
           </Button>
-          <Button
-            onClick={() => handlePost()}
-            className="bg-slate-700 text-cyan-600 px-4 rounded-full font-semibold flex items-center"
-            disabled={isPending}
-          >
-            {isPending ? (
-              "Posting..."
-            ) : (
-              <>
-                Post
-                <IoSend />
-              </>
+
+          <div className="flex gap-3">
+            {closeModal && (
+              <Button variant={"destructive"} onClick={() => closeModal()}>
+                Cancel
+              </Button>
             )}
-          </Button>
+            <Button
+              onClick={() => handlePost()}
+              className="!bg-slate-700 text-cyan-600 px-4 flex items-center"
+              disabled={isPending || (!inputData.text && !inputData.selectedFile)}
+            >
+              {isPending ? (
+                "Posting..."
+              ) : (
+                <>
+                  Post
+                  <IoSend />
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

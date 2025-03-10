@@ -26,8 +26,13 @@ import {
 import { type ApiResponse } from "../utils/http";
 import { updateQueryPostEdit } from "../utils/queryUpdates";
 import { mutateLike, mutateRepost } from "../utils/hooks";
+import ActionModal from "./ActionModal";
+import { useRef } from "react";
+import Quote from "./Quote";
 
 const Post = ({ post }: { post: PostType }) => {
+  const actionModalRef = useRef<HTMLButtonElement>();
+  console.log(post);
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
     ApiResponse<UserType>
   >({ queryKey: ["authUser"] });
@@ -35,8 +40,8 @@ const Post = ({ post }: { post: PostType }) => {
   const { mutate: like } = mutateLike(post);
   const { mutate: repost } = mutateRepost();
 
-  const postData = post.isRepost ? post.originalPost : post
-  console.log(post)
+  const postData = post.isRepost ? post.originalPost : post;
+
   const onUpdate = (updatedPost: PostType) => {
     updateQueryPostEdit({ data: updatedPost });
 
@@ -95,7 +100,11 @@ const Post = ({ post }: { post: PostType }) => {
 
             <div onClick={(e) => e.stopPropagation()}>
               {canEdit && !post.isRepost && (
-                <EditModal initialData={postData} updateFn={onUpdate} type="post">
+                <EditModal
+                  initialData={postData}
+                  updateFn={onUpdate}
+                  type="post"
+                >
                   <Button className="text-cyan-600">
                     <FiEdit3 />
                     Edit
@@ -115,7 +124,11 @@ const Post = ({ post }: { post: PostType }) => {
                 alt="post"
               />
             )}
-            {postData.isRepost && <div></div>}
+            {postData.isQuote && (
+              <NavLink onClick={(e) => e.stopPropagation()} to={`/posts/${postData.originalPost._id}`}>
+                <Quote originalPost={postData.originalPost} />
+              </NavLink>
+            )}
           </div>
 
           <div className="flex mt-4 gap-4">
@@ -133,6 +146,9 @@ const Post = ({ post }: { post: PostType }) => {
               </p>
             </Button>
             <div onClick={(e) => e.stopPropagation()}>
+              <ActionModal referencePost={postData} type="quote">
+                <Button className="hidden" ref={actionModalRef}></Button>
+              </ActionModal>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className="bg-slate-700 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400">
@@ -151,7 +167,12 @@ const Post = ({ post }: { post: PostType }) => {
                     </Button>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="p-0">
-                    <Button className="w-full h-full bg-transparent">
+                    <Button
+                      onClick={(e) => {
+                        actionModalRef.current!.click();
+                      }}
+                      className="w-full h-full bg-transparent"
+                    >
                       <FiEdit3 />
                       Quote
                     </Button>

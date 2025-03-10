@@ -20,7 +20,7 @@ const PostPage = () => {
     queryFn: () => getPostById(postId!),
     queryKey: ["post", postId],
   });
-  console.log(postData)
+  
   if (isLoading) {
     return <h1>Loading...</h1>;
   }

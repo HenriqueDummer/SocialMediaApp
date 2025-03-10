@@ -34,6 +34,10 @@ const postSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isQuote: {
+        type: Boolean,
+        default: false
+    },
     originalPost: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "posts",
