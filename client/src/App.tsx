@@ -36,7 +36,6 @@ function App() {
   return (
     <>
       <ToastContainer />
-      <ProtectedRoute></ProtectedRoute>
       <Routes>
         <Route element={<AuthLayout />}>
           <Route

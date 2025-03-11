@@ -13,7 +13,7 @@ import { postReply, queryClient, type ApiResponse } from "./../utils/http";
 import Container from "./Container";
 import { toast } from "react-toastify";
 
-const CreateReply = ({ postId }: { postId: string }) => {
+const CreateReply = ({ postId, postAuthor }: { postId: string, postAuthor: string }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { mutate: handlePostReply } = useMutation({
@@ -37,7 +37,7 @@ const CreateReply = ({ postId }: { postId: string }) => {
   return (
     <Container className="mt-4">
       <p className="text-slate-400">
-        Replying to <span className="text-cyan-600">@rick</span>
+        Replying to <span className="text-cyan-600">@{postAuthor}</span>
       </p>
       <div className="flex mt-2">
         <div>

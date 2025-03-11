@@ -104,7 +104,7 @@ const Post = ({ post }: { post: PostType }) => {
                   updateFn={onUpdate}
                   type="post"
                 >
-                  <Button className="text-cyan-600">
+                  <Button className="text-slate-300 bg-transparent border border-gray-600 rounded-xl">
                     <FiEdit3 />
                     Edit
                   </Button>
@@ -112,13 +112,13 @@ const Post = ({ post }: { post: PostType }) => {
               )}
             </div>
           </div>
-          <div className="pr-8">
+          <div className="">
             {postData.text && (
               <p className="text-lg text-slate-300 mt-2">{postData.text}</p>
             )}
             {postData.selectedFile && (
               <img
-                className="rounded-lg mt-2"
+                className="rounded-xl mt-2"
                 src={postData.selectedFile}
                 alt="post"
               />
@@ -130,27 +130,27 @@ const Post = ({ post }: { post: PostType }) => {
             )}
           </div>
 
-          <div className="flex mt-4 gap-4">
+          <div className="flex justify-between mt-4 gap-4">
             <Button
               onClick={(e) => handleLike(e)}
-              className="bg-slate-700 px-4 py-2 rounded-lg"
+              className="bg-transparent border border-gray-600 px-0 py-2 rounded-lg flex-1"
             >
               <p className="flex items-center gap-2 text-slate-400">
                 {isLiked ? (
-                  <IoHeart className="text-xl text-red-500" />
+                  <IoHeart className="text-3xl text-red-500" />
                 ) : (
-                  <IoHeartOutline className="text-xl" />
+                  <IoHeartOutline className="text-3xl" />
                 )}
                 Like
               </p>
             </Button>
-            <div onClick={(e) => e.stopPropagation()}>
+            <div className="flex-1" onClick={(e) => e.stopPropagation()}>
               <ActionModal referencePost={postData} type="quote">
                 <Button className="hidden" ref={actionModalRef}></Button>
               </ActionModal>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="bg-slate-700 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400">
+                  <Button className="bg-transparent border border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
                     <MdLoop />
                     Repost
                   </Button>
@@ -186,7 +186,7 @@ const Post = ({ post }: { post: PostType }) => {
                 Repost
               </p>
             </Button> */}
-            <Button className="bg-slate-700 px-4 py-2 rounded-lg">
+            <Button className="bg-transparent border border-gray-600 px-0 py-2 rounded-lg flex-1">
               <p className="flex items-center gap-2 text-slate-400">
                 <MdOutlineModeComment />
                 Comment

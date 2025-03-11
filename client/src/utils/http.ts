@@ -1,7 +1,8 @@
 import { QueryClient } from "@tanstack/react-query";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import axios from "axios";
-import type { PostType, Reply, UserType } from "../types/types";
+import type { PostType, UserType } from "../types/types";
+import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
 
 export const queryClient = new QueryClient();
 
@@ -21,6 +22,18 @@ export const signIn = async (
 ): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.post("/auth/sign-in", data);
+    return res.data; // Expecting { message, data: UserType }
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const signUp = async (
+  data: SignUpInputSchema
+): Promise<ApiResponse<UserType>> => {
+  try {
+    const res = await axios.post("/auth/sign-up", data);
     return res.data; // Expecting { message, data: UserType }
   } catch (error: any) {
     console.log(error);

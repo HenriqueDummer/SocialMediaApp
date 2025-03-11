@@ -2,96 +2,118 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 
-import {z} from "zod"
+import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { queryClient, signIn } from "../../utils/http";
+import { queryClient, signUp } from "../../utils/http";
 import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const signUpInputSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
-   confirmPassword: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
-  fullName: z
-    .string()
-    .min(2, { message: "Full name must be at least 2 characters long" })
-    .max(16, { message: "Full name must be at most 16 characters long" }),
-  username: z
-  .string()
-  .min(2, { message: "Username must be at least 2 characters long" })
-  .max(16, { message: "Username must be at most 16 characters long" })
-  .refine(s => !s.includes(" "), { message: "Username must not contain spaces" }),
-});
+const signUpInputSchema = z
+  .object({
+    email: z.string().email(),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters long" }),
+    confirmPassword: z.string(),
+    fullName: z
+      .string()
+      .min(2, { message: "Full name must be at least 2 characters long" })
+      .max(16, { message: "Full name must be at most 16 characters long" }),
+    username: z
+      .string()
+      .min(2, { message: "Username must be at least 2 characters long" })
+      .max(16, { message: "Username must be at most 16 characters long" })
+      .refine((s) => !s.includes(" "), {
+        message: "Username must not contain spaces",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"], // Attach error to confirmPassword field
+  });
 
-export type LoginInputSchema = z.infer<typeof signUpInputSchema>;
+export type SignUpInputSchema = z.infer<typeof signUpInputSchema>;
 
 const SignupForm = () => {
   const navigate = useNavigate();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: LoginInputSchema) => signIn(data),
-     onSuccess: (res) => {
-          queryClient.setQueryData(["authUser"], {data: res.data})
-          navigate("/");
-          toast.success(res.message, {
-            theme: "dark",
-            autoClose: 2000,
-          });
-        },
-        onError: (error) => {
-          toast.error(error.message, { theme: "dark", autoClose: 2000 });
-        },
+    mutationFn: async (data: SignUpInputSchema) => signUp(data),
+    onSuccess: (res) => {
+      queryClient.setQueryData(["authUser"], { data: res.data });
+      navigate("/");
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 4000 });
+    },
   });
 
-   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm<LoginInputSchema>({
-      resolver: zodResolver(signUpInputSchema),
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpInputSchema>({
+    resolver: zodResolver(signUpInputSchema),
+  });
 
-     function handleLogin(data: LoginInputSchema) {
-        mutate(data);
-      }
-  
+  function handleSignup(data: SignUpInputSchema) {
+    mutate(data);
+  }
+
   return (
     <div>
-    <form onSubmit={handleSubmit(handleLogin)}>
-      <p>
-        <Label>Username</Label>
-        <Input type="text" {...register("username")} />
-      </p>
-      <p>
-        <Label>Full name</Label>
-        <Input type="text" {...register("fullName")} />
-      </p>
-      <p>
-        <Label>Password</Label>
-        <Input type="password" {...register("password")} />
-      </p>
-      <p>
-        <Label>Confirm password</Label>
-        <Input type="password" {...register("confirmPassword")} />
-      </p>
-      {errors.email && <p>{errors.email.message}</p>}
-      {errors.password && <p>{errors.password.message}</p>}
-      <Button className="mt-5 w-full" type="submit">
-        {isPending ? "Loading..." : "Login"}
-      </Button>
-    </form>
-    <div>
-      <p>Already have an accout?</p>
-      <NavLink to="/sign-in">Sign in</NavLink>
+     <form onSubmit={handleSubmit(handleSignup)}>
+        <div className="mb-4">
+          <Label>Email</Label>
+          <Input type="text" {...register("email")} />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <Label>Username</Label>
+          <Input type="text" {...register("username")} />
+          {errors.username && (
+            <p className="text-red-500 text-sm">{errors.username.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <Label>Full Name</Label>
+          <Input type="text" {...register("fullName")} />
+          {errors.fullName && (
+            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <Label>Password</Label>
+          <Input className="w-full" type="password" {...register("password")} />
+          {errors.password && (
+            <p className="text-red-700 text-sm">{errors.password.message}</p>
+          )}
+        </div>
+        <div className="mb-4">
+          <Label>Confirm Password</Label>
+          <Input type="password" {...register("confirmPassword")} />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+        <Button className="mt-5 w-full" type="submit" disabled={isPending}>
+          {isPending ? "Loading..." : "Sign Up"}
+        </Button>
+      </form>
+      <div>
+        <p>Already have an accout?</p>
+        <NavLink to="/sign-in">Sign in</NavLink>
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;

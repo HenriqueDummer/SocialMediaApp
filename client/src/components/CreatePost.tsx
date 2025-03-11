@@ -13,10 +13,11 @@ import { useMutation } from "@tanstack/react-query";
 import { createPost, queryClient, type ApiResponse } from "./../utils/http";
 import { toast } from "react-toastify";
 import Quote from "./Quote";
+import Container from "./Container";
 
 interface CreatePostProps {
   isQuote: boolean;
-  originalPost: PostType | null;
+  originalPost?: PostType | null;
   closeModal?: () => void;
 }
 
@@ -27,7 +28,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
     text: "",
     selectedFile: "",
     originalPost: originalPost ? originalPost._id : null,
-    isQuote
+    isQuote,
   });
 
   const { mutate: handleCreatePost, isPending } = useMutation({
@@ -80,15 +81,18 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
   };
 
   const handlePost = () => {
-    handleCreatePost(inputData);
-    if(closeModal) closeModal();
-    if (inputData.selectedFile) clearSelectedFile();
+    if (closeModal) {
+      closeModal();
+    }
+    if (inputData.selectedFile) {
+      clearSelectedFile();
+    }
     setInputData((prev) => ({ ...prev, text: "" }));
+    handleCreatePost(inputData);
   };
 
-
   return (
-    <div className={`bg-light_bg ${isQuote ? "" : "p-4"} rounded-xl flex`}>
+    <Container className={` ${isQuote ? "" : "p-4"} flex`}>
       <div>
         <div
           className="w-12 aspect-square rounded-full bg-center bg-cover"
@@ -126,7 +130,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
           />
           <Button
             onClick={() => fileInputRef.current?.click()}
-            className="!bg-slate-700 px-4 flex items-center rounded-full text-semibold text-cyan-600"
+            className="bg-transparent border border-gray-600 px-4 flex items-center rounded-xl text-semibold text-slate-300 "
           >
             Add image
             <FaRegImage />
@@ -140,22 +144,24 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
             )}
             <Button
               onClick={() => handlePost()}
-              className="!bg-slate-700 text-cyan-600 px-4 flex items-center"
-              disabled={isPending || (!inputData.text && !inputData.selectedFile)}
+              className=" text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+              disabled={
+                isPending || (!inputData.text && !inputData.selectedFile)
+              }
             >
               {isPending ? (
                 "Posting..."
               ) : (
                 <>
+                  <IoSend className="-rotate-45 -translate-y-[2px]" />
                   Post
-                  <IoSend />
                 </>
               )}
             </Button>
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
