@@ -105,7 +105,7 @@ export const createPost = async (postData: {
   isQuote: boolean;
 }): Promise<ApiResponse<PostType>> => {
   try {
-    console.log(postData)
+    console.log(postData);
     const { data } = await axios.post("/posts", postData);
     return data; // Expecting { message, data: PostType }
   } catch (error: any) {
@@ -184,6 +184,19 @@ export const repostPost = async (
 ): Promise<ApiResponse<PostType>> => {
   try {
     const { data } = await axios.post("/posts/repost/" + postId);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+// -------------------- USER ------------------------------
+
+export const followUser = async (userId: string) => {
+  try {
+    const { data } = await axios.post("/user/follow/" + userId);
+
     return data;
   } catch (error: any) {
     console.log(error);

@@ -8,6 +8,7 @@ import {v2 as cloudinary} from "cloudinary"
 
 import postRoutes from './routes/posts.routes.js'
 import authRoutes from './routes/auth.routes.js'
+import userRoutes from './routes/user.routes.js'
 
 dotenv.config()
 
@@ -28,6 +29,7 @@ app.use(cors({
 
 app.use('/posts', postRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;

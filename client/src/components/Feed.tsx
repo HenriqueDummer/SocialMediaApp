@@ -2,11 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import type { PostType } from '../types/types'
 import Post
  from './Post'
-const Feed = ({posts}: {posts: PostType[]}) => {
+import { memo } from 'react'
+
+const Feed = memo(({posts}: {posts: PostType[]}) => {
   const navigate = useNavigate()
 
   const handleNavigate = (post: PostType) => {
-    console.log(post)
     const path = post.isRepost ? post.originalPost._id : post._id
     navigate(`/posts/${path}`)
   }
@@ -24,6 +25,6 @@ const Feed = ({posts}: {posts: PostType[]}) => {
       )}
     </div>
   )
-}
+})
 
 export default Feed

@@ -6,6 +6,8 @@ export type UserType = {
   profilePicture: string;
   coverPicture: string;
   bio: string;
+  following: string[];
+  followers: string[];
 };
 
 export type PostType = {

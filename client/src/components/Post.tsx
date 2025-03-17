@@ -25,10 +25,11 @@ import {
 
 import { type ApiResponse } from "../utils/http";
 import { updateQueryPostEdit } from "../utils/queryUpdates";
-import { mutateLike, mutateRepost } from "../utils/hooks";
+import {mutateLike, mutateRepost } from "../utils/hooks";
 import ActionModal from "./ActionModal";
 import { useRef } from "react";
 import Quote from "./Quote";
+import FollowButton from "./FollowButton";
 
 const Post = ({ post }: { post: PostType }) => {
   const actionModalRef = useRef<HTMLButtonElement>();
@@ -98,7 +99,7 @@ const Post = ({ post }: { post: PostType }) => {
             </div>
 
             <div onClick={(e) => e.stopPropagation()}>
-              {canEdit && !post.isRepost && (
+              {canEdit && !post.isRepost ? (
                 <EditModal
                   initialData={postData}
                   updateFn={onUpdate}
@@ -109,6 +110,8 @@ const Post = ({ post }: { post: PostType }) => {
                     Edit
                   </Button>
                 </EditModal>
+              ) : (
+                <FollowButton following={authUser.following} targetUserId={postData.user._id}/>
               )}
             </div>
           </div>

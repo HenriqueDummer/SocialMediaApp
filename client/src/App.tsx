@@ -13,23 +13,15 @@ import { getMe, type ApiResponse } from "./utils/http";
 import PostPage from "./_root/pages/PostPage";
 import { ToastContainer } from "react-toastify";
 import type { PropsWithChildren } from "react";
+import { AuthProvider, useAuth } from "./Context/AuthContext";
 
-function App() {
-  const { data: { data: authUser } = {} as ApiResponse<UserType>, isLoading } =
-    useQuery<ApiResponse<UserType>>({
-      queryKey: ["authUser"],
-      queryFn: getMe,
-      retry: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    });
-
-  function ProtectedRoute({ children }: PropsWithChildren) {
-    if (!authUser) return <Navigate to="sign-in" replace />;
-
-    return <>{children}</>;
-  }
+function ProtectedRoute({ children }: PropsWithChildren) {
+  const { authUser } = useAuth();
+  if (!authUser) return <Navigate to="/sign-in" replace />;
+  return <>{children}</>;
+}
+function AppRoutes() {
+  const { authUser, isLoading } = useAuth();
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -78,6 +70,14 @@ function App() {
       </Routes>
     </>
   );
+}
+
+function App() {
+  return(
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  )
 }
 
 export default App;

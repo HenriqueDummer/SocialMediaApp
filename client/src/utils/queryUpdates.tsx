@@ -92,3 +92,16 @@ export const updateQueryPostEdit = ({
     }
   );
 };
+
+export const updateQueryFollowing = (updatedFollowing: string[]) => {
+  queryClient.setQueryData(
+    ["authUser"], 
+    ({data: oldData}: {data: UserType}) => {
+      return {
+        data: {
+          ...oldData,
+          following: updatedFollowing
+        }
+      }
+  })
+}
