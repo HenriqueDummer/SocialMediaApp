@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import Container from "./Container";
 import type { ApiResponse } from "../utils/http";
 
-const Sidebar = () => {
+const LeftSideBar = () => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
     ApiResponse<UserType>
   >({ queryKey: ["authUser"] });
@@ -54,4 +54,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default LeftSideBar;
