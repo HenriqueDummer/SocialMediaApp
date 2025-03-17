@@ -60,7 +60,7 @@ const Post = ({ post }: { post: PostType }) => {
   return (
     <Container>
       {post.isRepost && (
-        <p className="text-slate-400 flex items-center mb-2">
+        <p className="text-slate-400 flex gap-1 items-center mb-4 text-sm">
           <MdLoop />
           Reposted by {post.user.fullName}
         </p>
@@ -72,7 +72,7 @@ const Post = ({ post }: { post: PostType }) => {
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="w-16 aspect-square rounded-full bg-center bg-cover"
+              className="w-14 aspect-square rounded-full bg-center bg-cover"
               style={{
                 backgroundImage: `url(${postData.user.profilePicture})`,
               }}
@@ -87,15 +87,15 @@ const Post = ({ post }: { post: PostType }) => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="items-center gap-2 inline-flex">
-                  <p className="text-lg font-semibold text-slate-300">
+                  <p className="font-semibold text-slate-300">
                     {postData.user.fullName}
                   </p>
-                  <p className="text-md text-slate-300 opacity-50 font-semibold">
+                  <p className="text-sm text-slate-300 opacity-50">
                     @{postData.user.username}
                   </p>
                 </div>
               </NavLink>
-              <p className="text-slate-400">3 hours ago</p>
+              <p className="text-slate-400 text-sm">3 hours ago</p>
             </div>
 
             <div onClick={(e) => e.stopPropagation()}>
@@ -117,7 +117,7 @@ const Post = ({ post }: { post: PostType }) => {
           </div>
           <div className="">
             {postData.text && (
-              <p className="text-lg text-slate-300 mt-2">{postData.text}</p>
+              <p className="text-slate-300 mt-2">{postData.text}</p>
             )}
             {postData.selectedFile && (
               <img

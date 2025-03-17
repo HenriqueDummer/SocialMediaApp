@@ -95,7 +95,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
     <Container className={` ${isQuote ? "" : "p-4"} flex`}>
       <div>
         <div
-          className="w-12 aspect-square rounded-full bg-center bg-cover"
+          className="w-14 aspect-square rounded-full bg-center bg-cover"
           style={{
             backgroundImage: `url(${authUser!.profilePicture})`,
           }}
@@ -104,7 +104,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
       <div className="ml-4 w-full">
         <TextareaAutosize
           onChange={(e) => handleTextInputChange(e)}
-          className="w-full mt-2 !text-lg resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
+          className="w-full mt-3 resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
           placeholder={isQuote ? "Add a comment" : "What's happening?"}
         />
         {inputData.selectedFile && (

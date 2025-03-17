@@ -17,7 +17,7 @@ const Home = () => {
       <div className="sticky top-0 z-10 bg-inherit">
         <FeedFilter />
       </div>
-      <div className="flex-1 overflow-auto no_scrollbar mt-5 rounded-3xl border-t border-gray-600">
+      <div className="flex-1 overflow-auto no_scrollbar mt-2 rounded-3xl border-t border-gray-600">
         <div className="flex flex-col">
           <CreatePost isQuote={false} />
           {isLoading ? <h1>Loading...</h1> : posts && <Feed posts={posts} />}

@@ -3,15 +3,15 @@ import { NavLink } from 'react-router-dom'
 
 const FeedFilter = () => {
   return (
-    <Container className="flex">
+    <Container className="flex !p-0 overflow-hidden">
         <NavLink
-          className="flex-1 flex justify-center items-center text-slate-300 font-semibold"
+          className={({isActive}) => `flex-1 flex justify-center items-center text-slate-400 font-semibold py-2 ${isActive ? "border-b-4 border-blue-600 !text-slate-300" : ""}`}
           to="/"
         >
           <button>Home</button>
         </NavLink>
         <NavLink
-          className="flex-1 flex justify-center items-center text-slate-400 font-semibold"
+          className={({isActive}) => `flex-1 flex justify-center items-center text-slate-400 font-semibold py-2 ${isActive ? "border-b-4 border-blue-600 !text-slate-300" : ""}`}
           to="/following"
         >
           <button>Following</button>
