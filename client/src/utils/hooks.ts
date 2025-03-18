@@ -43,8 +43,8 @@ export const mutateFollow = () => {
   return useMutation({
     mutationFn: (userId: string) => followUser(userId),
     onSuccess: (res) => {
-      console.log(res)
-      updateQueryFollowing(res.data)
+      queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+      updateQueryFollowing(res.data);
       toast.success(res.message, {
         theme: "dark",
         autoClose: 2000,

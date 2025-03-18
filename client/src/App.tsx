@@ -14,6 +14,7 @@ import PostPage from "./_root/pages/PostPage";
 import { ToastContainer } from "react-toastify";
 import type { PropsWithChildren } from "react";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
+import Following from "./_root/pages/Following";
 
 function ProtectedRoute({ children }: PropsWithChildren) {
   const { authUser } = useAuth();
@@ -47,6 +48,14 @@ function AppRoutes() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/following"
+            element={
+              <ProtectedRoute>
+                <Following />
               </ProtectedRoute>
             }
           />

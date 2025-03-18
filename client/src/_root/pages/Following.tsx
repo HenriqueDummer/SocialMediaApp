@@ -5,11 +5,11 @@ import CreatePost from "../../components/CreatePost";
 import Feed from "../../components/Feed";
 import FeedFilter from "../../components/FeedFilter";
 
-const Home = () => {
+const Following = () => {
   const { data: { data: posts } = {} as ApiResponse<PostType[]>, isLoading } =
     useQuery<ApiResponse<PostType[]>>({
-      queryKey: ["posts", "all"],
-      queryFn: () => getAllPosts("all"),
+      queryKey: ["posts", "following"],
+      queryFn: () => getAllPosts("following"),
     });
 
   return (
@@ -27,4 +27,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Following;

@@ -8,8 +8,20 @@ export const getPosts = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const user = req.user;
+    const { filter } = req.params
 
-    const posts = await Post.find()
+
+    const followingIds = user.following;
+    let mongoFilter = {}
+
+    if (filter === "following") {
+      mongoFilter = { user: { $in: followingIds  } }
+    }
+
+    console.log("Following IDs:", followingIds);
+
+    const posts = await Post.find(mongoFilter)
       .skip(skip)
       .limit(limit)
       .populate({ path: "user", select: "-password" })
@@ -17,12 +29,14 @@ export const getPosts = async (req, res) => {
       .populate({ path: "originalPost", populate: "user" })
       .sort({ createdAt: -1 });
 
+    console.log(posts)
     if (posts.length === 0) {
       return res.status(200).json({
         message: "No posts found",
         data: { posts: [] },
       });
     }
+
 
     return res.status(200).json({
       data: posts,

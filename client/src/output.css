@@ -767,16 +767,16 @@ body {
   margin-top: 0.5rem;
 }
 
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mt-3 {
-  margin-top: 0.75rem;
 }
 
 .flex {
@@ -881,10 +881,6 @@ body {
 
 .w-10 {
   width: 2.5rem;
-}
-
-.w-12 {
-  width: 3rem;
 }
 
 .w-14 {
@@ -1550,6 +1546,11 @@ body {
   letter-spacing: 0.1em;
 }
 
+.\!text-slate-300 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(203 213 225 / var(--tw-text-opacity, 1)) !important;
+}
+
 .text-blue-600 {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity, 1));
@@ -1622,11 +1623,6 @@ body {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.\!text-slate-300 {
-  --tw-text-opacity: 1 !important;
-  color: rgb(203 213 225 / var(--tw-text-opacity, 1)) !important;
-}
-
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -1692,6 +1688,10 @@ body {
   --tw-ring-offset-color: hsl(var(--background));
 }
 
+.filter {
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .backdrop-blur-xl {
   --tw-backdrop-blur: blur(24px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
@@ -1721,6 +1721,10 @@ body {
   transition-duration: 150ms;
 }
 
+.duration-150 {
+  transition-duration: 150ms;
+}
+
 .duration-200 {
   transition-duration: 200ms;
 }
@@ -1737,6 +1741,10 @@ body {
     opacity: var(--tw-exit-opacity, 1);
     transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
   }
+}
+
+.duration-150 {
+  animation-duration: 150ms;
 }
 
 .duration-200 {
@@ -1812,6 +1820,10 @@ html {
 
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / 0.8);
+}
+
+.hover\:bg-white\/10:hover {
+  background-color: rgb(255 255 255 / 0.1);
 }
 
 .hover\:text-accent-foreground:hover {

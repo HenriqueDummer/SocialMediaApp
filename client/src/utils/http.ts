@@ -76,10 +76,13 @@ export const updateProfile = async (
 
 // -------------------- POSTS ------------------------------
 
-export const getAllPosts = async (): Promise<ApiResponse<PostType[]>> => {
+export const getAllPosts = async (
+  filter: string
+): Promise<ApiResponse<PostType[]>> => {
   try {
-    const res = await axios.get("/posts");
-    return res.data; // Expecting { data: { posts } }
+    const { data } = await axios.get("/posts/" + filter);
+    console.log(data)
+    return data; // Expecting { data: { posts } }
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
