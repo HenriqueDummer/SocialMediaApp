@@ -1,48 +1,45 @@
-import { useQuery } from "@tanstack/react-query";
-
-import type { UserType } from "../types/types";
-import { Input } from "./ui/input";
-
 import {} from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
 import { useRef } from "react";
 
-import { useMutation } from "@tanstack/react-query";
-import { postReply, queryClient, type ApiResponse } from "./../utils/http";
-import Container from "./Container";
-import { toast } from "react-toastify";
+import { queryClient } from "./../utils/http";
+import Container from "./ui/Container";
 
-const CreateReply = ({ postId, postAuthor }: { postId: string, postAuthor: string }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const { mutate: handlePostReply } = useMutation({
-    mutationFn: ({ postId, text }: { postId: string; text: string }) =>
-      postReply(postId, text),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", postId] });
-      fileInputRef.current!.value = "";
-      toast.success("Reply posted", { theme: "dark", autoClose: 2000 });
-    },
-  });
+import TextareaAutosize from "react-textarea-autosize";
+import { getAuthUser, mutateCreateReply } from "../utils/hooks";
 
-  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
-    ApiResponse<UserType>
-  >({ queryKey: ["authUser"] });
+const CreateReply = ({
+  postId,
+  postAuthor,
+}: {
+  postId: string;
+  postAuthor: string;
+}) => {
+  const fileInputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleSucceess = () => {
+    queryClient.invalidateQueries({ queryKey: ["post", postId] });
+    fileInputRef.current!.value = "";
+  };
+  const { mutate: handlePostReply } = mutateCreateReply(handleSucceess);
+
+  const authUser = getAuthUser();
 
   const handlePost = () => {
     handlePostReply({ postId, text: fileInputRef.current!.value });
   };
 
   return (
-    <Container className="mt-4">
-      <p className="text-slate-400">
+    <Container className="mt-4 px-8">
+      <p className="text-slate-400 text-sm">
         Replying to <span className="text-cyan-600">@{postAuthor}</span>
       </p>
       <div className="flex mt-2">
         <div>
           <div
-            className="w-16 aspect-square rounded-full bg-center bg-cover"
+            className="w-14 aspect-square rounded-full bg-center bg-cover"
             style={{
               backgroundImage: `url(${authUser!.profilePicture})`,
             }}
@@ -50,8 +47,8 @@ const CreateReply = ({ postId, postAuthor }: { postId: string, postAuthor: strin
         </div>
 
         <div className="ml-4 w-full flex gap-2 items-center">
-          <Input
-            className="w-full h-14 !text-lg text-slate-300 border-none"
+          <TextareaAutosize
+            className="w-full resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
             ref={fileInputRef}
             placeholder="Post your reply"
           />

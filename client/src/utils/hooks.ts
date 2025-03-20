@@ -1,5 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
-import { followUser, likePost, queryClient, repostPost } from "./http";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createPost,
+  followUser,
+  getUserProfile,
+  likePost,
+  postReply,
+  queryClient,
+  repostPost,
+  type ApiResponse,
+} from "./http";
 import { toast } from "react-toastify";
 import {
   updateQueryFollowing,
@@ -7,7 +16,15 @@ import {
   updateQueryLikesPost,
   updateQueryLikesUserProfile,
 } from "./queryUpdates";
-import type { PostType } from "../types/types";
+import type { PostType, UserType } from "../types/types";
+
+export const getAuthUser = () => {
+  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
+    ApiResponse<UserType>
+  >({ queryKey: ["authUser"] });
+
+  return authUser;
+};
 
 export const mutateLike = (post: PostType) => {
   return useMutation({
@@ -19,9 +36,12 @@ export const mutateLike = (post: PostType) => {
       });
       const updatedLikes = res.data;
 
-      updateQueryLikesPost(updatedLikes, post);
-      updateQueryLikesAllPosts(updatedLikes, post);
-      updateQueryLikesUserProfile(updatedLikes, post);
+      // updateQueryLikesPost(updatedLikes, post);
+      // updateQueryLikesAllPosts(updatedLikes, post);
+      // updateQueryLikesUserProfile(updatedLikes, post);
+      queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
+      queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+
     },
   });
 };
@@ -51,4 +71,45 @@ export const mutateFollow = () => {
       });
     },
   });
+};
+
+export const mutateCreatePost = (clearInputs: () => void) => {
+  return useMutation({
+    mutationFn: createPost,
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      clearInputs();
+      toast.success(res.message, { theme: "dark", autoClose: 2000 });
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
+    },
+  });
+};
+
+export const mutateCreateReply = (handleSuccess: () => void) => {
+  return useMutation({
+    mutationFn: ({ postId, text }: { postId: string; text: string }) =>
+      postReply(postId, text),
+    onSuccess: () => {
+      handleSuccess();
+      toast.success("Reply posted", { theme: "dark", autoClose: 2000 });
+    },
+  });
+};
+
+export const queryUserProfile = (username: string) => {
+  console.log("Query")
+  const {
+    data: { data: userProfile } = {} as ApiResponse<{
+      user: UserType;
+      posts: PostType;
+    }>,
+    isLoading,
+  } = useQuery<ApiResponse<{ user: UserType; posts: PostType[] }>>({
+    queryFn: () => getUserProfile(username!),
+    queryKey: ["userProfile"],
+  });
+
+  return { userProfile, isLoading };
 };

@@ -1,5 +1,5 @@
-import { isValidObjectId } from "mongoose";
 import User from "../models/user.model.js";
+import { v2 as cloudinary } from "cloudinary"; // Added missing import for cloudinary
 
 export const updateProfile = async (req, res) => {
   try {

@@ -1,9 +1,10 @@
 import React, { useRef, type ChangeEvent } from "react";
-import { UserType } from "../types/types";
-import { Input } from "./ui/input";
 import { FiEdit3 } from "react-icons/fi";
 import { Label } from "@radix-ui/react-label";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
+import { Input } from "../ui/input";
+import type { UserType } from "../../types/types";
+
 
 const EditProfileForm = ({
   formData,

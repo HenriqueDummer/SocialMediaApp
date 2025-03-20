@@ -18,7 +18,7 @@ const RootLayout = () => {
 
       <div className="w-full h-full flex justify-center gap-10">
         {authUser && <LeftSideBar />}
-        <div className="w-2/5 min-w-[36rem] relative">
+        <div className="w-1/3 min-w-[36rem] relative">
           <Outlet />
         </div>
         <RightSideBar />

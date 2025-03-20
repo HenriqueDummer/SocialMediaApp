@@ -1,13 +1,17 @@
 import { useRef, type ChangeEvent } from "react";
-import type { PostType, UserType } from "../types/types";
+
 import { useQuery } from "@tanstack/react-query";
-import { Input } from "./ui/input";
+
 
 import TextareaAutosize from "react-textarea-autosize";
-import { Button } from "./ui/button";
+
 import { FaRegImage } from "react-icons/fa6";
-import type { ApiResponse } from "../utils/http";
+
 import { IoCloseCircle } from "react-icons/io5";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import type { ApiResponse } from "../../utils/http";
+import type { PostType, UserType } from "../../types/types";
 
 const EditPostForm = ({
   formData,

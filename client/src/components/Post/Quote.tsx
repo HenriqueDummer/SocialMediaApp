@@ -1,4 +1,4 @@
-import type { PostType } from "../types/types";
+import { PostType } from "../../types/types";
 
 const Quote = ({ originalPost: postData }: { originalPost: PostType }) => {
   return (

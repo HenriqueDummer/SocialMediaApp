@@ -1,5 +1,5 @@
-import { Button } from "./ui/button";
-import { mutateFollow } from "../utils/hooks";
+import { Button } from "../ui/button";
+import { mutateFollow } from "../../utils/hooks";
 import { useState } from "react";
 
 const FollowButton = ({
@@ -10,6 +10,7 @@ const FollowButton = ({
   targetUserId: string;
 }) => {
   const { mutate: follow, isPending } = mutateFollow();
+  
   const isFollowing = following.includes(targetUserId);
 
   const [isHovered, setIsHovered] = useState(false);

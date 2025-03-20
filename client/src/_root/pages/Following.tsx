@@ -1,7 +1,7 @@
 import { PostType } from "../../types/types";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPosts, type ApiResponse } from "../../utils/http";
-import CreatePost from "../../components/CreatePost";
+import CreatePost from "../../components/Post/CreatePost";
 import Feed from "../../components/Feed";
 import FeedFilter from "../../components/FeedFilter";
 

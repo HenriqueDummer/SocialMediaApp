@@ -7,7 +7,7 @@ import {
 import { useState, type ReactNode } from "react";
 import type { PostType } from "../types/types";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import CreatePost from "./CreatePost";
+import CreatePost from "./Post/CreatePost";
 import { FiEdit3 } from "react-icons/fi";
 
 interface ActionModalProps {

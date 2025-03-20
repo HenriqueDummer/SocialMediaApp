@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import type { PostType, UserType } from "../types/types";
 import { queryClient } from "./http";
 
@@ -35,7 +36,7 @@ export const updateQueryLikesAllPosts = (
   updatedLikes: string[],
   post: PostType
 ) => {
-  queryClient.setQueryData(["posts"], (old: { data: PostType[] }) => {
+  queryClient.setQueryData(["posts", "all"], (old: { data: PostType[] }) => {
     if (!old || !old.data) {
       return { data: [] };
     }
@@ -55,7 +56,6 @@ export const updateQueryLikesPost = (
   updatedLikes: string[],
   post: PostType
 ) => {
-  console.log(updatedLikes)
   queryClient.setQueryData(
     ["post", post._id],
     (old: { data: PostType[] }) => {
@@ -67,9 +67,6 @@ export const updateQueryLikesPost = (
       return { data: updatedPosts };
     }
   );
-
-  const updated = queryClient.getQueryData(["post", post._id.toString()]);
-  
 };
 
 export const updateQueryPostEdit = ({
@@ -104,4 +101,25 @@ export const updateQueryFollowing = (updatedFollowing: string[]) => {
         }
       }
   })
+}
+
+export const updateQueryProfileEdit = (user: UserType) => {
+  return (updatedProfile: UserType) => {
+      // queryClient.setQueryData(["authUser"], () => {
+      //   return {
+      //     data: user,
+      //   };
+      // });
+      // queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
+      //   return {
+      //     ...oldData,
+      //     user: updatedProfile,
+      //   };
+      // });
+  
+      // toast("Profile updated", { theme: "dark", autoClose: 2000 });
+
+      queryClient.invalidateQueries({queryKey: ["userProfile"]});
+      queryClient.invalidateQueries({queryKey: ["authUser"]});
+    };
 }

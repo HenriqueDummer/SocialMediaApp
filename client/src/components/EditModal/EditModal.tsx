@@ -6,14 +6,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../ui/dialog";
 import { useMutation } from "@tanstack/react-query";
-import type { PostType, UserType } from "../types/types";
-import { Button } from "./ui/button";
+import type { PostType, UserType } from "../../types/types";
+import { Button } from "../ui/button";
 
 import EditProfileForm from "./EditProfileForm";
 import EditPostForm from "./EditPostForm";
-import { editPost, updateProfile } from "../utils/http";
+import { editPost, updateProfile } from "../../utils/http";
 import { toast } from "react-toastify";
 
 interface EditModalProps<T extends UserType | PostType> {

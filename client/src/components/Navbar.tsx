@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Input } from "./ui/input";
-import Container from "./Container";
+import Container from "./ui/Container";
 
 import { IoMdSearch } from "react-icons/io";
 

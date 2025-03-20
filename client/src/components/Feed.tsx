@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import type { PostType } from '../types/types'
 import Post
- from './Post'
+ from './Post/Post'
 import { memo } from 'react'
 
 const Feed = memo(({posts}: {posts: PostType[]}) => {

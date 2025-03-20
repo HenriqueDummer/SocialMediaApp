@@ -1,19 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 
-import type { PostType, UserType } from "../types/types";
-import { Input } from "./ui/input";
+import type { PostType, UserType } from "../../types/types";
+import { Input } from "../ui/input";
 import TextareaAutosize from "react-textarea-autosize";
 
 import { FaRegImage } from "react-icons/fa6";
 import { IoSend, IoCloseCircle } from "react-icons/io5";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useRef, useState, type ChangeEvent } from "react";
 
-import { useMutation } from "@tanstack/react-query";
-import { createPost, queryClient, type ApiResponse } from "./../utils/http";
-import { toast } from "react-toastify";
 import Quote from "./Quote";
-import Container from "./Container";
+import Container from "../ui/Container";
+import { getAuthUser, mutateCreatePost } from "../../utils/hooks";
 
 interface CreatePostProps {
   isQuote: boolean;
@@ -31,27 +29,20 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
     isQuote,
   });
 
-  const { mutate: handleCreatePost, isPending } = useMutation({
-    mutationFn: createPost,
-    onSuccess: (res) => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      setInputData({
-        text: "",
-        selectedFile: "",
-        originalPost: null,
-        isQuote: false,
-      });
-      toast.success(res.message, { theme: "dark", autoClose: 2000 });
-    },
-    onError: (error) => {
-      toast.error(error.message, { theme: "dark", autoClose: 2000 });
-    },
-  });
+  const clearInputs = () => {
+    setInputData({
+      text: "",
+      selectedFile: "",
+      originalPost: null,
+      isQuote: false,
+    });
+  }
+  
+  const { mutate: handleCreatePost, isPending } = mutateCreatePost(clearInputs)
 
-  const { data: { data: authUser } = {} as ApiResponse<UserType>, isLoading } =
-    useQuery<ApiResponse<UserType>>({ queryKey: ["authUser"] });
+  const authUser = getAuthUser();
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files[0]) {
       const file = files[0];
@@ -123,7 +114,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
         <div className="w-full flex justify-between mt-4">
           <Input
             className="hidden"
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) => handleImageChange(e)}
             ref={fileInputRef}
             type="file"
             accept="image/png, image/jpeg, image/jpg"

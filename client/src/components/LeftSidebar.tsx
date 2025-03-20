@@ -1,14 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { UserType } from "../types/types";
 import { NavLink } from "react-router-dom";
-import Container from "./Container";
-import type { ApiResponse } from "../utils/http";
+import Container from "./ui/Container";
+import { getAuthUser } from "../utils/hooks";
 
 const LeftSideBar = () => {
-  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
-    ApiResponse<UserType>
-  >({ queryKey: ["authUser"] });
+  const authUser = getAuthUser()
+
   return (
     <Container className="w-1/4 self-start overflow-hidden !p-0 min-w-[25rem]">
       <div

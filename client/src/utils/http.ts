@@ -66,7 +66,9 @@ export const updateProfile = async (
   formData: UserType
 ): Promise<ApiResponse<UserType>> => {
   try {
-    const { data } = await axios.post("/auth/profile/update", formData);
+    console.log("Update profile")
+    const { data } = await axios.post("/user/profile/update", formData);
+    console.log(data)
     return data; // Expecting { message, data: UserType }
   } catch (error: any) {
     console.log(error);
@@ -121,7 +123,8 @@ export const getUserProfile = async (
   username: string
 ): Promise<ApiResponse<{ user: UserType; posts: PostType[] }>> => {
   try {
-    const res = await axios.get(`/posts/user/${username}`);
+    console.log(username)
+    const res = await axios.get(`/user/profile/${username}`);
     return res.data; // Expecting { data: { user, posts } }
   } catch (error: any) {
     console.log(error);
@@ -133,7 +136,7 @@ export const getPostById = async (
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
-    const { data } = await axios.get(`/posts/${postId}`);
+    const { data } = await axios.get(`/posts/post/${postId}`);
     return data; // Expecting { data: PostType }
   } catch (error: any) {
     console.log(error);

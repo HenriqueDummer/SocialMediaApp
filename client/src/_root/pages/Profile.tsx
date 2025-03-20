@@ -1,56 +1,23 @@
 import { useParams } from "react-router-dom";
-import {
-  getUserProfile,
-  queryClient,
-  type ApiResponse,
-} from "../../utils/http";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "../../components/ui/button";
 import Feed from "../../components/Feed";
 
-import { FiEdit3 } from "react-icons/fi";
-import type { PostType, UserType } from "../../types/types";
-import EditModal from "../../components/EditModal";
-import { toast } from "react-toastify";
-import Container from "./../../components/Container";
+import EditModal from "../../components/EditModal/EditModal";
+import Container from "../../components/ui/Container";
+import FollowButton from "../../components/Post/FollowButton";
+import { getAuthUser, queryUserProfile } from "../../utils/hooks";
+import { updateQueryProfileEdit } from "../../utils/queryUpdates";
 const Profile = () => {
   const { id: username } = useParams();
 
-  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
-    ApiResponse<UserType>
-  >({ queryKey: ["authUser"] });
+  const authUser = getAuthUser();
 
-  const {
-    data: { data: userProfile } = {} as ApiResponse<{
-      user: UserType;
-      posts: PostType;
-    }>,
-    isLoading,
-  } = useQuery<ApiResponse<{ user: UserType; posts: PostType[] }>>({
-    queryFn: () => getUserProfile(username!),
-    queryKey: ["userProfile"],
-  });
-  const user = userProfile?.user;
-  const userPosts = userProfile?.posts;
-  console.log(userProfile);
-  const onUpdate = (updatedProfile: UserType) => {
-    console.log(updatedProfile);
-    queryClient.setQueryData(["authUser"], () => {
-      return {
-        data: user,
-      };
-    });
-    queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
-      return {
-        ...oldData,
-        user: updatedProfile,
-      };
-    });
-
-    toast("Profile updated", { theme: "dark", autoClose: 2000 });
-  };
+  const { userProfile, isLoading } = queryUserProfile(username!);
 
   if (isLoading) return <h1>Loading...</h1>;
+
+  const {user, posts } = userProfile;
+  const onUpdate = updateQueryProfileEdit(user);
 
   return (
     <>
@@ -79,10 +46,10 @@ const Profile = () => {
                 <Button className="text-cyan-600">Edit Profile</Button>
               </EditModal>
             ) : (
-              <Button className="text-cyan-600">
-                <FiEdit3 />
-                Follow
-              </Button>
+              <FollowButton
+                following={authUser.following}
+                targetUserId={user._id}
+              />
             )}
           </div>
           <div className="mt-4 mb-2">
@@ -106,8 +73,8 @@ const Profile = () => {
           </div>
         </div>
       </Container>
-      {userPosts && (
-        <Feed posts={Array.isArray(userPosts) ? userPosts : [userPosts]} />
+      {posts && (
+        <Feed posts={Array.isArray(posts) ? posts : [posts]} />
       )}
     </>
   );

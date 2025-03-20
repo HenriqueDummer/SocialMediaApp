@@ -1,4 +1,4 @@
-import Post from "../../components/Post";
+import Post from "../../components/Post/Post";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ import Reply from "../../components/Reply";
 const PostPage = () => {
   const navigate = useNavigate();
   const { id: postId } = useParams();
-
+  
   const { data: {data: postData} = {} as ApiResponse<PostType>, isLoading } = useQuery<ApiResponse<PostType>>({
     queryFn: () => getPostById(postId!),
     queryKey: ["post", postId],
@@ -24,9 +24,9 @@ const PostPage = () => {
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
-
+  console.log(postData)
   return (
-    <div className="flex flex-col w-full min-w-[36rem] overflow-auto no_scrollbar pb-4">
+    <div className="flex h-full flex-col w-full min-w-[36rem]">
       <div className="w-full p-2 h-12 flex items-center gap-4 fixed bg-dark_bg opacity-90">
         <Button
           onClick={() => navigate(-1)}
@@ -37,7 +37,7 @@ const PostPage = () => {
         <h1 className=" text-slate-200 text-xl font-semibold">Post</h1>
       </div>
       {postData ? (
-        <div className="mt-14">
+        <div className="mt-14 overflow-auto no_scrollbar pb-4">
           <Post post={postData} />
           <CreateReply postId={postId!} postAuthor={postData.user.username} />
           {postData.replies.length > 0 && (
