@@ -16,20 +16,25 @@ export const getPosts = async (req, res) => {
     let mongoFilter = {}
 
     if (filter === "following") {
-      mongoFilter = { user: { $in: followingIds  } }
+      mongoFilter = { user: { $in: followingIds } }
     }
-
-    console.log("Following IDs:", followingIds);
 
     const posts = await Post.find(mongoFilter)
       .skip(skip)
       .limit(limit)
       .populate({ path: "user", select: "-password" })
-      .populate({ path: "originalPost" })
-      .populate({ path: "originalPost", populate: "user" })
+      .populate({
+        path: "originalPost",
+        populate: [
+          { path: "user" },
+          {
+            path: "originalPost",
+            populate: { path: "user" }
+          }
+        ]
+      })
       .sort({ createdAt: -1 });
 
-    console.log(posts)
     if (posts.length === 0) {
       return res.status(200).json({
         message: "No posts found",
@@ -303,7 +308,7 @@ export const editPost = async (req, res) => {
     }
 
     if (Object.keys(update).length === 0) {
-      return res.status(200).json({
+      return res.status(400).json({
         message: "No changes detected",
         data: currentPost,
       });
@@ -327,6 +332,38 @@ export const editPost = async (req, res) => {
   }
 };
 
+export const deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const post = await Post.findById(postId)
+
+    console.log("Delete")
+    console.log(post)
+
+    if (!post) {
+      return res.status(404).json({
+        message: "Post not found",
+      });
+    } else {
+      if (post.selectedFile) {
+        await cloudinary.uploader.destroy(post.selectedFile);
+      }
+    } 
+
+    await Post.findByIdAndDelete(postId);
+
+    res.status(200).json({
+      message: "Post deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}
+
 export const repostPost = async (req, res) => {
   const user = req.user
   const { postId } = req.params
@@ -339,6 +376,7 @@ export const repostPost = async (req, res) => {
     if (targetPost.isRepost) {
       repostReference = targetPost.originalPost
     }
+
 
     if (!repostReference) {
       throw new Error('Post not found');

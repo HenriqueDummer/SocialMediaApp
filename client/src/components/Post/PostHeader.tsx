@@ -1,28 +1,25 @@
 import { NavLink } from "react-router-dom";
 import type { PostType } from "../../types/types";
-import EditModal from "../EditModal/EditModal";
-import { Button } from "../ui/button";
-import { FiEdit3 } from "react-icons/fi";
-import { updateQueryPostEdit } from "../../utils/queryUpdates";
-import { toast } from "react-toastify";
+import PostConfigs from "./PostConfigs";
 import FollowButton from "./FollowButton";
 
 const PostHeader = ({
   postData,
   authUserId,
   userFollowing,
+  actions,
+  postId,
+  author
 }: {
   postData: PostType;
-  authUserId: string;
-  userFollowing: string[];
+  authUserId?: string;
+  userFollowing?: string[];
+  actions: boolean;
+  postId: string;
+  author: string;
 }) => {
-  const canEdit = postData.user._id === authUserId;
+  const canEdit = author === authUserId;
 
-  const onUpdate = (updatedPost: PostType) => {
-    updateQueryPostEdit({ data: updatedPost });
-
-    toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
-  };
   return (
     <div className="flex justify-between ">
       <div className="flex items-center">
@@ -58,21 +55,18 @@ const PostHeader = ({
         </div>
       </div>
 
-      <div onClick={(e) => e.stopPropagation()}>
-        {canEdit && !postData.isRepost ? (
-          <EditModal initialData={postData} updateFn={onUpdate} type="post">
-            <Button className="text-slate-300 bg-transparent border border-gray-600 rounded-xl">
-              <FiEdit3 />
-              Edit
-            </Button>
-          </EditModal>
-        ) : (
-          <FollowButton
-            following={userFollowing}
-            targetUserId={postData.user._id}
-          />
-        )}
-      </div>
+      {actions && userFollowing && (
+        <div onClick={(e) => e.stopPropagation()}>
+          {canEdit && !postData.isRepost ? (
+            <PostConfigs postData={postData} postId={postId} />
+          ) : (
+            <FollowButton
+              following={userFollowing}
+              targetUserId={postData.user._id}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };

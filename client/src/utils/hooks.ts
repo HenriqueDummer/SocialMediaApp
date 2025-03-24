@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPost,
+  deletePost,
   followUser,
   getUserProfile,
   likePost,
@@ -50,7 +51,8 @@ export const mutateRepost = () => {
   return useMutation({
     mutationFn: (postId: string) => repostPost(postId),
     onSuccess: (res) => {
-      console.log(res);
+      queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+      queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
       toast.success(res.message, {
         theme: "dark",
         autoClose: 2000,
@@ -58,6 +60,20 @@ export const mutateRepost = () => {
     },
   });
 };
+
+export const mutateDelete = () => {
+  return useMutation({
+    mutationFn: (postId: string) => deletePost(postId),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+      queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+    },
+  });
+}
 
 export const mutateFollow = () => {
   return useMutation({

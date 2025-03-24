@@ -31,6 +31,7 @@ const EditModal = <T extends UserType | PostType>({
 }: EditModalProps<T>) => {
   const [formData, setFormData] = useState<T>(initialData);
   const [open, setOpen] = useState<boolean>(false);
+  
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: T): Promise<T> => {
       if (type === "profile") {
@@ -46,6 +47,7 @@ const EditModal = <T extends UserType | PostType>({
       setOpen(false);
     },
     onError: (error) => {
+      console.log(error)
       toast.error(error.message, { theme: "dark", autoClose: 2000 });
     },
   });
@@ -75,7 +77,7 @@ const EditModal = <T extends UserType | PostType>({
   };
 
   const clearSelectedFile = () => {
-    setFormData((prev) => ({ ...prev, selectedFile: "" })); //destroy on cloudinary
+    setFormData((prev) => ({ ...prev, selectedFile: "" }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {

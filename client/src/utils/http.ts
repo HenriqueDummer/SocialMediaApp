@@ -172,18 +172,31 @@ export const likeReply = async (
   }
 };
 
-export const editPost = async (
+export const editPost = async ( 
   formData: PostType,
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
     const { data } = await axios.put(`/posts/edit/${postId}`, formData);
-    return data; // Expecting { message, data: PostType }
+    return data;
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
+
+export const deletePost = async (
+  postId: string
+): Promise<{message: string}> => {
+  try {
+    const { data } = await axios.delete(`/posts/delete/${postId}`);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+}
+
 
 export const repostPost = async (
   postId: string

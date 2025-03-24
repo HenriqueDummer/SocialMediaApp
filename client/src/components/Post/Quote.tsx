@@ -1,6 +1,7 @@
 import { PostType } from "../../types/types";
 
 const Quote = ({ originalPost: postData }: { originalPost: PostType }) => {
+  console.log(postData);
   return (
     <div className="border border-slate-500 rounded-xl mt-4 overflow-hidden">
       <div className="flex gap-2 p-2 pb-0">

@@ -10,8 +10,8 @@ import { FaRegImage } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import type { ApiResponse } from "../../utils/http";
-import type { PostType, UserType } from "../../types/types";
+import type { PostType } from "../../types/types";
+import PostHeader from "../Post/PostHeader";
 
 const EditPostForm = ({
   formData,
@@ -24,10 +24,6 @@ const EditPostForm = ({
   onImageChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onDeleteImage: () => void;
 }) => {
-  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
-    ApiResponse<UserType>
-  >({ queryKey: ["authUser"] });
-
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDeleteImage = () => {
@@ -38,16 +34,9 @@ const EditPostForm = ({
   };
 
   return (
-    <div className="bg-light_bg mt-4 rounded-xl flex">
-      <div>
-        <div
-          className="w-16 aspect-square rounded-full bg-center bg-cover"
-          style={{
-            backgroundImage: `url(${authUser!.profilePicture})`,
-          }}
-        ></div>
-      </div>
-      <div className="ml-4 w-full">
+    <div className="bg-light_bg mt-4 rounded-xl">
+      <PostHeader postData={formData} actions={false} />
+      <div className="w-full">
         <TextareaAutosize
           onChange={(e) => onChange(e)}
           className="w-full mt-4 !text-lg resize-none text-slate-300  bg-transparent focus:outline-none"
@@ -71,7 +60,7 @@ const EditPostForm = ({
           <Button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="bg-slate-700 px-4 flex items-center rounded-full"
+            className="bg-slate-700 px-4 flex items-center rounded-full mt-4"
           >
             Add image
             <FaRegImage />

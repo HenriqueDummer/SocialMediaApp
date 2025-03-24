@@ -21,6 +21,7 @@ interface CreatePostProps {
 
 const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const [inputData, setInputData] = useState({
     text: "",
@@ -78,12 +79,14 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
     if (inputData.selectedFile) {
       clearSelectedFile();
     }
-    setInputData((prev) => ({ ...prev, text: "" }));
+    if (inputData.text) {
+      textAreaRef.current!.value = "";
+    }
     handleCreatePost(inputData);
   };
 
   return (
-    <Container className={` ${isQuote ? "" : "p-4"} flex`}>
+    <Container className={`pr-8 ${isQuote ? "" : "p-4"} flex`}>
       <div>
         <div
           className="w-14 aspect-square rounded-full bg-center bg-cover"
@@ -95,6 +98,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
       <div className="ml-4 w-full">
         <TextareaAutosize
           onChange={(e) => handleTextInputChange(e)}
+          ref={textAreaRef}
           className="w-full mt-3 resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
           placeholder={isQuote ? "Add a comment" : "What's happening?"}
         />

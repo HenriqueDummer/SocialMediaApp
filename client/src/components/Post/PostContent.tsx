@@ -7,12 +7,14 @@ const PostContent = ({
   selectedFile,
   isQuote,
   originalPost,
+  
 }: {
   text: string;
   selectedFile: string;
   isQuote: boolean;
   originalPost: PostType;
 }) => {
+
   return (
     <div className="">
       {text && <p className="text-slate-300 mt-2">{text}</p>}

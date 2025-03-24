@@ -74,20 +74,24 @@ export const updateQueryPostEdit = ({
 }: {
   data: PostType;
 }) => {
-  queryClient.setQueryData(["post", updatedPost._id], updatedPost);
-  queryClient.setQueryData(
-    ["posts"],
-    ({ data: oldData }: { data: PostType[] }) => {
-      if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
-      const upatedPosts = oldData.map((oldPost) =>
-        oldPost._id === updatedPost._id ? updatedPost : oldPost
-      );
+  // queryClient.setQueryData(["post", updatedPost._id], updatedPost);
+  // queryClient.setQueryData(
+  //   ["posts"],
+  //   ({ data: oldData }: { data: PostType[] }) => {
+  //     if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
+  //     const upatedPosts = oldData.map((oldPost) =>
+  //       oldPost._id === updatedPost._id ? updatedPost : oldPost
+  //     );
 
-      return {
-        data: upatedPosts,
-      };
-    }
-  );
+  //     return {
+  //       data: upatedPosts,
+  //     };
+  //   }
+  // );
+
+  queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
+  queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+  queryClient.invalidateQueries({ queryKey: ["post"] });
 };
 
 export const updateQueryFollowing = (updatedFollowing: string[]) => {
@@ -104,7 +108,7 @@ export const updateQueryFollowing = (updatedFollowing: string[]) => {
 }
 
 export const updateQueryProfileEdit = (user: UserType) => {
-  return (updatedProfile: UserType) => {
+  // return (updatedProfile: UserType) => {
       // queryClient.setQueryData(["authUser"], () => {
       //   return {
       //     data: user,
@@ -121,5 +125,5 @@ export const updateQueryProfileEdit = (user: UserType) => {
 
       queryClient.invalidateQueries({queryKey: ["userProfile"]});
       queryClient.invalidateQueries({queryKey: ["authUser"]});
-    };
+    // };
 }

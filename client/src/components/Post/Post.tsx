@@ -7,7 +7,6 @@ import Container from "../ui/Container";
 
 import { MdLoop } from "react-icons/md";
 
-import { type ApiResponse } from "../../utils/http";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostActions from "./PostActions";
@@ -17,7 +16,9 @@ const Post = ({ post }: { post: PostType }) => {
   const authUser = getAuthUser();
 
   const postData = post.isRepost ? post.originalPost : post;
-
+  const postId = post._id;
+  const author = post.user._id
+  
   return (
     <Container className="px-8">
       {post.isRepost && (
@@ -31,6 +32,9 @@ const Post = ({ post }: { post: PostType }) => {
         postData={postData}
         authUserId={authUser._id}
         userFollowing={authUser.following}
+        actions={true}
+        postId={postId}
+        author={author}
       />
       <PostContent
         text={postData.text}

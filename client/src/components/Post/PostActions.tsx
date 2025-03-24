@@ -51,7 +51,7 @@ const PostActions = ({postData, authUserId}: {postData: PostType, authUserId: st
               Repost
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-light_bg">
+          <DropdownMenuContent className="bg-light_bg rounded-lg">
             <DropdownMenuItem className="p-0">
               <Button
                 onClick={() => repost(postData._id)}
