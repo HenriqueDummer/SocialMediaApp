@@ -6,6 +6,7 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { Button } from "../ui/button";
 import EditModal from "../EditModal/EditModal";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit3 } from "react-icons/fi";
 import type { PostType } from "../../types/types";
 import { updateQueryPostEdit } from "../../utils/queryUpdates";
@@ -52,6 +53,7 @@ const PostConfigs = ({ postData, postId }: { postData: PostType, postId: string 
               }}
               className="w-full h-full bg-transparent"
             >
+              <FaRegTrashCan />
               Delete
             </Button>
           </DropdownMenuItem>

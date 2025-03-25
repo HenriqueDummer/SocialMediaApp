@@ -11,6 +11,8 @@ import type { PostType } from "../../types/types";
 import { Button } from "../../components/ui/button";
 import CreateReply from "../../components/CreateReply";
 import Reply from "../../components/Reply";
+import Container from "../../components/ui/Container";
+import PrevPageButton from "../../components/PrevPageButton";
 
 const PostPage = () => {
   const navigate = useNavigate();
@@ -26,18 +28,10 @@ const PostPage = () => {
   }
   console.log(postData)
   return (
-    <div className="flex h-full flex-col w-full min-w-[36rem]">
-      <div className="w-full p-2 h-12 flex items-center gap-4 fixed bg-dark_bg opacity-90">
-        <Button
-          onClick={() => navigate(-1)}
-          className="w-10 bg-transparent aspect-square rounded-full"
-        >
-          <IoArrowBack />
-        </Button>
-        <h1 className=" text-slate-200 text-xl font-semibold">Post</h1>
-      </div>
+    <div className="flex h-full flex-col w-full">
+      <PrevPageButton title={"Post"} />
       {postData ? (
-        <div className="mt-14 overflow-auto no_scrollbar pb-4">
+        <div className="mt-4 overflow-auto no_scrollbar pb-4 rounded-3xl">
           <Post post={postData} />
           <CreateReply postId={postId!} postAuthor={postData.user.username} />
           {postData.replies.length > 0 && (
