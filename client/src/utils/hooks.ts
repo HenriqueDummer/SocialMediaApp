@@ -40,8 +40,9 @@ export const mutateLike = (post: PostType) => {
       // updateQueryLikesPost(updatedLikes, post);
       // updateQueryLikesAllPosts(updatedLikes, post);
       // updateQueryLikesUserProfile(updatedLikes, post);
-      queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
-      queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
 
     },
   });
@@ -115,7 +116,6 @@ export const mutateCreateReply = (handleSuccess: () => void) => {
 };
 
 export const queryUserProfile = (username: string) => {
-  console.log("Query")
   const {
     data: { data: userProfile } = {} as ApiResponse<{
       user: UserType;

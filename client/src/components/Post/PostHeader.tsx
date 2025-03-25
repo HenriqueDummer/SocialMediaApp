@@ -9,7 +9,8 @@ const PostHeader = ({
   userFollowing,
   actions,
   postId,
-  author
+  author,
+  isRepost,
 }: {
   postData: PostType;
   authUserId?: string;
@@ -17,6 +18,7 @@ const PostHeader = ({
   actions: boolean;
   postId: string;
   author: string;
+  isRepost: boolean;
 }) => {
   const canEdit = author === authUserId;
 
@@ -55,17 +57,26 @@ const PostHeader = ({
         </div>
       </div>
 
-      {actions && userFollowing && (
-        <div onClick={(e) => e.stopPropagation()}>
-          {canEdit && !postData.isRepost ? (
-            <PostConfigs postData={postData} postId={postId} />
-          ) : (
-            <FollowButton
-              following={userFollowing}
-              targetUserId={postData.user._id}
-            />
+      {!isRepost && (
+        <>
+          {actions && userFollowing && (
+            <div onClick={(e) => e.stopPropagation()}>
+              {canEdit ? (
+                <PostConfigs
+                  canEdit={canEdit}
+                  isRepost={isRepost}
+                  postData={postData}
+                  postId={postId}
+                />
+              ) : (
+                <FollowButton
+                  following={userFollowing}
+                  targetUserId={postData.user._id}
+                />
+              )}
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );

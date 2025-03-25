@@ -8,8 +8,15 @@ import FollowButton from "../../components/Post/FollowButton";
 import { getAuthUser, queryUserProfile } from "../../utils/hooks";
 import { updateQueryProfileEdit } from "../../utils/queryUpdates";
 import PrevPageButton from "../../components/PrevPageButton";
+import { useEffect } from "react";
+import { queryClient } from "../../utils/http";
 const Profile = () => {
   const { id: username } = useParams();
+  console.log(username)
+  
+  useEffect(() => {
+    queryClient.invalidateQueries({queryKey: ["userProfile"]})
+  }, [username])
 
   const authUser = getAuthUser();
 

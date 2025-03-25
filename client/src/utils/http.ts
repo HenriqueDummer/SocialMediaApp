@@ -119,11 +119,10 @@ export const createPost = async (postData: {
   }
 };
 
-export const getUserProfile = async (
+export const getUserProfile = async ( 
   username: string
 ): Promise<ApiResponse<{ user: UserType; posts: PostType[] }>> => {
   try {
-    console.log(username)
     const res = await axios.get(`/user/profile/${username}`);
     return res.data; // Expecting { data: { user, posts } }
   } catch (error: any) {
