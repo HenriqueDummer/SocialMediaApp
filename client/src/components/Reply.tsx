@@ -4,29 +4,29 @@ import { NavLink } from "react-router-dom";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { Button } from "./ui/button";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { likeReply, queryClient } from "./../utils/http";
-import { UserType } from "./../types/types.ts";
 import { toast } from "react-toastify";
+import { getAuthUser } from "../utils/hooks.ts";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const authUser = getAuthUser();
 
   const { mutate: handleLikeReply } = useMutation({
     mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
       likeReply(replyId, postId),
     onSuccess: (res: any) => {
-      queryClient.invalidateQueries({ queryKey: ["post", postId] });
-      const liked = res.likes.includes(authUser?._id!)
-      toast(`Reply ${liked ? "liked" : "disliked"}`, {
+      console.log(res);
+      const liked = res.data.likes.includes(authUser._id);
+      toast.success(`Reply ${liked ? "liked" : "disliked"}`, {
         theme: "dark",
         autoClose: 2000,
       });
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });
 
   const isLiked = replyData.likes.includes(authUser!._id);
-
   return (
     <Container className="mt-4 px-8 flex justify-between items-center">
       <div className="flex gap-2">
@@ -66,12 +66,14 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
       <div>
         <Button
           onClick={() => handleLikeReply({ replyId: replyData._id, postId })}
+          className="bg-transparent border border-gray-600 px-2 py-2 rounded-lg"
         >
           {isLiked ? (
             <IoHeart className="text-red-500" />
           ) : (
             <IoHeartOutline className="text-slate-200" />
           )}
+          {replyData.likes.length > 0 && <span>{replyData.likes.length}</span>}
         </Button>
       </div>
     </Container>

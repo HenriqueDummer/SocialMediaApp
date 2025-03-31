@@ -157,13 +157,14 @@ export const postReply = async (
 };
 
 export const likeReply = async (
-  postId: string,
-  replyId: string
+  replyId: string,
+  postId: string
 ): Promise<ApiResponse<{ likes: string[] }>> => {
   try {
-    const { data } = await axios.post(`/posts/reply/like/${postId}`, {
+    const { data } = await axios.post('/posts/reply/like/' + postId, {
       replyId,
     });
+
     return data; // Expecting { message, data: { likes } }
   } catch (error: any) {
     console.log(error);

@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 const PrevPageButton = ({title}: {title: string}) => {
   const navigate = useNavigate();
   return (
-    <Container className="w-full !p-1 flex items-center gap-4 bg-dark_bg">
+    <Container className="w-full !p-1 flex items-center gap-4 bg-black">
         <Button
           onClick={() => navigate(-1)}
           className="w-10 bg-transparent aspect-square rounded-full"

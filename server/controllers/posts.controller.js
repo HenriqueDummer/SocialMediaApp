@@ -236,7 +236,7 @@ export const likeReply = async (req, res) => {
     const { postId } = req.params;
     const userId = req.user._id.toString();
     const { replyId } = req.body;
-
+    
     if (!replyId) {
       return res.status(400).json({
         message: "Must provide reply ID",
@@ -246,10 +246,11 @@ export const likeReply = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
-        message: "Post not found",
+        message: "Post not found",  
       });
     }
 
+    console.log(post)
     const reply = post.replies.id(replyId);
     if (!reply) {
       return res.status(404).json({
