@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import type { PropsWithChildren } from "react";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";
+import Search from "./_root/pages/SearchPage";
 
 function ProtectedRoute({ children }: PropsWithChildren) {
   const { authUser } = useAuth();
@@ -51,11 +52,20 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          
           <Route
             path="/following"
             element={
               <ProtectedRoute>
                 <Following />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search/:query?"
+            element={
+              <ProtectedRoute>
+                <Search />
               </ProtectedRoute>
             }
           />

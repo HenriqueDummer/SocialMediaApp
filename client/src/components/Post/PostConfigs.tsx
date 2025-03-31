@@ -36,7 +36,7 @@ const PostConfigs = ({
     toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
   };
   return (
-    <>
+    <div onClick={(e) => e.stopPropagation()}>
       {postData && (
         <EditModal initialData={postData} updateFn={onUpdate} type="post">
           <Button ref={editModalRef} className="hidden"></Button>
@@ -73,7 +73,7 @@ const PostConfigs = ({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+    </div>
   );
 };
 

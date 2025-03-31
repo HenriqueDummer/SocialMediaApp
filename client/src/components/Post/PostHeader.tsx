@@ -23,7 +23,7 @@ const PostHeader = ({
   const canEdit = author === authUserId;
 
   return (
-    <div className="flex justify-between ">
+    <div className="flex justify-between">
       <div className="flex items-center">
         <div>
           <NavLink
@@ -45,10 +45,10 @@ const PostHeader = ({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="items-center gap-2 inline-flex">
-              <p className="font-semibold text-slate-300">
+              <p className="font-semibold text-slate-300 ">
                 {postData.user.fullName}
               </p>
-              <p className="text-sm text-slate-300 opacity-50">
+              <p className="text-sm text-slate-500">
                 @{postData.user.username}
               </p>
             </div>

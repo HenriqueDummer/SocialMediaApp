@@ -1,7 +1,4 @@
 import type { PostType } from "../../types/types";
-import type { UserType } from "../../types/types";
-
-import { useQuery } from "@tanstack/react-query";
 
 import Container from "../ui/Container";
 
@@ -23,9 +20,9 @@ const Post = ({ post }: { post: PostType }) => {
 
   const canEdit = authUser._id === author;
   return (
-    <Container className="px-8">
+    <Container className="px-8 z-10">
       {post.isRepost && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
           <div>
             <p className="text-slate-400 flex gap-1 items-center mb-4 text-sm">
               <MdLoop />
@@ -33,12 +30,13 @@ const Post = ({ post }: { post: PostType }) => {
             </p>
           </div>
           <div>
-            <PostConfigs
-              postId={post._id}
-              canEdit={canEdit}
-              isRepost={post.isRepost}
-            />
+          <PostConfigs
+            postId={post._id}
+            canEdit={canEdit}
+            isRepost={post.isRepost}
+          />
           </div>
+          
         </div>
       )}
 

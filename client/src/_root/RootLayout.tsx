@@ -1,13 +1,12 @@
 import { Outlet } from "react-router-dom";
-import LeftSideBar from "../components/LeftSidebar";
-import { useQuery } from "@tanstack/react-query";
-import type { UserType } from "../types/types";
 
 import backgroundImage from "../../public/assets/bg_dark.png";
 import RightSideBar from "../components/RightSideBar";
+import { getAuthUser } from "../utils/hooks";
+import LeftSideBar from "../components/LeftSidebar";
 
 const RootLayout = () => {
-  const { data: authUser } = useQuery<UserType>({ queryKey: ["authUser"] });
+  const authUser = getAuthUser()
 
   return (
     <div

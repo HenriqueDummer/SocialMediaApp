@@ -1,12 +1,18 @@
+import { useState, type FormEvent } from "react"
+import { Button } from "./ui/button"
 import Container from "./ui/Container"
+import { Input } from "./ui/input"
+import { useMutation } from "@tanstack/react-query"
+import { mutateSearchUsers } from "../utils/hooks"
+import type { UserType } from "../types/types"
+import Search from "./Search"
 
 const RightSideBar = () => {
+
   return (
-    <Container className="w-1/4 self-start">
-      <>
-      <h1 className="text-slate-300 text-lg font-semibold">Search Bar</h1>
-      </>
-    </Container>
+    <div className="w-1/4">
+      <Search />  
+    </div>
   )
 }
 

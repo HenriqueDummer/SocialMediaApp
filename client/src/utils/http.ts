@@ -66,9 +66,9 @@ export const updateProfile = async (
   formData: UserType
 ): Promise<ApiResponse<UserType>> => {
   try {
-    console.log("Update profile")
+    console.log("Update profile");
     const { data } = await axios.post("/user/profile/update", formData);
-    console.log(data)
+    console.log(data);
     return data; // Expecting { message, data: UserType }
   } catch (error: any) {
     console.log(error);
@@ -83,7 +83,7 @@ export const getAllPosts = async (
 ): Promise<ApiResponse<PostType[]>> => {
   try {
     const { data } = await axios.get("/posts/" + filter);
-    console.log(data)
+    console.log(data);
     return data; // Expecting { data: { posts } }
   } catch (error: any) {
     console.log(error);
@@ -119,7 +119,7 @@ export const createPost = async (postData: {
   }
 };
 
-export const getUserProfile = async ( 
+export const getUserProfile = async (
   username: string
 ): Promise<ApiResponse<{ user: UserType; posts: PostType[] }>> => {
   try {
@@ -171,7 +171,7 @@ export const likeReply = async (
   }
 };
 
-export const editPost = async ( 
+export const editPost = async (
   formData: PostType,
   postId: string
 ): Promise<ApiResponse<PostType>> => {
@@ -186,7 +186,7 @@ export const editPost = async (
 
 export const deletePost = async (
   postId: string
-): Promise<{message: string}> => {
+): Promise<{ message: string }> => {
   try {
     const { data } = await axios.delete(`/posts/delete/${postId}`);
     return data;
@@ -194,8 +194,7 @@ export const deletePost = async (
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
-}
-
+};
 
 export const repostPost = async (
   postId: string
@@ -215,6 +214,28 @@ export const followUser = async (userId: string) => {
   try {
     const { data } = await axios.post("/user/follow/" + userId);
 
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const searchForUsers = async (query: string) => {
+  try {
+    const { data } = await axios.get(`/user/search/users/${query}`);
+    console.log(data);
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const searchAll = async (query: string) => {
+  try {
+    const { data } = await axios.get("/user/search/" + query);
+    console.log(data)
     return data;
   } catch (error: any) {
     console.log(error);

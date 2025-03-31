@@ -8,7 +8,7 @@ const FeedFilter = () => {
           className={({isActive}) => `flex-1 duration-150 hover:bg-white/10 flex justify-center items-center text-slate-400 font-semibold py-2 ${isActive ? "border-b-4 border-blue-600 !text-slate-300" : ""}`}
           to="/"
         >
-          <button>Home</button>
+          <button>For you</button>
         </NavLink>
         <NavLink
           className={({isActive}) => `flex-1 duration-150 hover:bg-white/10 flex justify-center items-center text-slate-400 font-semibold py-2 ${isActive ? "border-b-4 border-blue-600 !text-slate-300" : ""}`}

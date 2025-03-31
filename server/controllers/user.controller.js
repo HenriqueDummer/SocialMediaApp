@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Post from "../models/post.model.js"
 import { v2 as cloudinary } from "cloudinary"; // Added missing import for cloudinary
 
 export const updateProfile = async (req, res) => {
@@ -101,6 +102,78 @@ export const follow = async (req, res) => {
     const message = isFollowing ? `Unfollowed ${targetUser.fullName}` : `Followed ${targetUser.fullName}`
     console.log(updatedUser)
     return res.status(201).json({ message, data: updatedUser.following })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}
+
+export const searchForUsers = async (req, res) => {
+  try {
+    const { query } = req.params;
+    console.log(query)
+    if (!query) {
+      return res.status(400).json({
+        message: "Must provide search query",
+      });
+    }
+
+    const users = await User.find({
+      $or: [
+        { fullName: { $regex: new RegExp(`^${query}`, "i") } },
+        { username: { $regex: new RegExp(`^${query}`, "i") } },
+      ],
+    })
+
+    return res.status(200).json({ data: users });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}
+
+export const searchAll = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const { query } = req.params;
+
+    const usersResults = await User.find({
+      $or: [
+        { username: { $regex: new RegExp(`^${query}`, "i") } },
+        { fullName: { $regex: new RegExp(`^${query}`, "i") } }
+      ]
+    })
+
+    const postsResults = await Post.find(
+      { text: { $regex: new RegExp(`${query}`, "i") } }
+    ).skip(skip)
+      .limit(limit)
+      .populate({ path: "user", select: "-password" })
+      .populate({
+        path: "originalPost",
+        populate: [
+          { path: "user" },
+          {
+            path: "originalPost",
+            populate: { path: "user" }
+          }
+        ]
+      })
+      .sort({ createdAt: -1 });
+
+    console.log(postsResults)
+    if (usersResults.length === 0 && postsResults.length === 0) {
+      return res.status(400).json({ message: "No results found" })
+    }
+
+    return res.status(200).json({ data: { users: usersResults, posts: postsResults } })
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({

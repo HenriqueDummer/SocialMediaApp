@@ -1,3 +1,4 @@
+import { UserType } from './../types/types';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPost,
@@ -8,6 +9,9 @@ import {
   postReply,
   queryClient,
   repostPost,
+  search,
+  searchAll,
+  searchForUsers,
   type ApiResponse,
 } from "./http";
 import { toast } from "react-toastify";
@@ -129,3 +133,27 @@ export const queryUserProfile = (username: string) => {
 
   return { userProfile, isLoading };
 };
+
+export const mutateSearchUsers = (setResults: (results: UserType[]) => void) => {
+  return useMutation({
+    mutationFn: (query: string) => searchForUsers(query),
+    onSuccess: (res) => {
+      setResults(res.data);
+    },
+    onError(error) {
+      toast.error(error.message, { theme: "dark", autoClose: 2000})
+    }
+  })
+}
+
+export const mutateSearchAll = (onSuccess: (data: {users: UserType[], posts: PostType[]}) => void) => {
+  return useMutation({
+    mutationFn: (query: string) => searchAll(query),
+    onSuccess: (res) => {
+      onSuccess(res.data)
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 2000})
+    }
+  })
+}
