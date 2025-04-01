@@ -83,7 +83,6 @@ export const getAllPosts = async (
 ): Promise<ApiResponse<PostType[]>> => {
   try {
     const { data } = await axios.get("/posts/" + filter);
-    console.log(data);
     return data; // Expecting { data: { posts } }
   } catch (error: any) {
     console.log(error);
@@ -243,3 +242,14 @@ export const searchAll = async (query: string) => {
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
+
+export const getWhoToFollow = async () => {
+  try{
+    const {data} = await axios.get("/user/who_to_follow");
+
+    return data
+  }catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+}

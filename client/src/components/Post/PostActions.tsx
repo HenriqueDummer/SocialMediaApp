@@ -7,12 +7,23 @@ import { FiEdit3 } from "react-icons/fi";
 import { Button } from "../ui/button";
 
 import ActionModal from "../ActionModal";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
 
 import type { PostType } from "../../types/types";
 import { useRef } from "react";
 
-const PostActions = ({postData, authUserId}: {postData: PostType, authUserId: string}) => {
+const PostActions = ({
+  postData,
+  authUserId,
+}: {
+  postData: PostType;
+  authUserId: string;
+}) => {
   const actionModalRef = useRef<HTMLButtonElement>(null);
 
   const { mutate: like } = mutateLike(postData);
@@ -24,20 +35,20 @@ const PostActions = ({postData, authUserId}: {postData: PostType, authUserId: st
     e.stopPropagation();
     like(postData._id);
   };
-  
+
   return (
     <div className="flex justify-between mt-4 gap-4">
       <Button
         onClick={(e) => handleLike(e)}
-        className="bg-transparent border border-gray-600 px-0 py-2 rounded-lg flex-1"
+        className={`bg-transparent border  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""} !p-0 rounded-lg flex-1`}
       >
-        <p className="flex items-center gap-2 text-slate-400">
-          {isLiked ? (
-            <IoHeart className="text-3xl text-red-500" />
-          ) : (
-            <IoHeartOutline className="text-3xl" />
-          )}
-          Like
+        <p className={`flex gap-2 w-full justify-center items-center`}>
+            {isLiked ? (
+              <IoHeart className="text-3xl" />
+            ) : (
+              <IoHeartOutline className="text-3xl" />
+            )}
+            {postData.likes.length}
         </p>
       </Button>
       <div className="flex-1" onClick={(e) => e.stopPropagation()}>

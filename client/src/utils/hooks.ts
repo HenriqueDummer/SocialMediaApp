@@ -5,6 +5,8 @@ import {
   followUser,
   getAllPosts,
   getUserProfile,
+  getWhoToFolloe,
+  getWhoToFollow,
   likePost,
   likeReply,
   logout,
@@ -16,21 +18,19 @@ import {
   type ApiResponse,
 } from "./http";
 import { toast } from "react-toastify";
-import {
-  updateQueryFollowing,
-} from "./queryUpdates";
+import { updateQueryFollowing } from "./queryUpdates";
 import type { PostType, UserType } from "../types/types";
 import { useNavigate } from "react-router-dom";
 
 export const queryAllPosts = () => {
   const { data: { data: posts } = {} as ApiResponse<PostType[]>, isLoading } =
-  useQuery<ApiResponse<PostType[]>>({
-    queryKey: ["posts", "all"],
-    queryFn: () => getAllPosts("all"),
-  });
+    useQuery<ApiResponse<PostType[]>>({
+      queryKey: ["posts", "all"],
+      queryFn: () => getAllPosts("all"),
+    });
 
-  return {posts, isLoading}
-}
+  return { posts, isLoading };
+};
 
 export const getAuthUser = () => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
@@ -182,7 +182,6 @@ export const mutateSearchAll = (
 
 export const mutateLogout = () => {
   const navigate = useNavigate();
-  console.log("Logute")
   return useMutation({
     mutationFn: logout,
     onSuccess: (res) => {
@@ -197,3 +196,11 @@ export const mutateLogout = () => {
   });
 };
 
+export const queryWhoToFollow = () => {
+  const { data: users, isLoading } = useQuery<UserType[]>({
+    queryFn: getWhoToFollow,
+    queryKey: ["who_to_follow"],
+  });
+
+  return { users, isLoading };
+};

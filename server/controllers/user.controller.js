@@ -180,3 +180,24 @@ export const searchAll = async (req, res) => {
     });
   }
 }
+
+export const mostFollowed = async (req, res) => {
+  try{
+
+    const mostFollowedUsers = await User
+    .find({})
+    .sort({ "followers.length": -1 })
+    .select("-password")
+    .limit(5); 
+
+    console.log(mostFollowedUsers)
+
+    return res.status(200).json(mostFollowedUsers)
+    
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}
