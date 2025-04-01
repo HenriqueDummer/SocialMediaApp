@@ -25,7 +25,6 @@ const Profile = () => {
   if (isLoading) return <h1>Loading...</h1>;
 
   const { user, posts } = userProfile;
-  const onUpdate = updateQueryProfileEdit(user);
 
   return (
     <div className="flex h-full flex-col w-full">
@@ -51,7 +50,7 @@ const Profile = () => {
                 <EditModal
                   type="profile"
                   initialData={authUser!}
-                  updateFn={onUpdate}
+                  updateFn={updateQueryProfileEdit}
                 >
                   <Button className="text-cyan-600">Edit Profile</Button>
                 </EditModal>
@@ -73,13 +72,13 @@ const Profile = () => {
               <div className="flex gap-6 mt-4 text-slate-400 font-thin text-sm">
                 <p>
                   <span className="mr-2 font-semibold text-slate-200 text-base">
-                    234
+                    {user?.followers.length}
                   </span>
                   Followers
                 </p>
                 <p>
                   <span className="mr-2 font-semibold text-slate-200 text-base">
-                    234
+                    {user?.following.length}
                   </span>
                   Following
                 </p>

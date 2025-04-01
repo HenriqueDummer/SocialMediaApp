@@ -121,7 +121,7 @@ export const updateQueryProfileEdit = (user: UserType) => {
       //   };
       // });
   
-      // toast("Profile updated", { theme: "dark", autoClose: 2000 });
+      toast("Profile updated", { theme: "dark", autoClose: 2000 });
 
       queryClient.invalidateQueries({queryKey: ["userProfile"]});
       queryClient.invalidateQueries({queryKey: ["authUser"]});
