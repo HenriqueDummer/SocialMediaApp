@@ -4,13 +4,10 @@ import { getAllPosts, type ApiResponse } from "../../utils/http";
 import CreatePost from "../../components/Post/CreatePost";
 import Feed from "../../components/Feed";
 import FeedFilter from "../../components/FeedFilter";
+import { queryAllPosts } from "../../utils/hooks";
 
 const Home = () => {
-  const { data: { data: posts } = {} as ApiResponse<PostType[]>, isLoading } =
-    useQuery<ApiResponse<PostType[]>>({
-      queryKey: ["posts", "all"],
-      queryFn: () => getAllPosts("all"),
-    });
+  const {posts, isLoading} = queryAllPosts()
 
   return (
     <div className="h-full flex flex-col">

@@ -11,22 +11,7 @@ import { IoMdSearch } from "react-icons/io";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { mutate: handleLogout, isPending } = useMutation({
-    mutationFn: logout,
-    onSuccess: (res) => {
-      queryClient.setQueryData(["authUser"], { data: undefined });
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      console.log(
-        "After setQueryData:",
-        queryClient.getQueryData(["authUser"])
-      );
-      toast.success(res.message, {
-        theme: "dark",
-        autoClose: 2000,
-      });
-      navigate("/sign-in");
-    },
-  });
+  
 
   return (
     <nav className="h-14 w-full transparent">

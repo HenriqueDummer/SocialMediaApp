@@ -126,7 +126,6 @@ export const searchForUsers = async (req, res) => {
         { username: { $regex: new RegExp(`^${query}`, "i") } },
       ],
     })
-
     return res.status(200).json({ data: users });
   } catch (error) {
     console.log(error);

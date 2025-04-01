@@ -5,27 +5,36 @@ import { Input } from "./ui/input";
 import { mutateSearchAll, mutateSearchUsers } from "../utils/hooks";
 import type { PostType, UserType } from "../types/types";
 import { useNavigate } from "react-router-dom";
+import { IoSearchSharp } from "react-icons/io5";
 
-const Search = ({ setResults }: { setResults: React.Dispatch<React.SetStateAction<{users: UserType[], posts: PostType[]} | null>> }) => {
+const Search = ({
+  setResults,
+}: {
+  setResults: React.Dispatch<
+    React.SetStateAction<{ users: UserType[]; posts: PostType[] } | null>
+  >;
+}) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [usersResults, setUsersResults] = useState<UserType[]>([]);
-  const { mutate: searchUsers, isPending: isPendingUsers } = mutateSearchUsers(setUsersResults);
+  const { mutate: searchUsers, isPending: isPendingUsers } =
+    mutateSearchUsers(setUsersResults);
 
-  const onSuccessAll = (data: {users: UserType[], posts: PostType[]}) => {
-    setResults(data)
-  }
+  const onSuccessAll = (data: { users: UserType[]; posts: PostType[] }) => {
+    setResults(data);
+  };
 
-  const {mutate: searchAll, isPending: isPendingAll} = mutateSearchAll(onSuccessAll)
+  const { mutate: searchAll, isPending: isPendingAll } =
+    mutateSearchAll(onSuccessAll);
 
   const navigate = useNavigate();
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    searchAll(searchQuery)
+    searchAll(searchQuery);
 
     setSearchQuery("");
-    setUsersResults([])
+    setUsersResults([]);
   };
 
   let timer = useRef<NodeJS.Timeout | null>(null);
@@ -52,45 +61,62 @@ const Search = ({ setResults }: { setResults: React.Dispatch<React.SetStateActio
     setSearchQuery("");
     navigate(`/profile/${username}`);
   };
-
   return (
-    <Container className="w-full self-start">
+    <div>
       <>
-        <h1 className="text-lg text-slate-200 font-semibold">Search</h1>
         <form onSubmit={(e) => handleSearch(e)} className="flex gap-2 mt-2">
-          <Input
-            className="rounded-xl"
-            onChange={(e) => handleInputChange(e)}
-            value={searchQuery}
-          />
-          <Button>Search</Button>
-        </form>
-        {isPendingUsers ? (
-          <p className="text-slate-200">Loading...</p>
-        ) : (
-          <div className="flex flex-col gap-2 mt-4">
-            {usersResults.length > 0 &&
-              usersResults.map((user) => (
-                <div
-                  onClick={() => handleNavigate(user.username)}
-                  key={user._id}
-                  className="flex gap-2 items-center mt-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
-                >
-                  <img
-                    src={user.profilePicture}
-                    alt="profile"
-                    className="w-12 aspect-square rounded-full"
-                  />
-                  <div className="text-slate-200">
-                    <p className="font-semibold">{user.fullName}</p>
-                    <p className="text-slate-400 text-sm">@{user.username}</p>
-                  </div>
-                </div>
-              ))}
+          <div className="relative w-full">
+            <IoSearchSharp className="absolute top-2/4 z-50 -translate-y-2/4 ml-4 text-slate-400 text-2xl" />
+            <Input
+              className="rounded-full !text-lg h-12 !pl-12 bg-black z-40 relative"
+              placeholder="Search for users or posts"
+              onChange={(e) => handleInputChange(e)}
+              value={searchQuery}
+            />
+
+            {isPendingUsers ? (
+              <p className="text-slate-200">Loading...</p>
+            ) : (
+              <>
+                {usersResults.length > 0 && (
+                  <>
+                    <Container className="absolute !p-0 top-2/4 z-10 w-[90%] rounded-b-xl border- left-2/4 -translate-x-2/4 bg-black">
+                      <div className="flex flex-col mt-6">
+                        <button className="flex items-center mt-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20">
+                          <p className="text-slate-200 h-10 flex items-center gap-2">
+                            <IoSearchSharp className="text-slate-400 text-2xl mx-2" />
+                            Search for "{searchQuery}"
+                          </p>
+                        </button>
+                        {usersResults.map((user) => (
+                          <div
+                            onClick={() => handleNavigate(user.username)}
+                            key={user._id}
+                            className="flex gap-2 items-center cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
+                          >
+                            <img
+                              src={user.profilePicture}
+                              alt="profile"
+                              className="w-12 aspect-square rounded-full"
+                            />
+                            <div className="text-slate-200">
+                              <p className="font-semibold">{user.fullName}</p>
+                              <p className="text-slate-400 text-sm">
+                                @{user.username}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Container>
+                  </>
+                )}
+              </>
+            )}
           </div>
-        )}
+        </form>
       </>
-    </Container>
+    </div>
   );
 };
 

@@ -1,15 +1,16 @@
-import { UserType } from './../types/types';
 import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPost,
   deletePost,
   followUser,
+  getAllPosts,
   getUserProfile,
   likePost,
+  likeReply,
+  logout,
   postReply,
   queryClient,
   repostPost,
-  search,
   searchAll,
   searchForUsers,
   type ApiResponse,
@@ -17,11 +18,19 @@ import {
 import { toast } from "react-toastify";
 import {
   updateQueryFollowing,
-  updateQueryLikesAllPosts,
-  updateQueryLikesPost,
-  updateQueryLikesUserProfile,
 } from "./queryUpdates";
 import type { PostType, UserType } from "../types/types";
+import { useNavigate } from "react-router-dom";
+
+export const queryAllPosts = () => {
+  const { data: { data: posts } = {} as ApiResponse<PostType[]>, isLoading } =
+  useQuery<ApiResponse<PostType[]>>({
+    queryKey: ["posts", "all"],
+    queryFn: () => getAllPosts("all"),
+  });
+
+  return {posts, isLoading}
+}
 
 export const getAuthUser = () => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
@@ -47,7 +56,6 @@ export const mutateLike = (post: PostType) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       queryClient.invalidateQueries({ queryKey: ["post", post._id] });
-
     },
   });
 };
@@ -78,7 +86,7 @@ export const mutateDelete = () => {
       });
     },
   });
-}
+};
 
 export const mutateFollow = () => {
   return useMutation({
@@ -119,6 +127,16 @@ export const mutateCreateReply = (handleSuccess: () => void) => {
   });
 };
 
+export const mutateLikeReply = (onSuccessLike: (res: any) => void) => {
+  return useMutation({
+    mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
+      likeReply(replyId, postId),
+    onSuccess: (res: any) => {
+      onSuccessLike(res);
+    },
+  });
+};
+
 export const queryUserProfile = (username: string) => {
   const {
     data: { data: userProfile } = {} as ApiResponse<{
@@ -134,26 +152,48 @@ export const queryUserProfile = (username: string) => {
   return { userProfile, isLoading };
 };
 
-export const mutateSearchUsers = (setResults: (results: UserType[]) => void) => {
+export const mutateSearchUsers = (
+  setResults: (results: UserType[]) => void
+) => {
   return useMutation({
     mutationFn: (query: string) => searchForUsers(query),
     onSuccess: (res) => {
       setResults(res.data);
     },
     onError(error) {
-      toast.error(error.message, { theme: "dark", autoClose: 2000})
-    }
-  })
-}
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
+    },
+  });
+};
 
-export const mutateSearchAll = (onSuccess: (data: {users: UserType[], posts: PostType[]}) => void) => {
+export const mutateSearchAll = (
+  onSuccess: (data: { users: UserType[]; posts: PostType[] }) => void
+) => {
   return useMutation({
     mutationFn: (query: string) => searchAll(query),
     onSuccess: (res) => {
-      onSuccess(res.data)
+      onSuccess(res.data);
     },
     onError: (error) => {
-      toast.error(error.message, { theme: "dark", autoClose: 2000})
-    }
-  })
-}
+      toast.error(error.message, { theme: "dark", autoClose: 2000 });
+    },
+  });
+};
+
+export const mutateLogout = () => {
+  const navigate = useNavigate();
+  console.log("Logute")
+  return useMutation({
+    mutationFn: logout,
+    onSuccess: (res) => {
+      queryClient.setQueryData(["authUser"], { data: undefined });
+      queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+      navigate("/sign-in");
+    },
+  });
+};
+
