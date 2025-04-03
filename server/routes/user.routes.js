@@ -1,11 +1,12 @@
 import express from 'express'
-import { updateProfile, follow, searchForUsers, searchAll, mostFollowed } from '../controllers/user.controller.js'
+import { updateProfile, follow, searchForUsers, searchAll, whoToFollow, following } from '../controllers/user.controller.js'
 import { protectRoute } from '../middleware/protectRoute.js'
 import { getUserProfile } from '../controllers/posts.controller.js'
 
 const router = express.Router()
 
-router.get('/who_to_follow', protectRoute, mostFollowed)
+router.get('/who_to_follow', protectRoute, whoToFollow)
+router.get('/following', protectRoute, following)
 router.post('/profile/update', protectRoute, updateProfile)
 router.post('/follow/:userId', protectRoute, follow)
 router.get('/profile/:username', protectRoute, getUserProfile)

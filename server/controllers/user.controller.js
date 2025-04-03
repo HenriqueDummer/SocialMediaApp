@@ -181,18 +181,45 @@ export const searchAll = async (req, res) => {
   }
 }
 
-export const mostFollowed = async (req, res) => {
+export const whoToFollow = async (req, res) => {
   try{
+    const user = req.user
 
     const mostFollowedUsers = await User
-    .find({})
+    .find({ _id: {
+      $ne: user._id,
+      $nin: user.following
+    } })
     .sort({ "followers.length": -1 })
     .select("-password")
     .limit(5); 
 
-    console.log(mostFollowedUsers)
-
     return res.status(200).json(mostFollowedUsers)
+    
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      message: "Something went wrong, please try again later",
+    });
+  }
+}
+
+export const following = async (req, res) => {
+  try{
+    const user = req.user
+
+    const following = await User
+    .find({ _id: {
+      $ne: user._id,
+      $in: user.following
+    } })
+    .sort({ "followers.length": -1 })
+    .select("-password")
+    .limit(5); 
+
+    console.log(following)
+    
+    return res.status(200).json(following)
     
   }catch(error){
     console.log(error);

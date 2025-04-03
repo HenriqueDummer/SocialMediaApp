@@ -7,7 +7,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Container: React.FC<ContainerProps> = ({children, className}) => {
   return (
-    <div className={clsx('bg-black  bg-opacity border border-zinc-600 p-4 rounded-3xl', className)}>
+    <div className={clsx('bg-black border border-zinc-600 p-4 rounded-3xl', className)}>
       {children}
     </div>
   )

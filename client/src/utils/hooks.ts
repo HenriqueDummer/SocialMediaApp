@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPost,
   deletePost,
+  following,
   followUser,
   getAllPosts,
   getUserProfile,
@@ -93,6 +94,8 @@ export const mutateFollow = () => {
     mutationFn: (userId: string) => followUser(userId),
     onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["who_to_follow"] });
       updateQueryFollowing(res.data);
       toast.success(res.message, {
         theme: "dark",
@@ -204,3 +207,12 @@ export const queryWhoToFollow = () => {
 
   return { users, isLoading };
 };
+
+export const queryFollowing = () => {
+  const { data: users, isLoading } = useQuery<UserType[]>({
+    queryFn: following,
+    queryKey: ["following"],
+  });
+
+  return { users, isLoading };
+}

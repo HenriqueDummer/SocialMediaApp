@@ -160,7 +160,7 @@ export const likeReply = async (
   postId: string
 ): Promise<ApiResponse<{ likes: string[] }>> => {
   try {
-    const { data } = await axios.post('/posts/reply/like/' + postId, {
+    const { data } = await axios.post("/posts/reply/like/" + postId, {
       replyId,
     });
 
@@ -235,7 +235,7 @@ export const searchForUsers = async (query: string) => {
 export const searchAll = async (query: string) => {
   try {
     const { data } = await axios.get("/user/search/" + query);
-    console.log(data)
+    console.log(data);
     return data;
   } catch (error: any) {
     console.log(error);
@@ -244,12 +244,23 @@ export const searchAll = async (query: string) => {
 };
 
 export const getWhoToFollow = async () => {
-  try{
-    const {data} = await axios.get("/user/who_to_follow");
+  try {
+    const { data } = await axios.get("/user/who_to_follow");
 
-    return data
-  }catch (error: any) {
+    return data;
+  } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
-}
+};
+
+export const following = async () => {
+  try {
+    const { data } = await axios.get("/user/following");
+    
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};

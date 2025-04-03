@@ -1,16 +1,16 @@
-import { getAuthUser, queryWhoToFollow } from "../utils/hooks";
+import { getAuthUser, queryFollowing, queryWhoToFollow } from "../utils/hooks";
 import FollowButton from "./Post/FollowButton";
 import Container from "./ui/Container";
 import { useNavigate } from "react-router-dom";
 
-const WhoToFollow = () => {
-  const { users, isLoading } = queryWhoToFollow();
+const Following = () => {
+  const { users, isLoading } = queryFollowing();
   const navigate = useNavigate();
-  const authUser = getAuthUser();
+
   console.log(users);
   return (
-    <Container className=" border- left-2/4 bg-black">
-      <h1 className="text-xl ml-2 text-slate-200 font-bold">Who To Follow</h1>
+    <Container className=" border- left-2/4 bg-black mt-4">
+      <h1 className="text-xl ml-2 text-slate-200 font-bold">Following</h1>
       <div className="flex flex-col mt-2">
         {users &&
           users.map((user) => (
@@ -29,21 +29,13 @@ const WhoToFollow = () => {
                   <p className="font-semibold">{user.fullName}</p>
                   <p className="text-slate-400 text-sm">@{user.username}</p>
                 </div>
-                <div onClick={(e) => e.stopPropagation()}>
-                  {authUser._id !== user._id && (
-                    <FollowButton
-                      following={authUser.following}
-                      targetUserId={user._id}
-                    />
-                  )}
-                </div>
               </div>
             </div>
           ))}
-          {users?.length === 0 && <h2 className="text-slate-400 text-center mx-2">No suggestions yet</h2>}
+          {users?.length === 0 && <h2 className="text-slate-400 text-center mx-2">Not following anyone yet</h2>}
       </div>
     </Container>
   );
 };
 
-export default WhoToFollow;
+export default Following;
