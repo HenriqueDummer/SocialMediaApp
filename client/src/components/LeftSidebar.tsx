@@ -18,7 +18,7 @@ const LeftSideBar = () => {
             className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
             to="/"
           >
-            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4">
+            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
               <VscHome className="scale-125" />
               Home
             </Button>
@@ -29,7 +29,7 @@ const LeftSideBar = () => {
             className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
             to="/search"
           >
-            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4">
+            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
               <IoIosSearch className="scale-125" />
               Search
             </Button>
@@ -38,7 +38,7 @@ const LeftSideBar = () => {
         <li>
           <Button
             onClick={() => handleLogout()}
-            className="w-full h-14 rounded-full bg-black text-lg flex gap-4"
+            className="w-full h-14 rounded-full bg-black text-lg font-normal flex gap-4 border border-zinc-600"
           >
             <TbLogout2 className="scale-125" />
             Logout
