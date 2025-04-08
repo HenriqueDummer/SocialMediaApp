@@ -7,7 +7,7 @@ const WhoToFollow = () => {
   const { users, isLoading } = queryWhoToFollow();
   const navigate = useNavigate();
   const authUser = getAuthUser();
-  console.log(users);
+
   return (
     <Container className=" border- left-2/4 bg-black">
       <h1 className="text-xl ml-2 text-slate-200 font-bold">Who To Follow</h1>

@@ -6,9 +6,9 @@ import { useRef } from "react";
 import { queryClient } from "./../utils/http";
 import Container from "./ui/Container";
 
-
 import TextareaAutosize from "react-textarea-autosize";
 import { getAuthUser, mutateCreateReply } from "../utils/hooks";
+import { useAuth } from "../Context/AuthContext";
 
 const CreateReply = ({
   postId,
@@ -23,9 +23,10 @@ const CreateReply = ({
     queryClient.invalidateQueries({ queryKey: ["post", postId] });
     fileInputRef.current!.value = "";
   };
-  const { mutate: handlePostReply } = mutateCreateReply(handleSucceess);
+  const { mutate: handlePostReply, isPending } =
+    mutateCreateReply(handleSucceess);
 
-  const authUser = getAuthUser();
+  const { authUser } = useAuth();
 
   const handlePost = () => {
     handlePostReply({ postId, text: fileInputRef.current!.value });
@@ -54,7 +55,8 @@ const CreateReply = ({
           />
           <Button
             onClick={() => handlePost()}
-            className="bg-slate-700 text-cyan-600 px-4 rounded-full font-semibold flex items-center"
+            className=" text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+            disabled={isPending || fileInputRef.current?.value === ""}
           >
             Reply
             <IoSend />

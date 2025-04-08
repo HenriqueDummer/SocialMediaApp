@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { queryClient, signIn } from "../../utils/http";
 import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import { mutateLogin } from "../../utils/hooks";
 
 const signInInputSchema = z.object({
   email: z.string().email(),
@@ -20,22 +21,7 @@ const signInInputSchema = z.object({
 export type SignInInputSchema = z.infer<typeof signInInputSchema>;
 
 const SigninForm = () => {
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: SignInInputSchema) => signIn(data),
-    onSuccess: (res) => {
-      queryClient.setQueryData(["authUser"], {data: res.data})
-      navigate("/");
-      toast.success(res.message, {
-        theme: "dark",
-        autoClose: 2000,
-      });
-    },
-    onError: (error) => {
-      toast.error(error.message, { theme: "dark", autoClose: 2000 });
-    },
-  });
+  const { mutate, isPending } = mutateLogin()
 
   const {
     register,

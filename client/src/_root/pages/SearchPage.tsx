@@ -51,7 +51,7 @@ const SearchPage = () => {
               <Container className="mt-2 !p-2">
                 {results.users.map((user) => (
                   <div
-                    onClick={() => navigate(user.username)}
+                    onClick={() => navigate(`/profile/${user.username}`)}
                     key={user._id}
                     className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                   >

@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import SigninForm from "./_auth/forms/SigninForm";
 import SignupForm from "./_auth/forms/SignupForm";
@@ -16,14 +16,20 @@ import type { PropsWithChildren } from "react";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";
 import Search from "./_root/pages/SearchPage";
+import { setNavigator } from "./utils/navigation";
 
 function ProtectedRoute({ children }: PropsWithChildren) {
   const { authUser } = useAuth();
   if (!authUser) return <Navigate to="/sign-in" replace />;
   return <>{children}</>;
 }
+
 function AppRoutes() {
   const { authUser, isLoading } = useAuth();
+
+  const navigate = useNavigate();
+
+  setNavigator(navigate);
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -31,6 +37,7 @@ function AppRoutes() {
     <>
       <ToastContainer />
       <Routes>
+        <Route path="*" element={<Navigate to="/sign-in" replace />} />
         <Route element={<AuthLayout />}>
           <Route
             path="/sign-in"
@@ -52,7 +59,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          
+
           <Route
             path="/following"
             element={
@@ -92,11 +99,11 @@ function AppRoutes() {
 }
 
 function App() {
-  return(
+  return (
     <AuthProvider>
       <AppRoutes />
     </AuthProvider>
-  )
+  );
 }
 
 export default App;

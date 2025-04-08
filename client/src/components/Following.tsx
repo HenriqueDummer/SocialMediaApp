@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Following = () => {
   const { users, isLoading } = queryFollowing();
   const navigate = useNavigate();
-
-  console.log(users);
+  
   return (
     <Container className=" border- left-2/4 bg-black mt-4">
       <h1 className="text-xl ml-2 text-slate-200 font-bold">Following</h1>

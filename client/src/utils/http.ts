@@ -3,13 +3,40 @@ import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import axios from "axios";
 import type { PostType, UserType } from "../types/types";
 import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
+import { toast } from "react-toastify";
+import { navigateTo } from "./navigation";
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+		},
+	},
+});
 
 axios.defaults.baseURL = "http://localhost:8000";
 axios.defaults.withCredentials = true;
 
-// Define a generic response type for backend responses
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {  
+    if (error.response.request.responseURL === "http://localhost:8000/auth/me")
+      return Promise.reject(error);
+    if (error.response && error.response.status === 401) {
+      queryClient.setQueryData(["authUser"], { data: null });
+      navigateTo("/sign-in"); // Redirect to sign-in page
+      toast.error("Session expired, please login again", {
+        theme: "dark",
+        autoClose: 2000,
+        onClose: () => {},
+      });
+    }
+    return Promise.reject(error);
+  }
+);
+
 export type ApiResponse<T> = {
   message?: string;
   data: T;
@@ -47,6 +74,9 @@ export const getMe = async (): Promise<ApiResponse<UserType>> => {
     return res.data ?? null; // Still returning UserType | null from data
   } catch (error: any) {
     console.log(error);
+    if (error.response?.status === 401) {
+      navigateTo("/sign-in");
+    }
     throw new Error(error.response?.data?.message || "Something went wrong");
   }
 };
@@ -257,7 +287,7 @@ export const getWhoToFollow = async () => {
 export const following = async () => {
   try {
     const { data } = await axios.get("/user/following");
-    
+
     return data;
   } catch (error: any) {
     console.log(error);

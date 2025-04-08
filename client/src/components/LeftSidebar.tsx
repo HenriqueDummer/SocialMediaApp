@@ -9,18 +9,20 @@ import { TbLogout2 } from "react-icons/tb";
 const LeftSideBar = () => {
   const { mutate: handleLogout } = mutateLogout();
 
-  return (
-    <div className="w-1/4 self-start min-w-[25rem]">
+  return ( 
+    <div className="w-1/4 self-start xl:min-w-[26rem] min-w-[20rem]">
       <SideBarProfile />
-      <ul className="flex flex-col gap-2 mt-4">
+      <ul className="flex flex-col justify-center gap-2 mt-14">
         <li>
           <NavLink
             className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
             to="/"
           >
-            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
+            <Button className="lg:w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
               <VscHome className="scale-125" />
+              <span className="hidden lg:inline">
               Home
+              </span>
             </Button>
           </NavLink>
         </li>
