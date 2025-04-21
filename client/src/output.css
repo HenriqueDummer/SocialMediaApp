@@ -896,6 +896,30 @@ body {
   max-height: var(--radix-dropdown-menu-content-available-height);
 }
 
+.max-h-60 {
+  max-height: 15rem;
+}
+
+.max-h-\[60\] {
+  max-height: 60;
+}
+
+.max-h-\[20rem\] {
+  max-height: 20rem;
+}
+
+.max-h-\[30rem\] {
+  max-height: 30rem;
+}
+
+.max-h-\[40rem\] {
+  max-height: 40rem;
+}
+
+.max-h-\[34rem\] {
+  max-height: 34rem;
+}
+
 .min-h-\[60px\] {
   min-height: 60px;
 }

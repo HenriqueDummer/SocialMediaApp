@@ -18,7 +18,6 @@ import { mutateDelete } from "../../utils/hooks";
 const PostConfigs = ({
   postData,
   postId,
-  canEdit,
   isRepost,
 }: {
   postData?: PostType;
@@ -50,7 +49,7 @@ const PostConfigs = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-light_bg rounded-lg">
           <DropdownMenuItem className="p-0">
-            {!(canEdit && isRepost) && (
+            {!isRepost && (
               <Button
                 className="w-full h-full bg-transparent text-slate-200 !px-6"
                 onClick={() => editModalRef.current?.click()}

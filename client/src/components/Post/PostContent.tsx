@@ -18,7 +18,7 @@ const PostContent = ({
     <div>
       {text && <p className="text-slate-300 text-sm  mt-2 md:text-base ">{text}</p>}
       {selectedFile && (
-        <img className="rounded-xl mt-2" src={selectedFile} alt="post" />
+        <img className="rounded-xl mt-2 max-h-[34rem]" src={selectedFile} alt="post" />
       )}
       {isQuote && <Quote originalPost={originalPost} />}
     </div>

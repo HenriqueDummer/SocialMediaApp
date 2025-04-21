@@ -30,13 +30,14 @@ const Post = ({ post }: { post: PostType }) => {
             </p>
           </div>
           <div>
-          <PostConfigs
-            postId={post._id}
-            canEdit={canEdit}
-            isRepost={post.isRepost}
-          />
+            {canEdit && (
+              <PostConfigs
+                postId={post._id}
+                canEdit={canEdit}
+                isRepost={post.isRepost}
+              />
+            )}
           </div>
-          
         </div>
       )}
 

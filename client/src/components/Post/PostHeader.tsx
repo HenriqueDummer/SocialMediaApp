@@ -57,28 +57,24 @@ const PostHeader = ({
         </div>
       </div>
 
-      {!isRepost && (
-        <>
-          {actions && userFollowing && (
-            <div onClick={(e) => e.stopPropagation()}>
-              {canEdit ? (
-                <PostConfigs
-                  canEdit={canEdit}
-                  isRepost={isRepost}
-                  postData={postData}
-                  postId={postId}
-                />
-              ) : (
-                <div className="hidden md:inline">
-                  <FollowButton
-                    following={userFollowing}
-                    targetUserId={postData.user._id}
-                  />
-                </div>
-              )}
+      {actions && userFollowing && (
+        <div onClick={(e) => e.stopPropagation()}>
+          {canEdit ? (
+            <PostConfigs
+              canEdit={canEdit}
+              isRepost={isRepost}
+              postData={postData}
+              postId={postId}
+            />
+          ) : (
+            <div className="hidden md:inline">
+              <FollowButton
+                following={userFollowing}
+                targetUserId={postData.user._id}
+              />
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );
