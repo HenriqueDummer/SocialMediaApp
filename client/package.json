@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"npx tailwindcss -i ./src/input.css -o ./src/output.css --watch\"",
+    "dev:host": "concurrently \"vite --host\" \"npx tailwindcss -i ./src/input.css -o ./src/output.css --watch\" ", 
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

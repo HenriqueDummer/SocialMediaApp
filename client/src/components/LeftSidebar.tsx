@@ -1,53 +1,19 @@
-import { NavLink } from "react-router-dom";
-import SideBarProfile from "./SideBarProfile";
-import { Button } from "./ui/button";
-import { VscHome } from "react-icons/vsc";
-import { IoIosSearch } from "react-icons/io";
-import { mutateLogout } from "../utils/hooks";
-import { TbLogout2 } from "react-icons/tb";
+import NavBar from "./NavBar";
+import Container from "./ui/Container";
 
 const LeftSideBar = () => {
-  const { mutate: handleLogout } = mutateLogout();
+  return (
+    <>
+      <div className="hidden lg:inline w-1/4 self-start  min-w-[20rem] xl:min-w-[26rem]">
+        <NavBar />
+      </div>
 
-  return ( 
-    <div className="w-1/4 self-start xl:min-w-[26rem] min-w-[20rem]">
-      <SideBarProfile />
-      <ul className="flex flex-col justify-center gap-2 mt-14">
-        <li>
-          <NavLink
-            className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
-            to="/"
-          >
-            <Button className="lg:w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
-              <VscHome className="scale-125" />
-              <span className="hidden lg:inline">
-              Home
-              </span>
-            </Button>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
-            to="/search"
-          >
-            <Button className="w-full h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
-              <IoIosSearch className="scale-125" />
-              Search
-            </Button>
-          </NavLink>
-        </li>
-        <li>
-          <Button
-            onClick={() => handleLogout()}
-            className="w-full h-14 rounded-full bg-black text-lg font-normal flex gap-4 border border-zinc-600"
-          >
-            <TbLogout2 className="scale-125" />
-            Logout
-          </Button>
-        </li>
-      </ul>
-    </div>
+      <div className="absolute lg:hidden -bottom-0 w-full sm:w-auto sm:static sm:inline ">
+        <Container className="!px-0 !py-1 rounded-none sm:!px-2 sm:rounded-lg">
+          <NavBar />
+        </Container>
+      </div>
+    </>
   );
 };
 

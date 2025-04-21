@@ -16,7 +16,7 @@ const PostContent = ({
 }) => {
   return (
     <div>
-      {text && <p className="text-slate-300 mt-2">{text}</p>}
+      {text && <p className="text-slate-300 text-sm  mt-2 md:text-base ">{text}</p>}
       {selectedFile && (
         <img className="rounded-xl mt-2" src={selectedFile} alt="post" />
       )}

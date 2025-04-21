@@ -45,10 +45,10 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="items-center gap-2 inline-flex">
-                <p className=" font-semibold text-slate-300">
+                <p className="!text-sm md:!text-base font-semibold text-slate-300">
                   {replyData.user.fullName}
                 </p>
-                <p className="text-sm text-slate-300 opacity-50 font-semibold">
+                <p className="text-sm !text-sm md:!text-base text-slate-300 opacity-50 font-semibold">
                   @{replyData.user.username}
                 </p>
               </div>
@@ -56,7 +56,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
             <p className="text-slate-400 text-sm">3 hours ago</p>
           </div>
           <div></div>
-          <p className=" text-slate-300 py-2">{replyData.text}</p>
+          <p className=" text-slate-300 py-2 !text-sm md:!text-base">{replyData.text}</p>
         </div>
       </div>
 

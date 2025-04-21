@@ -49,13 +49,13 @@ const CreateReply = ({
 
         <div className="ml-4 w-full flex gap-2 items-center">
           <TextareaAutosize
-            className="w-full resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
+            className="w-full resize-none !text-sm md:!text-base pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
             ref={fileInputRef}
             placeholder="Post your reply"
           />
           <Button
             onClick={() => handlePost()}
-            className=" text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+            className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
             disabled={isPending || fileInputRef.current?.value === ""}
           >
             Reply

@@ -99,7 +99,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
         <TextareaAutosize
           onChange={(e) => handleTextInputChange(e)}
           ref={textAreaRef}
-          className="w-full mt-3 resize-none pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
+          className="w-full mt-3 resize-none text-sm xs:text-base pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
           placeholder={isQuote ? "Add a comment" : "What's happening?"}
         />
         {inputData.selectedFile && (
@@ -117,7 +117,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
 
         <div className="w-full flex justify-between mt-4">
           <Input
-            className="hidden"
+            className="hidden text-sm xs:text-base"
             onChange={(e) => handleImageChange(e)}
             ref={fileInputRef}
             type="file"
@@ -139,7 +139,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
             )}
             <Button
               onClick={() => handlePost()}
-              className=" text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+              className="text-sm xs:text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
               disabled={
                 isPending || (!inputData.text && !inputData.selectedFile)
               }

@@ -40,7 +40,7 @@ const PostActions = ({
     <div className="flex justify-between mt-4 gap-4">
       <Button
         onClick={(e) => handleLike(e)}
-        className={`bg-transparent border  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""} !p-0 rounded-lg flex-1`}
+        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""} !p-0 rounded-lg flex-1`}
       >
         <p className={`flex gap-2 w-full justify-center items-center`}>
             {isLiked ? (
@@ -57,7 +57,7 @@ const PostActions = ({
         </ActionModal>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-transparent border border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
+            <Button className="bg-transparent !text-xs sm:!text-sm border border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
               <MdLoop />
               Repost
             </Button>
@@ -66,7 +66,7 @@ const PostActions = ({
             <DropdownMenuItem className="p-0">
               <Button
                 onClick={() => repost(postData._id)}
-                className="w-full h-full bg-transparent items-start"
+                className="w-full h-full !text-xs sm:!text-sm bg-transparent items-start"
               >
                 <MdLoop />
                 Repost
@@ -77,7 +77,7 @@ const PostActions = ({
                 onClick={() => {
                   actionModalRef.current!.click();
                 }}
-                className="w-full h-full bg-transparent"
+                className="w-full h-full !text-xs sm:!text-sm bg-transparent"
               >
                 <FiEdit3 />
                 Quote
@@ -86,7 +86,7 @@ const PostActions = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <Button className="bg-transparent border border-gray-600 px-0 py-2 rounded-lg flex-1">
+      <Button className="bg-transparent border !text-xs sm:!text-sm border-gray-600 px-0 py-2 rounded-lg flex-1">
         <p className="flex items-center gap-2 text-slate-400">
           <MdOutlineModeComment />
           Comment

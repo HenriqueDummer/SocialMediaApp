@@ -20,7 +20,7 @@ const Post = ({ post }: { post: PostType }) => {
 
   const canEdit = authUser._id === author;
   return (
-    <Container className="px-8 z-10">
+    <Container className="px-4 sm:px-8 z-10">
       {post.isRepost && (
         <div className="flex justify-between">
           <div>

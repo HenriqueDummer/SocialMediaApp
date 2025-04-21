@@ -19,11 +19,12 @@ const WhoToFollow = () => {
               key={user._id}
               className="flex gap-2 items-center cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
             >
-              <img
-                src={user.profilePicture}
-                alt="profile"
-                className="w-12 aspect-square rounded-full"
-              />
+              <div
+              className="w-14 aspect-square rounded-full bg-center bg-cover"
+              style={{
+                backgroundImage: `url(${user.profilePicture})`,
+              }}
+            ></div>
               <div className="flex w-full items-center justify-between">
                 <div className="text-slate-200">
                   <p className="font-semibold">{user.fullName}</p>

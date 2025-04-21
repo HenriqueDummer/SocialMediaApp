@@ -9,7 +9,7 @@ function generateAndSaveToken(userId, res) {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
     secure: false, // Set to true in production with HTTPS
-    sameSite: "Lax",
+    sameSite: false,
   });
 }
 
