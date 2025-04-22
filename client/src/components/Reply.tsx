@@ -3,25 +3,14 @@ import Container from "./ui/Container.tsx";
 import { NavLink } from "react-router-dom";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
-import { Button } from "./ui/button";
-import { useMutation } from "@tanstack/react-query";
-import { likeReply, queryClient } from "./../utils/http";
-import { toast } from "react-toastify";
+import { Button } from "./ui/button.tsx";
 import { getAuthUser, mutateLikeReply } from "../utils/hooks.ts";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
   const authUser = getAuthUser();
 
-  const onSuccessLike = (res: any) => {
-    const liked = res.data.likes.includes(authUser._id);
-    toast.success(`Reply ${liked ? "liked" : "disliked"}`, {
-      theme: "dark",
-      autoClose: 2000,
-    });
-    queryClient.invalidateQueries({ queryKey: ["post", postId] });
-  };
 
-  const { mutate: handleLikeReply } = mutateLikeReply(onSuccessLike)
+  const { mutate: handleLikeReply } = mutateLikeReply();
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (

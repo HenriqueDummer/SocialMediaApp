@@ -31,7 +31,7 @@ const EditModal = <T extends UserType | PostType>({
 }: EditModalProps<T>) => {
   const [formData, setFormData] = useState<T>(initialData);
   const [open, setOpen] = useState<boolean>(false);
-  
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: T): Promise<T> => {
       if (type === "profile") {
@@ -47,7 +47,7 @@ const EditModal = <T extends UserType | PostType>({
       setOpen(false);
     },
     onError: (error) => {
-      console.log(error)
+      console.log(error);
       toast.error(error.message, { theme: "dark", autoClose: 2000 });
     },
   });
@@ -88,16 +88,20 @@ const EditModal = <T extends UserType | PostType>({
 
   return (
     <Dialog open={open}>
-      <DialogTrigger asChild={true} className="text-cyan-600" onClick={() => setOpen(true)}>
+      <DialogTrigger
+        asChild={true}
+        className="text-cyan-600"
+        onClick={() => setOpen(true)}
+      >
         {children}
       </DialogTrigger>
       <DialogContent className="bg-light_bg">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle className="text-slate-200">
+            <DialogTitle className="text-slate-200 text-start">
               Edit your {type === "post" ? "post" : "profile"}
             </DialogTitle>
-            <div className="mt-2 pr-10">
+            <div className="mt-2 text-start">
               {type === "profile" && (
                 <EditProfileForm
                   onChange={handleInputChange}
@@ -115,21 +119,23 @@ const EditModal = <T extends UserType | PostType>({
               )}
             </div>
           </DialogHeader>
-          <DialogFooter className="mt-4">
-            <Button
-              onClick={() => setOpen(false)}
-              variant={"destructive"}
-              type="button"
-            >
-              Cancel
-            </Button>
-            <Button
-              className="text-cyan-600"
-              disabled={isPending}
-              type="submit"
-            >
-              {isPending ? "Updating" : "Update"}
-            </Button>
+          <DialogFooter className="mt-4 flex flex-row justify-end gap-5 lg:gap-0">
+              <Button
+                onClick={() => setOpen(false)}
+                variant={"destructive"}
+                type="button"
+                className="grow h-10 lg:flex-none"
+              >
+                Cancel
+              </Button>
+              <Button
+                className="text-cyan-600 grow h-10 lg:flex-none"
+                disabled={isPending}
+                type="submit"
+              >
+                {isPending ? "Updating" : "Update"}
+              </Button>
+           
           </DialogFooter>
         </form>
       </DialogContent>

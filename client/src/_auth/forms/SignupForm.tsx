@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { queryClient, signUp } from "../../utils/http";
 import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
+import { mutateSignup } from "../../utils/hooks";
 
 const signUpInputSchema = z
   .object({
@@ -37,22 +38,7 @@ const signUpInputSchema = z
 export type SignUpInputSchema = z.infer<typeof signUpInputSchema>;
 
 const SignupForm = () => {
-  const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: SignUpInputSchema) => signUp(data),
-    onSuccess: (res) => {
-      queryClient.setQueryData(["authUser"], { data: res.data });
-      navigate("/");
-      toast.success(res.message, {
-        theme: "dark",
-        autoClose: 2000,
-      });
-    },
-    onError: (error) => {
-      toast.error(error.message, { theme: "dark", autoClose: 4000 });
-    },
-  });
+  const {mutate: signUp, isPending} = mutateSignup();
 
   const {
     register,
@@ -63,54 +49,62 @@ const SignupForm = () => {
   });
 
   function handleSignup(data: SignUpInputSchema) {
-    mutate(data);
+    signUp(data);
   }
 
   return (
-    <div>
+    <div className="text-slate-200 max-w-[60%]">
+      <div className="mb-16">
+        <h1 className="text-2xl md:text-7xl text-slate-200">Welcome</h1>
+        <h2 className="text-3xl text-slate-300 mt-2">
+          Let's create e new account!
+        </h2>
+      </div>
      <form onSubmit={handleSubmit(handleSignup)}>
         <div className="mb-4">
-          <Label>Email</Label>
-          <Input type="text" {...register("email")} />
+          <Label className="text-lg">Email</Label>
+          <Input className="h-12" type="text" {...register("email")} />
           {errors.email && (
             <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </div>
         <div className="mb-4">
-          <Label>Username</Label>
-          <Input type="text" {...register("username")} />
+          <Label className="text-lg">Username</Label>
+          <Input className="h-12" type="text" {...register("username")} />
           {errors.username && (
             <p className="text-red-500 text-sm">{errors.username.message}</p>
           )}
         </div>
         <div className="mb-4">
-          <Label>Full Name</Label>
-          <Input type="text" {...register("fullName")} />
+          <Label className="text-lg">Full Name</Label>
+          <Input className="h-12" type="text" {...register("fullName")} />
           {errors.fullName && (
             <p className="text-red-500 text-sm">{errors.fullName.message}</p>
           )}
         </div>
         <div className="mb-4">
-          <Label>Password</Label>
-          <Input className="w-full" type="password" {...register("password")} />
+          <Label className="text-lg">Password</Label>
+          <Input className="h-12" type="password" {...register("password")} />
           {errors.password && (
             <p className="text-red-700 text-sm">{errors.password.message}</p>
           )}
         </div>
         <div className="mb-4">
-          <Label>Confirm Password</Label>
-          <Input type="password" {...register("confirmPassword")} />
+          <Label className="text-lg">Confirm Password</Label>
+          <Input className="h-12" type="password" {...register("confirmPassword")} />
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
           )}
         </div>
-        <Button className="mt-5 w-full" type="submit" disabled={isPending}>
+        <Button className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15" type="submit" disabled={isPending}>
           {isPending ? "Loading..." : "Sign Up"}
         </Button>
       </form>
-      <div>
-        <p>Already have an accout?</p>
-        <NavLink to="/sign-in">Sign in</NavLink>
+      <div className="mt-10 flex flex-col font-light items-center text-lg">
+        <p>Already have an account?</p>
+        <NavLink to="/sign-in" className="text-violet-600">
+          Sign in
+        </NavLink>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ const PostPage = () => {
     <div className="flex h-full flex-col w-full">
       <PrevPageButton title={"Post"} />
       {postData ? (
-        <div className="mt-4 overflow-auto no_scrollbar pb-4 rounded-3xl">
+        <div className="mt-4 overflow-auto no_scrollbar pb-20 sm:pb-4 rounded-3xl">
           <Post post={postData} />
           <CreateReply postId={postId!} postAuthor={postData.user.username} />
           {postData.replies.length > 0 && (

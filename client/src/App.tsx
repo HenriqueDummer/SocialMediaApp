@@ -37,7 +37,27 @@ function AppRoutes() {
     <>
       <ToastContainer />
       <Routes>
-        <Route path="*" element={<Navigate to="/sign-in" replace />} />
+        {!authUser ? (
+          <>
+            <Route element={<AuthLayout />}>
+              <Route path="/sign-in" element={<SigninForm />} />
+              <Route path="/sign-up" element={<SignupForm />} />
+              <Route path="*" element={<Navigate to="/sign-in" replace />} />
+            </Route>
+          </>
+        ) : (
+          <>
+            <Route element={<RootLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/following" element={<Following />} />
+              <Route path="/search/:query?" element={<Search />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/posts/:id" element={<PostPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </>
+        )}
+        {/* <Route path="*" element={<Navigate to="/sign-in" replace />} />
         <Route element={<AuthLayout />}>
           <Route
             path="/sign-in"
@@ -92,7 +112,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
-        </Route>
+        </Route> */}
       </Routes>
     </>
   );

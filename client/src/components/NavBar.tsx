@@ -19,8 +19,8 @@ const NavBar = () => {
             className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
             to="/"
           >
-            <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
-              <VscHome className="scale-125" />
+            <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600">
+              <VscHome className="scale-150" />
               <span className="hidden lg:inline">Home</span>
             </Button>
           </NavLink>
@@ -30,8 +30,8 @@ const NavBar = () => {
             className={({ isActive }) => (!isActive ? `[&>*]:font-normal ` : "border border-cyan-600")}
             to="/search"
           >
-            <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600">
-              <IoIosSearch className="scale-125" />
+            <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600">
+              <IoIosSearch className="scale-150" />
               <span className="hidden lg:inline">Search</span>
             </Button>
           </NavLink>
@@ -39,9 +39,9 @@ const NavBar = () => {
         <li>
           <Button
             onClick={() => handleLogout()}
-            className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 border border-zinc-600"
+            className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600"
           >
-            <TbLogout2 className="scale-125" />
+            <TbLogout2 className="scale-150" />
             <span className="hidden lg:inline">Logout</span>
           </Button>
         </li>

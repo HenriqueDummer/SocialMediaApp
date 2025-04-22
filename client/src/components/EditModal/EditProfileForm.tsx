@@ -1,10 +1,9 @@
 import React, { useRef, type ChangeEvent } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { Label } from "@radix-ui/react-label";
-import { Textarea } from "../ui/textarea";
+import TextareaAutosize from "react-textarea-autosize";
 import { Input } from "../ui/input";
 import type { UserType } from "../../types/types";
-
 
 const EditProfileForm = ({
   formData,
@@ -78,10 +77,10 @@ const EditProfileForm = ({
           <Label htmlFor="bio" className="text-slate-200">
             Bio
           </Label>
-          <Textarea
-            className="resize-none"
+          <TextareaAutosize
             name="bio"
             onChange={(e) => onChange(e)}
+            className="w-full mt-3 resize-none text-sm xs:text-base p-2 text-slate-300 focus:outline-none border rounded-lg border-gray-500 bg-transparent"
             value={formData.bio || ""}
           />
         </p>

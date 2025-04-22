@@ -39,7 +39,7 @@ const EditPostForm = ({
       <div className="w-full">
         <TextareaAutosize
           onChange={(e) => onChange(e)}
-          className="w-full mt-4 !text-lg resize-none text-slate-300  bg-transparent focus:outline-none"
+          className="w-full mt-4 !text-base md:!text-lg resize-none text-slate-300  bg-transparent focus:outline-none"
           placeholder="What's happening?"
           name="text"
           value={formData.text}

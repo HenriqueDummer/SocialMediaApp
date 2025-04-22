@@ -3,13 +3,10 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { queryClient, signIn } from "../../utils/http";
-import { useNavigate, NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
-import { mutateLogin } from "../../utils/hooks";
+import { NavLink } from "react-router-dom";
+import { mutateSignin } from "../../utils/hooks";
 
 const signInInputSchema = z.object({
   email: z.string().email(),
@@ -21,7 +18,7 @@ const signInInputSchema = z.object({
 export type SignInInputSchema = z.infer<typeof signInInputSchema>;
 
 const SigninForm = () => {
-  const { mutate, isPending } = mutateLogin()
+  const { mutate: signIn, isPending } = mutateSignin();
 
   const {
     register,
@@ -32,29 +29,40 @@ const SigninForm = () => {
   });
 
   function handleLogin(data: SignInInputSchema) {
-    mutate(data);
+    signIn(data);
   }
 
   return (
-    <div>
+    <div className="w-[80%] max-w-[30rem] xl:max-w-[60%]  text-slate-200 ">
+      <div className="mb-16">
+        <h1 className="text-5xl md:text-7xl text-slate-200">Welcome back</h1>
+        <h2 className="text-2xl md:text-3xl text-slate-300 mt-2">
+          Login into your account
+        </h2>
+      </div>
       <form onSubmit={handleSubmit(handleLogin)}>
         <p>
-          <Label>Email</Label>
-          <Input type="email" {...register("email")} />
+          <Label className="md:text-lg">Email</Label>
+          <Input className="h-12" type="email" {...register("email")} />
         </p>
-        <p>
-          <Label>Password</Label>
-          <Input type="password" {...register("password")} />
+        <p className="mt-2">
+          <Label className="md:text-lg">Password</Label>
+          <Input className="h-12" type="password" {...register("password")} />
         </p>
         {errors.email && <p>{errors.email.message}</p>}
         {errors.password && <p>{errors.password.message}</p>}
-        <Button className="mt-5 w-full" type="submit">
+        <Button
+          className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15"
+          type="submit"
+        >
           {isPending ? "Loading..." : "Login"}
         </Button>
       </form>
-      <div>
-        <p>Don't have an accout?</p>
-        <NavLink to="/sign-up">Sign up</NavLink>
+      <div className="mt-10 flex flex-col font-light items-center text-lg">
+        <p>Don't have an account?</p>
+        <NavLink to="/sign-up" className="text-violet-600">
+          Sign up
+        </NavLink>
       </div>
     </div>
   );

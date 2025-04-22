@@ -37,9 +37,9 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
       originalPost: null,
       isQuote: false,
     });
-  }
-  
-  const { mutate: handleCreatePost, isPending } = mutateCreatePost(clearInputs)
+  };
+
+  const { mutate: handleCreatePost, isPending } = mutateCreatePost(clearInputs);
 
   const authUser = getAuthUser();
 
@@ -86,36 +86,42 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
   };
 
   return (
-    <Container className={`pr-8 ${isQuote ? "" : "p-4"} flex`}>
-      <div>
-        <div
-          className="w-14 aspect-square rounded-full bg-center bg-cover"
-          style={{
-            backgroundImage: `url(${authUser!.profilePicture})`,
-          }}
-        ></div>
-      </div>
-      <div className="ml-4 w-full">
+    <Container className={`pr-8 ${isQuote ? "" : "p-4"}`}>
+      <div className="flex">
+        <div>
+          <div
+            className="w-14 aspect-square rounded-full bg-center bg-cover"
+            style={{
+              backgroundImage: `url(${authUser!.profilePicture})`,
+            }}
+          ></div>
+        </div>
         <TextareaAutosize
           onChange={(e) => handleTextInputChange(e)}
           ref={textAreaRef}
-          className="w-full mt-3 resize-none text-sm xs:text-base pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
+          className="w-full mt-4 ml-2 resize-none text-sm xs:text-base pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
           placeholder={isQuote ? "Add a comment" : "What's happening?"}
         />
+      </div>
+      <div className="ml-4 w-full">
         {inputData.selectedFile && (
-          <div className="rounded-lg overflow-hidden mt-4 relative">
+          <div className="rounded-lg overflow-hidden mt-4 relative ">
             <Button
               className="absolute top-2 right-2 bg-slate-700  rounded-full text-4xl opacity-90"
               onClick={() => clearSelectedFile()}
             >
               <IoCloseCircle />
             </Button>
-            <img className="w-full" src={inputData.selectedFile} alt="" />
+            <img
+              className="max-h-[34rem]"
+              src={inputData.selectedFile}
+              alt=""
+            />
           </div>
         )}
         {originalPost && <Quote originalPost={originalPost} />}
 
-        <div className="w-full flex justify-between mt-4">
+        <div className="w-full flex flex-col xs:flex-row justify-between mt-4">
           <Input
             className="hidden text-sm xs:text-base"
             onChange={(e) => handleImageChange(e)}
@@ -125,21 +131,20 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
           />
           <Button
             onClick={() => fileInputRef.current?.click()}
-            className="bg-transparent border border-gray-600 px-4 flex items-center rounded-xl text-semibold text-slate-300 "
+            className="bg-transparent border border-gray-600 px-4 flex items-center text-semibold text-slate-300"
           >
             Add image
             <FaRegImage />
           </Button>
-
-          <div className="flex gap-3">
+          <div className="flex gap-3 mt-4 xs:mt-0">
             {closeModal && (
-              <Button variant={"destructive"} onClick={() => closeModal()}>
+              <Button className="grow" variant={"destructive"} onClick={() => closeModal()}>
                 Cancel
               </Button>
             )}
             <Button
               onClick={() => handlePost()}
-              className="text-sm xs:text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+              className="text-sm grow xs:text-base font-semibold px-4 flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
               disabled={
                 isPending || (!inputData.text && !inputData.selectedFile)
               }

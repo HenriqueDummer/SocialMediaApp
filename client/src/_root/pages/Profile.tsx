@@ -38,7 +38,7 @@ const Profile = () => {
             }}
           >
             <div
-              className="w-32 aspect-square rounded-full bg-center bg-cover translate-y-1/2 ml-4 border-4 border-stone-950"
+              className="w-24 md:w-32 aspect-square rounded-full bg-center bg-cover translate-y-1/2 ml-4 border-4 border-stone-950"
               style={{
                 backgroundImage: `url(${user?.profilePicture})`,
               }}
@@ -56,19 +56,19 @@ const Profile = () => {
                 </EditModal>
               ) : (
                 <FollowButton
-                  following={authUser.following}
+                  following={authUser!.following}
                   targetUserId={user._id}
                 />
               )}
             </div>
-            <div className="mt-4 mb-2">
-              <h1 className="text-xl font-bold text-slate-200">
+            <div className="md:mt-4 mb-2">
+              <h1 className="text-lg md:text-xl font-bold text-slate-200">
                 {user?.fullName}
               </h1>
-              <p className="text-lg text-slate-400 font-thin">
+              <p className="md:text-lg text-slate-400 font-thin">
                 @{user?.username}
               </p>
-              <p className="text-slate-300 mt-4 w-3/4">{user?.bio}</p>
+              <p className="text-sm md:text-base text-slate-300 mt-4 md:max-w-3/4">{user?.bio}</p>
               <div className="flex gap-6 mt-4 text-slate-400 font-thin text-sm">
                 <p>
                   <span className="mr-2 font-semibold text-slate-200 text-base">

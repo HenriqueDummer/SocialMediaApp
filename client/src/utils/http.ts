@@ -49,7 +49,7 @@ export const signIn = async (
 ): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.post("/auth/sign-in", data);
-    return res.data; // Expecting { message, data: UserType }
+    return res.data; 
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");

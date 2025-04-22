@@ -92,13 +92,15 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({ email, password: hashedPassword, username, fullName });
-    await newUser.save(); // Save first, then generate token
+    await newUser.save();
+
+    const createdUser = await User.findById(newUser._id).select("-password");
 
     generateAndSaveToken(newUser._id, res);
 
     return res.status(201).json({
       message: "Signup successful",
-      data: { user: newUser.toObject({ getters: true, versionKey: false, transform: (doc, ret) => { delete ret.password; return ret; } }) }, // Exclude password
+      data: createdUser
     });
   } catch (error) {
     console.log(error);

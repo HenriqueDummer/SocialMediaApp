@@ -17,6 +17,7 @@ import {
   searchAll,
   searchForUsers,
   signIn,
+  signUp,
   type ApiResponse,
 } from "./http";
 import { toast } from "react-toastify";
@@ -24,10 +25,11 @@ import { updateQueryFollowing } from "./queryUpdates";
 import type { PostType, UserType } from "../types/types";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { useNavigate } from "react-router-dom";
+import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
 
 // ----------- User --------------
 
-export const mutateLogin = () => {
+export const mutateSignin = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (data: SignInInputSchema) => signIn(data),
@@ -44,6 +46,24 @@ export const mutateLogin = () => {
     },
   });
 };
+
+export const mutateSignup = () => {
+  const navigate = useNavigate();
+  return useMutation({
+      mutationFn: async (data: SignUpInputSchema) => signUp(data),
+      onSuccess: (res) => {
+        queryClient.setQueryData(["authUser"], { data: res.data });
+        navigate("/");
+        toast.success(res.message, {
+          theme: "dark",
+          autoClose: 2000,
+        });
+      },
+      onError: (error) => {
+        toast.error(error.message, { theme: "dark", autoClose: 4000 });
+      },
+    });
+}
 
 export const getAuthUser = () => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
@@ -116,14 +136,12 @@ export const mutateLogout = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: logout,
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       queryClient.setQueryData(["authUser"], { data: undefined });
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      toast.success(res.message, {
-        theme: "dark",
-        autoClose: 2000,
-      });
+      await queryClient.cancelQueries();
+      queryClient.clear();
       navigate("/sign-in");
+      
     },
   });
 };
@@ -186,7 +204,7 @@ export const mutateLike = (post: PostType) => {
       // updateQueryLikesAllPosts(updatedLikes, post);
       // updateQueryLikesUserProfile(updatedLikes, post);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       queryClient.invalidateQueries({ queryKey: ["post", post._id] });
     },
   });
@@ -248,12 +266,12 @@ export const mutateCreateReply = (handleSuccess: () => void) => {
   });
 };
 
-export const mutateLikeReply = (onSuccessLike: (res: any) => void) => {
+export const mutateLikeReply = () => {
   return useMutation({
     mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
       likeReply(replyId, postId),
-    onSuccess: (res: any) => {
-      onSuccessLike(res);
+    onSuccess: (res, {postId}) => {
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });
 };
