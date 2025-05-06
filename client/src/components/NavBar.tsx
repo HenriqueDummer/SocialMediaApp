@@ -16,7 +16,7 @@ const NavBar = () => {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (!isActive ? `[&>*]:font-normal` : "")}
+            className={({ isActive }) => (!isActive ? `[&>*]:font-light` : "")}
             to="/"
           >
             <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600">
@@ -27,7 +27,7 @@ const NavBar = () => {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (!isActive ? `[&>*]:font-normal ` : "border border-cyan-600")}
+            className={({ isActive }) => (!isActive ? `[&>*]:font-light ` : "border border-cyan-600")}
             to="/search"
           >
             <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600">
@@ -39,7 +39,7 @@ const NavBar = () => {
         <li>
           <Button
             onClick={() => handleLogout()}
-            className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600"
+            className="lg:w-full lg:aspect-auto font-light aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600"
           >
             <TbLogout2 className="scale-150" />
             <span className="hidden lg:inline">Logout</span>

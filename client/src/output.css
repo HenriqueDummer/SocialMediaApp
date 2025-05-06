@@ -624,6 +624,11 @@ body {
   display: none;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -884,20 +889,12 @@ body {
   height: 100vh;
 }
 
-.max-h-\[2rem\] {
-  max-height: 2rem;
-}
-
 .max-h-\[34rem\] {
   max-height: 34rem;
 }
 
 .max-h-\[var\(--radix-dropdown-menu-content-available-height\)\] {
   max-height: var(--radix-dropdown-menu-content-available-height);
-}
-
-.max-h-\[25rem\] {
-  max-height: 25rem;
 }
 
 .min-h-\[60px\] {
@@ -1570,6 +1567,10 @@ body {
   padding-top: 1.25rem;
 }
 
+.pr-1 {
+  padding-right: 0.25rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1896,6 +1897,13 @@ body {
 html {
   color: #cbd5e1;
   /* Equivalent to text-slate-200 */
+}
+
+@media not all and (min-width: 1024px) {
+  .max-lg\:no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 .file\:border-0::file-selector-button {
@@ -2334,6 +2342,11 @@ html {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
+
+  .lg\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -2377,8 +2390,50 @@ html {
   }
 }
 
-.\[\&\>\*\]\:font-normal>* {
-  font-weight: 400;
+.\[\&\:\:-webkit-scrollbar-thumb\]\:rounded-full::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+}
+
+.\[\&\:\:-webkit-scrollbar-thumb\]\:bg-gray-300::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+
+.\[\&\:\:-webkit-scrollbar-thumb\]\:bg-neutral-500::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: rgb(115 115 115 / var(--tw-bg-opacity, 1));
+}
+
+.dark\:\[\&\:\:-webkit-scrollbar-thumb\]\:bg-neutral-500:is(.dark *)::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: rgb(115 115 115 / var(--tw-bg-opacity, 1));
+}
+
+.\[\&\:\:-webkit-scrollbar-track\]\:rounded-full::-webkit-scrollbar-track {
+  border-radius: 9999px;
+}
+
+.\[\&\:\:-webkit-scrollbar-track\]\:bg-gray-100::-webkit-scrollbar-track {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+}
+
+.\[\&\:\:-webkit-scrollbar-track\]\:bg-neutral-700::-webkit-scrollbar-track {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
+}
+
+.dark\:\[\&\:\:-webkit-scrollbar-track\]\:bg-neutral-700:is(.dark *)::-webkit-scrollbar-track {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
+}
+
+.\[\&\:\:-webkit-scrollbar\]\:w-2::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.\[\&\>\*\]\:font-light>* {
+  font-weight: 300;
 }
 
 .\[\&\>svg\]\:size-4>svg {

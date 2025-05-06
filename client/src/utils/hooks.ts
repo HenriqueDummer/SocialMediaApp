@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import {
   createPost,
   deletePost,
@@ -50,20 +50,20 @@ export const mutateSignin = () => {
 export const mutateSignup = () => {
   const navigate = useNavigate();
   return useMutation({
-      mutationFn: async (data: SignUpInputSchema) => signUp(data),
-      onSuccess: (res) => {
-        queryClient.setQueryData(["authUser"], { data: res.data });
-        navigate("/");
-        toast.success(res.message, {
-          theme: "dark",
-          autoClose: 2000,
-        });
-      },
-      onError: (error) => {
-        toast.error(error.message, { theme: "dark", autoClose: 4000 });
-      },
-    });
-}
+    mutationFn: async (data: SignUpInputSchema) => signUp(data),
+    onSuccess: (res) => {
+      queryClient.setQueryData(["authUser"], { data: res.data });
+      navigate("/");
+      toast.success(res.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message, { theme: "dark", autoClose: 4000 });
+    },
+  });
+};
 
 export const getAuthUser = () => {
   const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
@@ -141,7 +141,6 @@ export const mutateLogout = () => {
       await queryClient.cancelQueries();
       queryClient.clear();
       navigate("/sign-in");
-      
     },
   });
 };
@@ -159,16 +158,26 @@ export const queryWhoToFollow = () => {
 
 // ----------- Posts --------------
 
-export const queryAllPosts = () => {
-  const { data: { data: posts } = {} as ApiResponse<PostType[]>, isLoading } =
-    useQuery<ApiResponse<PostType[]>>({
-      queryKey: ["posts", "all"],
-      queryFn: () => getAllPosts("all"),
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-    });
+export const useInfinityPosts = (filter: string) => {
+  return useInfiniteQuery({
+    queryKey: ["posts", filter],
+    queryFn: ({ pageParam }) => getAllPosts(filter, pageParam),
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1,
+    staleTime: 1000 * 60,
+  });
+};
 
-  return { posts, isLoading };
+export const queryAllPosts = (page: number) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["posts", "all", page],
+    queryFn: () => getAllPosts("all", page),
+    refetchOnWindowFocus: false,
+    staleTime: 5000,
+    refetchOnMount: false,
+  });
+
+  return { data, isLoading };
 };
 
 export const queryFollowing = () => {
@@ -270,7 +279,7 @@ export const mutateLikeReply = () => {
   return useMutation({
     mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
       likeReply(replyId, postId),
-    onSuccess: (res, {postId}) => {
+    onSuccess: (res, { postId }) => {
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });

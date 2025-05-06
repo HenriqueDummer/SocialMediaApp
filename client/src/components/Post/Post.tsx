@@ -29,15 +29,6 @@ const Post = ({ post }: { post: PostType }) => {
               Reposted by {post.user.fullName}
             </p>
           </div>
-          <div>
-            {canEdit && (
-              <PostConfigs
-                postId={post._id}
-                canEdit={canEdit}
-                isRepost={post.isRepost}
-              />
-            )}
-          </div>
         </div>
       )}
 
