@@ -168,18 +168,6 @@ export const useInfinityPosts = (filter: string) => {
   });
 };
 
-export const queryAllPosts = (page: number) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["posts", "all", page],
-    queryFn: () => getAllPosts("all", page),
-    refetchOnWindowFocus: false,
-    staleTime: 5000,
-    refetchOnMount: false,
-  });
-
-  return { data, isLoading };
-};
-
 export const queryFollowing = () => {
   const { data: users, isLoading } = useQuery<UserType[]>({
     queryFn: following,

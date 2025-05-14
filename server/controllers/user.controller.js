@@ -190,7 +190,7 @@ export const whoToFollow = async (req, res) => {
       $ne: user._id,
       $nin: user.following
     } })
-    .sort({ "followers.length": -1 })
+    .sort({ "followers.length": 1 })
     .select("-password")
     .limit(5); 
 
@@ -216,8 +216,6 @@ export const following = async (req, res) => {
     .sort({ "followers.length": -1 })
     .select("-password")
     .limit(5); 
-
-    console.log(following)
     
     return res.status(200).json(following)
     

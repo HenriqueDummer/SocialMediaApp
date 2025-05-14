@@ -1,7 +1,7 @@
 import CreatePost from "../../components/Post/CreatePost";
-import Feed from "../../components/Feed";
 import FeedFilter from "../../components/FeedFilter";
 import { useInfinityPosts } from "../../utils/hooks";
+import InfinitFeed from "../../components/InfinitFeed";
 
 const Home = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -23,12 +23,14 @@ const Home = () => {
   [&::-webkit-scrollbar-track]:bg-neutral-700
  [&::-webkit-scrollbar-thumb]:bg-neutral-500 max-lg:no-scrollbar"
       >
+        
         <CreatePost isQuote={false} />
+
         {isLoading ? (
           <h1>Loading...</h1>
         ) : (
           posts && (
-            <Feed
+            <InfinitFeed
               posts={posts}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage}

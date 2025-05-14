@@ -624,11 +624,6 @@ body {
   display: none;
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1171,10 +1166,6 @@ body {
   white-space: nowrap;
 }
 
-.rounded-2xl {
-  border-radius: 1rem;
-}
-
 .rounded-3xl {
   border-radius: 1.5rem;
 }
@@ -1215,6 +1206,11 @@ body {
 .rounded-b-xl {
   border-bottom-right-radius: 0.75rem;
   border-bottom-left-radius: 0.75rem;
+}
+
+.rounded-t-2xl {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
 }
 
 .border {
@@ -1555,6 +1551,10 @@ body {
   padding-left: 2rem;
 }
 
+.pr-1 {
+  padding-right: 0.25rem;
+}
+
 .pr-2 {
   padding-right: 0.5rem;
 }
@@ -1567,8 +1567,16 @@ body {
   padding-top: 1.25rem;
 }
 
-.pr-1 {
-  padding-right: 0.25rem;
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.pt-2 {
+  padding-top: 0.5rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .text-center {
@@ -2343,6 +2351,11 @@ html {
     padding-right: 2.5rem;
   }
 
+  .lg\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
   .lg\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -2394,17 +2407,7 @@ html {
   border-radius: 9999px;
 }
 
-.\[\&\:\:-webkit-scrollbar-thumb\]\:bg-gray-300::-webkit-scrollbar-thumb {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
-}
-
 .\[\&\:\:-webkit-scrollbar-thumb\]\:bg-neutral-500::-webkit-scrollbar-thumb {
-  --tw-bg-opacity: 1;
-  background-color: rgb(115 115 115 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:\[\&\:\:-webkit-scrollbar-thumb\]\:bg-neutral-500:is(.dark *)::-webkit-scrollbar-thumb {
   --tw-bg-opacity: 1;
   background-color: rgb(115 115 115 / var(--tw-bg-opacity, 1));
 }
@@ -2413,17 +2416,7 @@ html {
   border-radius: 9999px;
 }
 
-.\[\&\:\:-webkit-scrollbar-track\]\:bg-gray-100::-webkit-scrollbar-track {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
-}
-
 .\[\&\:\:-webkit-scrollbar-track\]\:bg-neutral-700::-webkit-scrollbar-track {
-  --tw-bg-opacity: 1;
-  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:\[\&\:\:-webkit-scrollbar-track\]\:bg-neutral-700:is(.dark *)::-webkit-scrollbar-track {
   --tw-bg-opacity: 1;
   background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
 }

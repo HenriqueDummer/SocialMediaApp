@@ -17,7 +17,7 @@ const RootLayout = () => {
         >
           <div className="w-full h-full flex justify-center lg:gap-10 gap-4 px-4 lg:px-10 pt-5 backdrop-blur-sm">
             <LeftSideBar />
-            <div className="w-full md:w-2/3 md:min-w-[32rem] lg:w-1/3 xl:min-w-[36rem] relativ rounded-2xl overflow-hidden">
+            <div className="w-full md:w-2/3 md:min-w-[32rem] lg:w-1/3 xl:min-w-[36rem] overflow-hidden">
               <Outlet />e
             </div>
             <RightSideBar />

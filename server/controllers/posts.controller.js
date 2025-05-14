@@ -11,7 +11,6 @@ export const getPosts = async (req, res) => {
     const user = req.user;
     const { filter } = req.params
 
-
     const followingIds = user.following;
     let mongoFilter = {}
 
@@ -19,7 +18,8 @@ export const getPosts = async (req, res) => {
       mongoFilter = { user: { $in: followingIds } }
     }
 
-    const posts = await Post.find(mongoFilter)
+    const [posts, total] = await Promise.all([
+      Post.find(mongoFilter)
       .skip(skip)
       .limit(limit)
       .populate({ path: "user", select: "-password" })
@@ -32,8 +32,10 @@ export const getPosts = async (req, res) => {
             populate: { path: "user" }
           }
         ]
-      })
-      .sort({ createdAt: -1 });
+      }).sort({ createdAt: -1 }),
+      Post.countDocuments(mongoFilter)
+    ])
+      
 
     if (posts.length === 0) {
       return res.status(200).json({
@@ -42,9 +44,11 @@ export const getPosts = async (req, res) => {
       });
     }
 
+    const nextpage = skip + posts.length < total ? page + 1 : null
 
     return res.status(200).json({
       data: posts,
+      nextPage: nextpage,
     });
   } catch (error) {
     console.log(error);

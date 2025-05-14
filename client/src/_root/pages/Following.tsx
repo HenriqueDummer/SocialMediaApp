@@ -1,7 +1,7 @@
 import CreatePost from "../../components/Post/CreatePost";
-import Feed from "../../components/Feed";
 import FeedFilter from "../../components/FeedFilter";
 import { useInfinityPosts } from "../../utils/hooks";
+import InfinitFeed from "../../components/InfinitFeed";
 
 const Following = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -23,7 +23,7 @@ const Following = () => {
             <h1>Loading...</h1>
           ) : (
             posts && (
-              <Feed
+              <InfinitFeed
                 posts={posts}
                 fetchNextPage={fetchNextPage}
                 hasNextPage={hasNextPage}

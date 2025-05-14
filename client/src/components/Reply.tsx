@@ -14,7 +14,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (
-    <Container className="mt-4 px-8 flex justify-between items-center">
+    <Container className="mt-4 py-2 lg:px-8 flex justify-between items-center">
       <div className="flex gap-2">
         <NavLink
           to={`/profile/${replyData.user.username}`}
@@ -37,7 +37,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
                 <p className="!text-sm md:!text-base font-semibold text-slate-300">
                   {replyData.user.fullName}
                 </p>
-                <p className="text-sm !text-sm md:!text-base text-slate-300 opacity-50 font-semibold">
+                <p className="!text-sm hidden lg:inline md:!text-base text-slate-300 opacity-50 font-semibold">
                   @{replyData.user.username}
                 </p>
               </div>
