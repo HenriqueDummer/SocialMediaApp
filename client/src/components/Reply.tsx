@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { Button } from "./ui/button.tsx";
-import { getAuthUser, mutateLikeReply } from "../utils/hooks.ts";
+import { useAuthUser, mutateLikeReply } from "../utils/hooks.ts";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
-  const authUser = getAuthUser();
+  const {authUser} = useAuthUser();
 
 
   const { mutate: handleLikeReply } = mutateLikeReply();

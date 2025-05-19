@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { getAuthUser } from "../utils/hooks";
 import Container from "./ui/Container";
+import { useAuth } from "../Context/AuthContext";
 
 const SideBarProfile = () => {
-  const authUser = getAuthUser();
+  const {authUser} = useAuth();
   return (
     <>
       {authUser && (

@@ -7,22 +7,12 @@ import Home from "./_root/pages/Home";
 import Profile from "./_root/pages/Profile";
 import RootLayout from "./_root/RootLayout";
 
-import { useQuery } from "@tanstack/react-query";
-import type { UserType } from "./types/types";
-import { getMe, type ApiResponse } from "./utils/http";
 import PostPage from "./_root/pages/PostPage";
 import { ToastContainer } from "react-toastify";
-import type { PropsWithChildren } from "react";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";
-import Search from "./_root/pages/SearchPage";
+import SearchPage from "./_root/pages/SearchPage";
 import { setNavigator } from "./utils/navigation";
-
-function ProtectedRoute({ children }: PropsWithChildren) {
-  const { authUser } = useAuth();
-  if (!authUser) return <Navigate to="/sign-in" replace />;
-  return <>{children}</>;
-}
 
 function AppRoutes() {
   const { authUser, isLoading } = useAuth();
@@ -50,69 +40,13 @@ function AppRoutes() {
             <Route element={<RootLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/following" element={<Following />} />
-              <Route path="/search/:query?" element={<Search />} />
+              <Route path="/search/:query?" element={<SearchPage />} />
               <Route path="/profile/:id" element={<Profile />} />
               <Route path="/posts/:id" element={<PostPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </>
         )}
-        {/* <Route path="*" element={<Navigate to="/sign-in" replace />} />
-        <Route element={<AuthLayout />}>
-          <Route
-            path="/sign-in"
-            element={authUser ? <Navigate to="/" /> : <SigninForm />}
-          />
-
-          <Route
-            path="/sign-up"
-            element={authUser ? <Navigate to="/" /> : <SignupForm />}
-          />
-        </Route>
-
-        <Route element={<RootLayout />}>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/following"
-            element={
-              <ProtectedRoute>
-                <Following />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/search/:query?"
-            element={
-              <ProtectedRoute>
-                <Search />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile/:id"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/posts/:id"
-            element={
-              <ProtectedRoute>
-                <PostPage />
-              </ProtectedRoute>
-            }
-          />
-        </Route> */}
       </Routes>
     </>
   );

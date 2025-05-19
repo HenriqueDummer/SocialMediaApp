@@ -7,7 +7,7 @@ import { queryClient } from "./../utils/http";
 import Container from "./ui/Container";
 
 import TextareaAutosize from "react-textarea-autosize";
-import { getAuthUser, mutateCreateReply } from "../utils/hooks";
+import { mutateCreateReply } from "../utils/hooks";
 import { useAuth } from "../Context/AuthContext";
 
 const CreateReply = ({

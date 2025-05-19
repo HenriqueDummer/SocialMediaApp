@@ -70,8 +70,9 @@ export const signUp = async (
 
 export const getMe = async (): Promise<ApiResponse<UserType>> => {
   try {
+    console.log("Get me");
     const res = await axios.get("/auth/me");
-    return res.data ?? null; // Still returning UserType | null from data
+    return res.data ?? null; 
   } catch (error: any) {
     console.log(error);
     if (error.response?.status === 401) {

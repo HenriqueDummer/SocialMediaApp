@@ -1,10 +1,9 @@
-import { getAuthUser, queryFollowing, queryWhoToFollow } from "../utils/hooks";
-import FollowButton from "./Post/FollowButton";
+import { queryFollowing } from "../utils/hooks";
 import Container from "./ui/Container";
 import { useNavigate } from "react-router-dom";
 
 const Following = () => {
-  const { users, isLoading } = queryFollowing();
+  const { users } = queryFollowing();
   const navigate = useNavigate();
 
   return (

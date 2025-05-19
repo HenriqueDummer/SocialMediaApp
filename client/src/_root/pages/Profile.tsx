@@ -11,6 +11,7 @@ import PrevPageButton from "../../components/PrevPageButton";
 import { useEffect } from "react";
 import { queryClient } from "../../utils/http";
 import { useAuth } from "../../Context/AuthContext";
+import FeedContainer from "../../components/ui/FeedContainer";
 const Profile = () => {
   const { id: username } = useParams();
 
@@ -29,7 +30,7 @@ const Profile = () => {
   return (
     <div className="flex h-full flex-col w-full">
       <PrevPageButton title={user.fullName} />
-      <div className="overflow-auto no_scrollbar h-full mt-4 rounded-3xl rounded-b-none">
+      <FeedContainer className="mt-4">
         <Container className="overflow-hidden !p-0">
           <div
             className=" bg-slate-600 w-full h-40 flex items-end bg-cover bg-center"
@@ -68,7 +69,9 @@ const Profile = () => {
               <p className="md:text-lg text-slate-400 font-thin">
                 @{user?.username}
               </p>
-              <p className="text-sm md:text-base text-slate-300 mt-4 md:max-w-3/4">{user?.bio}</p>
+              <p className="text-sm md:text-base text-slate-300 mt-4 md:max-w-3/4">
+                {user?.bio}
+              </p>
               <div className="flex gap-6 mt-4 text-slate-400 font-thin text-sm">
                 <p>
                   <span className="mr-2 font-semibold text-slate-200 text-base">
@@ -87,7 +90,7 @@ const Profile = () => {
           </div>
         </Container>
         {posts && <Feed posts={Array.isArray(posts) ? posts : [posts]} />}
-      </div>
+      </FeedContainer>
     </div>
   );
 };

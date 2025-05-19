@@ -20,7 +20,7 @@ const InfinitFeed = ({
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage, isFetchingNextPage]);
 
   return (
     <div className="w-full pb-20 sm:pb-4">

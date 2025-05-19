@@ -1,9 +1,7 @@
-// auth-context.tsx
 import { createContext, useContext, PropsWithChildren } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { UserType } from '../types/types';
 import { getMe, type ApiResponse,  } from '../utils/http';
-
 
 type AuthContextType = {
   authUser: UserType | undefined;

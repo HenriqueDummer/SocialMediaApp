@@ -7,18 +7,17 @@ import { MdLoop } from "react-icons/md";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostActions from "./PostActions";
-import { getAuthUser } from "../../utils/hooks";
+import { useAuthUser } from "../../utils/hooks";
 import { CgUnavailable } from "react-icons/cg";
 import PostConfigs from "./PostConfigs";
 
 const Post = ({ post }: { post: PostType }) => {
-  const authUser = getAuthUser();
+  const {authUser} = useAuthUser();
 
   const postData = post.isRepost ? post.originalPost : post;
   const postId = post._id;
   const author = post.user._id;
 
-  const canEdit = authUser._id === author;
   return (
     <Container className="px-4 sm:px-8 z-10">
       {post.isRepost && (
@@ -43,8 +42,8 @@ const Post = ({ post }: { post: PostType }) => {
         <>
           <PostHeader
             postData={postData}
-            authUserId={authUser._id}
-            userFollowing={authUser.following}
+            authUserId={authUser!._id}
+            userFollowing={authUser!.following}
             actions={true}
             postId={postId}
             author={author}
@@ -56,7 +55,7 @@ const Post = ({ post }: { post: PostType }) => {
             isQuote={postData.isQuote}
             originalPost={postData.originalPost}
           />
-          <PostActions postData={postData} authUserId={authUser._id} />
+          <PostActions postData={postData} authUserId={authUser!._id} />
         </>
       )}
     </Container>

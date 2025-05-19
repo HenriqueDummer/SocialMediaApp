@@ -15,7 +15,7 @@ const Feed = ({
   };
 
   return (
-    <div className="w-full pb-20 sm:pb-4">
+    <div className="w-full pb-20 sm:pb-0">
       {(posts ?? []).length > 0 &&
         posts!.map((post) => {
           return (

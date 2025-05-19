@@ -5,6 +5,7 @@ import {
   following,
   followUser,
   getAllPosts,
+  getMe,
   getPostById,
   getUserProfile,
   getWhoToFollow,
@@ -65,12 +66,20 @@ export const mutateSignup = () => {
   });
 };
 
-export const getAuthUser = () => {
-  const { data: { data: authUser } = {} as ApiResponse<UserType> } = useQuery<
-    ApiResponse<UserType>
-  >({ queryKey: ["authUser"] });
+export const useAuthUser = () => {
+  const { data, isLoading, error } = useQuery<ApiResponse<UserType>>({
+    queryKey: ["authUser"],
+    queryFn: getMe,
+    retry: false,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
-  return authUser;
+  // Extract authUser from the ApiResponse structure
+  const authUser = data?.data;
+
+  return { authUser, isLoading, error };
 };
 
 export const mutateFollow = () => {

@@ -2,6 +2,7 @@ import CreatePost from "../../components/Post/CreatePost";
 import FeedFilter from "../../components/FeedFilter";
 import { useInfinityPosts } from "../../utils/hooks";
 import InfinitFeed from "../../components/InfinitFeed";
+import FeedContainer from "../../components/ui/FeedContainer";
 
 const Home = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -16,14 +17,7 @@ const Home = () => {
       <div className="sticky top-0 z-10 bg-inherit">
         <FeedFilter />
       </div>
-      <div
-        className="overflow-auto  mt-2 pr-1 [&::-webkit-scrollbar]:w-2
-  [&::-webkit-scrollbar-track]:rounded-full
-  [&::-webkit-scrollbar-thumb]:rounded-full
-  [&::-webkit-scrollbar-track]:bg-neutral-700
- [&::-webkit-scrollbar-thumb]:bg-neutral-500 max-lg:no-scrollbar"
-      >
-        
+      <FeedContainer className="mt-4">
         <CreatePost isQuote={false} />
 
         {isLoading ? (
@@ -38,7 +32,7 @@ const Home = () => {
             />
           )
         )}
-      </div>
+      </FeedContainer>
     </div>
   );
 };
