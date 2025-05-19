@@ -27,7 +27,7 @@ const NavBar = () => {
         </li>
         <li>
           <NavLink
-            className={({ isActive }) => (!isActive ? `[&>*]:font-light ` : "border border-cyan-600")}
+            className={({ isActive }) => (!isActive ? `[&>*]:font-light ` : "")}
             to="/search"
           >
             <Button className="lg:w-full lg:aspect-auto aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600">

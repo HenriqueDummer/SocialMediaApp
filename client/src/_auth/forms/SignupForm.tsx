@@ -53,7 +53,7 @@ const SignupForm = () => {
   }
 
   return (
-    <div className="text-slate-200 max-w-[60%]">
+    <div className="w-[80%] max-w-[30rem] xl:max-w-[60%]  text-slate-200 ">
       <div className="mb-16">
         <h1 className="text-2xl md:text-7xl text-slate-200">Welcome</h1>
         <h2 className="text-3xl text-slate-300 mt-2">

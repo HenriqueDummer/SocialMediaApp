@@ -20,7 +20,9 @@ const SearchPage = () => {
     posts: PostType[];
   }>({ users: [], posts: [] });
 
-  if (isLoading) return <h1>Loading...</h1>;
+  const { authUser, isLoading: isLoadingUser } = useAuth();
+
+  if (isLoading || isLoadingUser  ) return <h1>Loading...</h1>;
 
   const posts = data!.pages.flatMap((page) => page.data);
 
@@ -28,9 +30,7 @@ const SearchPage = () => {
     <div className="w-full h-full flex flex-col">
       <Search setResults={setResults} />
 
-      {results.users.length === 0 &&
-      results.posts.length === 0 &&
-      posts ? (
+      {results.users.length === 0 && results.posts.length === 0 && posts ? (
         <>
           <FeedContainer className="mt-2">
             <Container className="overflow-hidden !p-0 bg-black/80 mt-2">
@@ -66,7 +66,7 @@ const SearchPage = () => {
                       <div
                         onClick={() => navigate(`/profile/${user.username}`)}
                         key={user._id}
-                        className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
+                        className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20" 
                       >
                         <div className="min-w-12">
                           <img
@@ -76,15 +76,22 @@ const SearchPage = () => {
                           />
                         </div>
 
-                        <div className="">
-                          <div className="text-slate-200 flex justify-between items-center">
+                        <div className="w-full">
+                          <div className="text-slate-200 w-full flex justify-between items-center">
                             <div>
                               <p className="font-semibold">{user.fullName}</p>
                               <p className="text-slate-400 text-sm">
                                 @{user.username}
                               </p>
                             </div>
-                            <div onClick={(e) => e.stopPropagation()}></div>
+                            <div onClick={(e) => e.stopPropagation()}>
+                              {authUser!._id !== user._id && (
+                                <FollowButton
+                                  following={authUser!.following}
+                                  targetUserId={user._id}
+                                />
+                              )}
+                            </div>
                           </div>
                           <p className="text-slate-300 text-sm mt-1">
                             {user.bio}
