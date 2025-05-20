@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
-import {v2 as cloudinary} from "cloudinary"
+import { v2 as cloudinary } from "cloudinary"
 
 import postRoutes from './routes/posts.routes.js'
 import authRoutes from './routes/auth.routes.js'
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({
-  origin: ["http://localhost:5173", "http://192.168.210.110:5173"],
+  origin: ["http://localhost:5173", "http://192.168.210.110:5173", "https://socialmediaapp-1fop.onrender.com"],
   credentials: true
 }));
 

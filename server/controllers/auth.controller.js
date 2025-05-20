@@ -8,8 +8,8 @@ function generateAndSaveToken(userId, res) {
   res.cookie("token", token, {
     maxAge: 60 * 60 * 1000,
     httpOnly: true,
-    secure: false, // Set to true in production with HTTPS
-    sameSite: false,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
   });
 }
 
