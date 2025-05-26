@@ -16,8 +16,8 @@ const PostHeader = ({
   authUserId?: string;
   userFollowing?: string[];
   actions: boolean;
-  postId: string;
-  author: string;
+  postId?: string;
+  author?: string;
   isRepost: boolean;
 }) => {
   const canEdit = author === authUserId;
@@ -57,7 +57,7 @@ const PostHeader = ({
         </div>
       </div>
 
-      {actions && userFollowing && (
+      {actions && userFollowing && postId && (
         <div onClick={(e) => e.stopPropagation()}>
           {canEdit ? (
             <PostConfigs

@@ -1,7 +1,5 @@
 import type { PostType } from "../../types/types";
 import Quote from "./Quote";
-import { NavLink } from "react-router-dom";
-import { CgUnavailable } from "react-icons/cg";
 
 const PostContent = ({
   text,

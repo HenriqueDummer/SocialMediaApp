@@ -145,7 +145,7 @@ export const mutateLogout = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: logout,
-    onSuccess: async (res) => {
+    onSuccess: async () => {
       queryClient.setQueryData(["authUser"], { data: undefined });
       await queryClient.cancelQueries();
       queryClient.clear();
@@ -203,12 +203,7 @@ export const queryPost = (postId: string) => {
 export const mutateLike = (post: PostType) => {
   return useMutation({
     mutationFn: (postId: string) => likePost(postId),
-    onSuccess: (res) => {
-      // const updatedLikes = res.data;
-
-      // updateQueryLikesPost(updatedLikes, post);
-      // updateQueryLikesAllPosts(updatedLikes, post);
-      // updateQueryLikesUserProfile(updatedLikes, post);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       queryClient.invalidateQueries({ queryKey: ["post", post._id] });

@@ -1,6 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-
-import type { PostType, UserType } from "../../types/types";
+import type { PostType } from "../../types/types";
 import { Input } from "../ui/input";
 import TextareaAutosize from "react-textarea-autosize";
 

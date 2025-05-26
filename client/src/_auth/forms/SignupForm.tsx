@@ -3,12 +3,9 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 
 import { z } from "zod";
-import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { queryClient, signUp } from "../../utils/http";
-import { useNavigate, NavLink } from "react-router-dom";
-import { toast } from "react-toastify";
+import { NavLink } from "react-router-dom";
 import { mutateSignup } from "../../utils/hooks";
 
 const signUpInputSchema = z
@@ -32,7 +29,7 @@ const signUpInputSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"], // Attach error to confirmPassword field
+    path: ["confirmPassword"], 
   });
 
 export type SignUpInputSchema = z.infer<typeof signUpInputSchema>;

@@ -1,8 +1,5 @@
 import { useRef, type ChangeEvent } from "react";
 
-import { useQuery } from "@tanstack/react-query";
-
-
 import TextareaAutosize from "react-textarea-autosize";
 
 import { FaRegImage } from "react-icons/fa6";
@@ -25,7 +22,7 @@ const EditPostForm = ({
   onDeleteImage: () => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  
   const handleDeleteImage = () => {
     onDeleteImage();
     if (fileInputRef.current) {
@@ -35,7 +32,7 @@ const EditPostForm = ({
 
   return (
     <div className="bg-light_bg mt-4 rounded-xl">
-      <PostHeader postData={formData} actions={false} />
+      <PostHeader postData={formData} actions={false} isRepost={false} />
       <div className="w-full">
         <TextareaAutosize
           onChange={(e) => onChange(e)}

@@ -25,7 +25,7 @@ const Search = ({
     setResults(data);
   };
 
-  const { mutate: searchAll, isPending: isPendingAll } =
+  const { mutate: searchAll } =
     mutateSearchAll(onSuccessAll);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {

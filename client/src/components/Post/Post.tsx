@@ -9,7 +9,6 @@ import PostContent from "./PostContent";
 import PostActions from "./PostActions";
 import { useAuthUser } from "../../utils/hooks";
 import { CgUnavailable } from "react-icons/cg";
-import PostConfigs from "./PostConfigs";
 
 const Post = ({ post }: { post: PostType }) => {
   const {authUser} = useAuthUser();
