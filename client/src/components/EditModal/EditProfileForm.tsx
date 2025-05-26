@@ -1,4 +1,4 @@
-import React, { useRef, type ChangeEvent } from "react";
+import { useRef, type ChangeEvent } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { Label } from "@radix-ui/react-label";
 import TextareaAutosize from "react-textarea-autosize";
@@ -37,7 +37,7 @@ const EditProfileForm = ({
           accept="image/png, image/jpeg, image/jpg"
         />
         <button
-          className="relative flex justify-center items-center w-full h-24 rounded-xl bg-slate-600 bg-cover bg-center overflow-hidden hover:opacity-60 transition-opacity duration-200 group flex justify-center items-center"
+          className="relative flex justify-center items-center w-full h-24 rounded-xl bg-slate-600 bg-cover bg-center overflow-hidden hover:opacity-60 transition-opacity duration-200 group"
           style={{
             backgroundImage: `url(${formData.coverPicture})`,
           }}

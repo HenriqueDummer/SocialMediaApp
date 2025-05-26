@@ -69,11 +69,7 @@ export const updateQueryLikesPost = (
   );
 };
 
-export const updateQueryPostEdit = ({
-  data: updatedPost,
-}: {
-  data: PostType;
-}) => {
+export const updateQueryPostEdit = () => {
   // queryClient.setQueryData(["post", updatedPost._id], updatedPost);
   // queryClient.setQueryData(
   //   ["posts"],
@@ -107,7 +103,7 @@ export const updateQueryFollowing = (updatedFollowing: string[]) => {
   })
 }
 
-export const updateQueryProfileEdit = (user: UserType) => {
+export const updateQueryProfileEdit = () => {
   // return (updatedProfile: UserType) => {
       // queryClient.setQueryData(["authUser"], () => {
       //   return {

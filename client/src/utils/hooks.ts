@@ -272,6 +272,7 @@ export const mutateLikeReply = () => {
     mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
       likeReply(replyId, postId),
     onSuccess: (res, { postId }) => {
+      console.log(res)
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });
