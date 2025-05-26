@@ -29,8 +29,8 @@ const PostConfigs = ({
 
   const { mutate: deletePost } = mutateDelete();
 
-  const onUpdate = (updatedPost: PostType) => {
-    updateQueryPostEdit({ data: updatedPost });
+  const onUpdate = () => {
+    updateQueryPostEdit();
 
     toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
   };
