@@ -26,7 +26,7 @@ const PostActions = ({
 }) => {
   const actionModalRef = useRef<HTMLButtonElement>(null);
 
-  const { mutate: like } = mutateLike(postData);
+  const { mutate: like } = mutateLike();
   const { mutate: repost } = mutateRepost();
 
   const isLiked = postData.likes?.includes(authUserId);
