@@ -20,22 +20,21 @@ export const getPosts = async (req, res) => {
 
     const [posts, total] = await Promise.all([
       Post.find(mongoFilter)
-      .skip(skip)
-      .limit(limit)
-      .populate({ path: "user", select: "-password" })
-      .populate({
-        path: "originalPost",
-        populate: [
-          { path: "user" },
-          {
-            path: "originalPost",
-            populate: { path: "user" }
-          }
-        ]
-      }).sort({ createdAt: -1 }),
+        .skip(skip)
+        .limit(limit)
+        .populate({ path: "user", select: "-password" })
+        .populate({
+          path: "originalPost",
+          populate: [
+            { path: "user" },
+            {
+              path: "originalPost",
+              populate: { path: "user" }
+            }
+          ]
+        }).sort({ createdAt: -1 }),
       Post.countDocuments(mongoFilter)
     ])
-      
 
     if (posts.length === 0) {
       return res.status(200).json({
@@ -240,7 +239,7 @@ export const likeReply = async (req, res) => {
     const { postId } = req.params;
     const userId = req.user._id.toString();
     const { replyId } = req.body;
-    
+
     if (!replyId) {
       return res.status(400).json({
         message: "Must provide reply ID",
@@ -250,7 +249,7 @@ export const likeReply = async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({
-        message: "Post not found",  
+        message: "Post not found",
       });
     }
 
@@ -362,7 +361,7 @@ export const deletePost = async (req, res) => {
       if (post.selectedFile) {
         await cloudinary.uploader.destroy(post.selectedFile);
       }
-    } 
+    }
 
     await Post.findByIdAndDelete(postId);
 

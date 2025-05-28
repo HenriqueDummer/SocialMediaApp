@@ -8,6 +8,6 @@ export const navigateTo = (path: string) => {
   if(navigator) {
     navigator(path);
   } else {
-    console.error("Navigator is not set. Please set it using setNavigator function.");
+    console.error("Navigator is not set");
   }
 }

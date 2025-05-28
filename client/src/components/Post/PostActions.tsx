@@ -33,7 +33,7 @@ const PostActions = ({
 
   const handleLike = (e: any) => {
     e.stopPropagation();
-    like(postData._id);
+    like({postId: postData._id, userId: authUserId, isLiked});
   };
 
   return (
@@ -57,7 +57,7 @@ const PostActions = ({
         </ActionModal>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-transparent !text-xs sm:!text-sm border border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
+            <Button className="bg-transparent !text-xs sm:!text-sm border  border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
               <MdLoop />
               Repost
             </Button>

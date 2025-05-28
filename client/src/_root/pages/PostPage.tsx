@@ -6,6 +6,7 @@ import CreateReply from "../../components/CreateReply";
 import Reply from "../../components/Reply";
 import PrevPageButton from "../../components/PrevPageButton";
 import { queryPost } from "../../utils/hooks";
+import LoadingComponent from "../../components/ui/LoadingComponent";
 
 const PostPage = () => {
   const { id: postId } = useParams();
@@ -13,7 +14,7 @@ const PostPage = () => {
   const {postData, isLoading} = queryPost(postId!)
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <LoadingComponent text="Loading post..." />;
   }
   console.log(postData)
   return (

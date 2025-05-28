@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";
 import SearchPage from "./_root/pages/SearchPage";
 import { setNavigator } from "./utils/navigation";
+import LoadingPage from "./components/ui/LoadingPage";
 
 function AppRoutes() {
   const { authUser, isLoading } = useAuth();
@@ -21,7 +22,7 @@ function AppRoutes() {
 
   setNavigator(navigate);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingPage />;
 
   return (
     <>

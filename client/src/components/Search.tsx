@@ -5,12 +5,17 @@ import { mutateSearchAll, mutateSearchUsers } from "../utils/hooks";
 import type { PostType, UserType } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
+import LoadingComponent from "./ui/LoadingComponent";
 
 const Search = ({
   setResults,
+  setSearching
 }: {
   setResults: React.Dispatch<
     React.SetStateAction<{ users: UserType[]; posts: PostType[] }>
+  >,
+  setSearching: React.Dispatch<
+    React.SetStateAction<boolean>
   >;
 }) => {
   const navigate = useNavigate();
@@ -23,6 +28,7 @@ const Search = ({
 
   const onSuccessAll = (data: { users: UserType[]; posts: PostType[] }) => {
     setResults(data);
+    setSearching(false)
   };
 
   const { mutate: searchAll } =
@@ -30,6 +36,7 @@ const Search = ({
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setSearching(true)
 
     searchAll(searchQuery);
 
@@ -61,6 +68,7 @@ const Search = ({
     setSearchQuery("");
     navigate(`/profile/${username}`);
   };
+
   return (
     <div>
       <>
@@ -75,7 +83,11 @@ const Search = ({
             />
 
             {isPendingUsers ? (
-              <p className="text-slate-200">Loading...</p>
+              <Container className="absolute !p-0 top-2/4 z-10 w-[90%] rounded-b-xl border- left-2/4 -translate-x-2/4 bg-black ">
+                <div className="mt-6">
+                  <LoadingComponent text="Searching..." />
+                </div>
+              </Container>
             ) : (
               <>
                 {usersResults.length > 0 && (

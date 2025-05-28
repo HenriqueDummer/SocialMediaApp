@@ -3,12 +3,13 @@ import FeedFilter from "../../components/FeedFilter";
 import { useInfinityPosts } from "../../utils/hooks";
 import InfinitFeed from "../../components/InfinitFeed";
 import FeedContainer from "../../components/ui/FeedContainer";
+import LoadingComponent from "../../components/ui/LoadingComponent";
 
 const Home = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfinityPosts("all");
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingComponent text="Loading posts..." />;
 
   const posts = data!.pages.flatMap((page) => page.data);
 
@@ -19,18 +20,13 @@ const Home = () => {
       </div>
       <FeedContainer className="mt-4">
         <CreatePost isQuote={false} />
-
-        {isLoading ? (
-          <h1>Loading...</h1>
-        ) : (
-          posts && (
-            <InfinitFeed
-              posts={posts}
-              fetchNextPage={fetchNextPage}
-              hasNextPage={hasNextPage}
-              isFetchingNextPage={isFetchingNextPage}
-            />
-          )
+        {posts && (
+        <InfinitFeed
+          posts={posts}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
         )}
       </FeedContainer>
     </div>

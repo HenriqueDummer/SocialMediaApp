@@ -9,6 +9,7 @@ import FollowButton from "../../components/Post/FollowButton";
 import InfinitFeed from "../../components/InfinitFeed";
 import FeedContainer from "../../components/ui/FeedContainer";
 import { useAuth } from "../../Context/AuthContext";
+import LoadingComponent from "../../components/ui/LoadingComponent";
 const SearchPage = () => {
   const navigate = useNavigate();
 
@@ -19,18 +20,25 @@ const SearchPage = () => {
     users: UserType[];
     posts: PostType[];
   }>({ users: [], posts: [] });
+  const [searching, setSearching] = useState(false);
 
   const { authUser, isLoading: isLoadingUser } = useAuth();
 
-  if (isLoading || isLoadingUser  ) return <h1>Loading...</h1>;
-
+  if (isLoading || isLoadingUser)
+    return <LoadingComponent text="Loading posts..." />;
   const posts = data!.pages.flatMap((page) => page.data);
 
   return (
     <div className="w-full h-full flex flex-col">
-      <Search setResults={setResults} />
+      <Search setResults={setResults} setSearching={setSearching} />
 
-      {results.users.length === 0 && results.posts.length === 0 && posts ? (
+      {searching ? (
+        <>
+        <div className="mt-4">
+          <LoadingComponent text="Searching..." />
+        </div>
+        </>
+      ) : results.users.length === 0 && results.posts.length === 0 && posts ? (
         <>
           <FeedContainer className="mt-2">
             <Container className="overflow-hidden !p-0 bg-black/80 mt-2">
@@ -66,7 +74,7 @@ const SearchPage = () => {
                       <div
                         onClick={() => navigate(`/profile/${user.username}`)}
                         key={user._id}
-                        className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20" 
+                        className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                       >
                         <div className="min-w-12">
                           <img

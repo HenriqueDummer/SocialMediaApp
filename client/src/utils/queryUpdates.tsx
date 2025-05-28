@@ -52,7 +52,7 @@ export const updateQueryLikesAllPosts = (
   });
 };
 
-export const updateQueryLikesPost = (
+export const updateQueryLikePost = (
   updatedLikes: string[],
   post: PostType
 ) => {

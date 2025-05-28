@@ -8,22 +8,17 @@ import FollowButton from "../../components/Post/FollowButton";
 import { queryUserProfile } from "../../utils/hooks";
 import { updateQueryProfileEdit } from "../../utils/queryUpdates";
 import PrevPageButton from "../../components/PrevPageButton";
-import { useEffect } from "react";
-import { queryClient } from "../../utils/http";
 import { useAuth } from "../../Context/AuthContext";
 import FeedContainer from "../../components/ui/FeedContainer";
+import LoadingComponent from "../../components/ui/LoadingComponent";
 const Profile = () => {
   const { id: username } = useParams();
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-  }, [username]);
 
   const { authUser } = useAuth();
 
   const { userProfile, isLoading } = queryUserProfile(username!);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingComponent text="Loading profile..." />;
 
   const { user, posts } = userProfile;
 

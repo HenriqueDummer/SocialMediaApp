@@ -107,7 +107,7 @@ export const queryUserProfile = (username: string) => {
     isLoading,
   } = useQuery<ApiResponse<{ user: UserType; posts: PostType[] }>>({
     queryFn: () => getUserProfile(username!),
-    queryKey: ["userProfile"],
+    queryKey: ["userProfile", username],
   });
 
   return { userProfile, isLoading };
@@ -202,11 +202,40 @@ export const queryPost = (postId: string) => {
 
 export const mutateLike = (post: PostType) => {
   return useMutation({
-    mutationFn: (postId: string) => likePost(postId),
-    onSuccess: () => {
+    mutationFn: ({ postId, userId, isLiked }: { postId: string; userId: string, isLiked: boolean }) =>
+      likePost(postId),
+    onMutate: ({ postId, userId, isLiked}) => {
+      // const previousPost = queryClient.getQueryData(["post", post._id]);
+      // const previousPostsAll = queryClient.getQueryData(["posts", "all"]);
+      // const previousPostsFollowing = queryClient.getQueryData([
+      //   "posts",
+      //   "following",
+      // ]);
+
+      queryClient.setQueryData(
+        ["post", postId],
+        (old: { data: PostType | undefined }) => {
+          if (!old || !old.data) return old;
+
+          const updatedLikes = old.data.likes
+          
+          if(isLiked) {
+            updatedLikes.filter((user) => user === userId) 
+          } else {
+            updatedLikes.push(userId)
+          }
+          
+          console.log(updatedLikes)
+          return {
+            data: { ...old.data, likes: updatedLikes },
+          };
+        }
+      );
+    },
+    onSuccess: (res) => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
-      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
+      
     },
   });
 };
@@ -272,7 +301,7 @@ export const mutateLikeReply = () => {
     mutationFn: ({ replyId, postId }: { replyId: string; postId: string }) =>
       likeReply(replyId, postId),
     onSuccess: (res, { postId }) => {
-      console.log(res)
+      console.log(res);
       queryClient.invalidateQueries({ queryKey: ["post", postId] });
     },
   });

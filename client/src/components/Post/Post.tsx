@@ -13,6 +13,7 @@ import { CgUnavailable } from "react-icons/cg";
 const Post = ({ post }: { post: PostType }) => {
   const {authUser} = useAuthUser();
 
+  console.log(post)
   const postData = post.isRepost ? post.originalPost : post;
   const postId = post._id;
   const author = post.user._id;

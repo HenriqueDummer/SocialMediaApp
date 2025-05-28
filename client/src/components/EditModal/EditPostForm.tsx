@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import type { PostType } from "../../types/types";
 import PostHeader from "../Post/PostHeader";
+import Container from "../ui/Container";
 
 const EditPostForm = ({
   formData,
@@ -31,7 +32,7 @@ const EditPostForm = ({
   };
 
   return (
-    <div className="bg-light_bg mt-4 rounded-xl">
+    <Container className="bg-light_bg bg-transparent border mt-4 rounded-xl">
       <PostHeader postData={formData} actions={false} isRepost={false} />
       <div className="w-full">
         <TextareaAutosize
@@ -74,7 +75,7 @@ const EditPostForm = ({
           />
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 

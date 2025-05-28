@@ -6,6 +6,7 @@ import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
 import { toast } from "react-toastify";
 import { navigateTo } from "./navigation";
 
+
 export const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -14,7 +15,8 @@ export const queryClient = new QueryClient({
 	},
 });
 
-axios.defaults.baseURL = "https://socialmediaapp-1fop.onrender.com";
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+console.log(axios.defaults.baseURL)
 axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
@@ -22,7 +24,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {  
-    if (error.response.request.responseURL === "http://localhost:8000/auth/me")
+    if (error.response.request.responseURL === import.meta.env.VITE_API_KEY + "/auth/me")
       return Promise.reject(error);
     if (error.response && error.response.status === 401) {
       queryClient.setQueryData(["authUser"], { data: null });
