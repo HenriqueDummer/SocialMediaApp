@@ -200,9 +200,9 @@ export const queryPost = (postId: string) => {
   return { postData, isLoading };
 };
 
-export const mutateLike = (post: PostType) => {
+export const mutateLike = () => {
   return useMutation({
-    mutationFn: ({ postId, userId, isLiked }: { postId: string; userId: string, isLiked: boolean }) =>
+    mutationFn: ({ postId }: { postId: string; userId: string, isLiked: boolean }) =>
       likePost(postId),
     onMutate: ({ postId, userId, isLiked}) => {
       // const previousPost = queryClient.getQueryData(["post", post._id]);
@@ -220,7 +220,7 @@ export const mutateLike = (post: PostType) => {
           const updatedLikes = old.data.likes
           
           if(isLiked) {
-            updatedLikes.filter((user) => user === userId) 
+            updatedLikes.filter((user) => user !== userId) 
           } else {
             updatedLikes.push(userId)
           }
@@ -232,7 +232,7 @@ export const mutateLike = (post: PostType) => {
         }
       );
     },
-    onSuccess: (res) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["userProfile"] });
       
