@@ -24,7 +24,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {  
-    if (error.response.request.responseURL === import.meta.env.VITE_API_KEY + "/auth/me")
+    if (error.response.request.responseURL === import.meta.env.VITE_BASE_URL + "/auth/me")
       return Promise.reject(error);
     if (error.response && error.response.status === 401) {
       queryClient.setQueryData(["authUser"], { data: null });
@@ -132,8 +132,9 @@ export const getAllPosts = async (
 
 export const likePost = async (
   postId: string
-): Promise<ApiResponse<string[]>> => {
+): Promise<ApiResponse<PostType>> => {
   try {
+    console.log("Like post", postId);
     const { data } = await axios.post(`/posts/like/${postId}`);
     return data; // Expecting { message, data: { likes } }
   } catch (error: any) {

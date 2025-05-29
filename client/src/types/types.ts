@@ -15,13 +15,13 @@ export type PostType = {
   user: UserType;
   text: string;
   selectedFile: string;
-  likes: [string];
+  likes: string[];
   replies: [
     {
       _id: string;
       text: string;
       user: UserType;
-      likes: [string];
+      likes: string[];
     }
   ];
   isRepost: boolean;

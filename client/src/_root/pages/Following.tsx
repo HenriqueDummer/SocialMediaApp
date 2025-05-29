@@ -2,12 +2,13 @@ import CreatePost from "../../components/Post/CreatePost";
 import FeedFilter from "../../components/FeedFilter";
 import { useInfinityPosts } from "../../utils/hooks";
 import InfinitFeed from "../../components/InfinitFeed";
+import LoadingComponent from "../../components/ui/LoadingComponent";
 
 const Following = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     useInfinityPosts("following");
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <LoadingComponent text="Loading posts..." />;
 
   const posts = data!.pages.flatMap((page) => page.data);
 

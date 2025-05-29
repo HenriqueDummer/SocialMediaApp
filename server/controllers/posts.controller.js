@@ -139,7 +139,10 @@ export const likePost = async (req, res) => {
     const { postId } = req.params;
     const user = req.user;
 
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId)
+      .populate({ path: "user", select: "-password" })
+      .populate({ path: "originalPost" })
+      .populate({ path: "originalPost", populate: "user" });
     if (!post) {
       return res.status(404).json({
         message: "Post not found",
@@ -156,8 +159,9 @@ export const likePost = async (req, res) => {
 
     return res.status(200).json({
       message: post.likes.includes(user._id) ? "Post liked" : "Post disliked",
-      data: post.likes,
+      data: post,
     });
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({

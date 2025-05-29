@@ -22,7 +22,7 @@ import {
   type ApiResponse,
 } from "./http";
 import { toast } from "react-toastify";
-import { updateQueryFollowing } from "./queryUpdates";
+import { updateQueryFollowing, updateQueryLikesAllPosts } from "./queryUpdates";
 import type { PostType, UserType } from "../types/types";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { useNavigate } from "react-router-dom";
@@ -200,42 +200,19 @@ export const queryPost = (postId: string) => {
   return { postData, isLoading };
 };
 
-export const mutateLike = () => {
+export const mutateLike = (username: string) => {
   return useMutation({
-    mutationFn: ({ postId }: { postId: string; userId: string, isLiked: boolean }) =>
-      likePost(postId),
-    onMutate: ({ postId, userId, isLiked}) => {
-      // const previousPost = queryClient.getQueryData(["post", post._id]);
-      // const previousPostsAll = queryClient.getQueryData(["posts", "all"]);
-      // const previousPostsFollowing = queryClient.getQueryData([
-      //   "posts",
-      //   "following",
-      // ]);
-
-      queryClient.setQueryData(
-        ["post", postId],
-        (old: { data: PostType | undefined }) => {
-          if (!old || !old.data) return old;
-
-          const updatedLikes = old.data.likes
-          
-          if(isLiked) {
-            updatedLikes.filter((user) => user !== userId) 
-          } else {
-            updatedLikes.push(userId)
-          }
-          
-          console.log(updatedLikes)
-          return {
-            data: { ...old.data, likes: updatedLikes },
-          };
-        }
-      );
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+    mutationFn: ({
+      postId,
+    }: {
+      postId: string;
+    }) => likePost(postId),
+    onSuccess: (res) => {
+      const post = res.data;
+      queryClient.invalidateQueries({ queryKey: ["userProfile", username]});
+      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
       
+      updateQueryLikesAllPosts(post);
     },
   });
 };

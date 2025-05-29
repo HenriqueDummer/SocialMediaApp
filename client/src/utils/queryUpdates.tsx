@@ -32,41 +32,134 @@ export const updateQueryLikesUserProfile = (
   );
 };
 
-export const updateQueryLikesAllPosts = (
-  updatedLikes: string[],
-  post: PostType
-) => {
-  queryClient.setQueryData(["posts", "all"], (old: { data: PostType[] }) => {
-    if (!old || !old.data) {
+const updatePostLikes = (
+  post: PostType,
+  postId: string,
+  userId: string,
+  isLiked: boolean
+): PostType => {
+  if (post.isRepost && post.originalPost?._id === postId) {
+    const targetPost = post.originalPost;
+    const updatedLikes = targetPost.likes;
+    return {
+      ...post,
+      originalPost: {
+        ...targetPost,
+        likes: isLiked
+          ? updatedLikes.filter((user) => user !== userId)
+          : [...updatedLikes, userId],
+      },
+    };
+  }
+
+  if (post._id === postId) {
+    const updatedLikes = post.likes;
+    return {
+      ...post,
+      likes: isLiked
+        ? updatedLikes.filter((user) => user !== userId)
+        : [...updatedLikes, userId],
+    };
+  }
+
+  return post;
+};
+
+export const updateQueryLikesAllPosts = (post: PostType) => {
+  queryClient.setQueryData(["posts", "all"], (old: any) => {
+    const oldData = old.pages[0].data as PostType[] | undefined;
+
+    if (!oldData) {
       return { data: [] };
     }
 
-    const oldData = old.data;
     const updatedPosts = oldData.map((oldPost) => {
-      return oldPost._id === post._id
-        ? { ...oldPost, likes: updatedLikes }
-        : oldPost;
+      if (oldPost.isRepost && oldPost.originalPost._id === post._id) {
+        return {
+          ...oldPost,
+          originalPost: post,
+        };
+      }
+      if (oldPost._id !== post._id) return oldPost;
+      return post;
     });
 
-    return { data: updatedPosts };
+    return { ...old, pages: [{ data: updatedPosts }] };
+  });
+
+  queryClient.setQueryData(["posts", "following"], (old: any) => {
+    const oldData = old.pages[0].data as PostType[] | undefined;
+
+    if (!oldData) {
+      return { data: [] };
+    }
+
+    const updatedPosts = oldData.map((oldPost) => {
+      if (oldPost.isRepost && oldPost.originalPost._id === post._id) {
+        return {
+          ...oldPost,
+          originalPost: post,
+        };
+      }
+      if (oldPost._id !== post._id) return oldPost;
+      return post;
+    });
+
+    return { ...old, pages: [{ data: updatedPosts }] };
   });
 };
 
-export const updateQueryLikePost = (
-  updatedLikes: string[],
-  post: PostType
-) => {
+export const updateQueryLikePost = ({
+  isLiked,
+  postId,
+  userId,
+}: {
+  isLiked: boolean;
+  postId: string;
+  userId: string;
+}) => {
   queryClient.setQueryData(
-    ["post", post._id],
-    (old: { data: PostType[] }) => {
+    ["post", postId],
+    (old: { data: PostType | undefined }) => {
       if (!old || !old.data) {
-        return { data: [] };
+        return { data: undefined };
       }
-      const updatedPosts = { ...post, likes: updatedLikes };
 
-      return { data: updatedPosts };
+      const oldPost = old.data;
+      const updatedPost = updatePostLikes(oldPost, postId, userId, isLiked);
+
+      return {
+        data: updatedPost,
+      };
     }
   );
+};
+
+export const updateQueryLikePostProfile = ({
+  isLiked,
+  postId,
+  userId,
+  username,
+}: {
+  isLiked: boolean;
+  postId: string;
+  userId: string;
+  username: string;
+}) => {
+  queryClient.setQueryData(["userProfile", username], (old: { data: any }) => {
+
+    const oldData = old.data.posts;
+    console.log(oldData);
+
+    if (!oldData) {
+      return { data: [] };
+    }
+    const updatedPosts = oldData.map((oldPost: PostType) => {
+      return updatePostLikes(oldPost, postId, userId, isLiked);
+    });
+    
+    return { data: { ...old.data, posts: updatedPosts } };
+  });
 };
 
 export const updateQueryPostEdit = () => {
@@ -92,34 +185,35 @@ export const updateQueryPostEdit = () => {
 
 export const updateQueryFollowing = (updatedFollowing: string[]) => {
   queryClient.setQueryData(
-    ["authUser"], 
-    ({data: oldData}: {data: UserType}) => {
+    ["authUser"],
+    ({ data: oldData }: { data: UserType }) => {
       return {
         data: {
           ...oldData,
-          following: updatedFollowing
-        }
-      }
-  })
-}
+          following: updatedFollowing,
+        },
+      };
+    }
+  );
+};
 
 export const updateQueryProfileEdit = () => {
   // return (updatedProfile: UserType) => {
-      // queryClient.setQueryData(["authUser"], () => {
-      //   return {
-      //     data: user,
-      //   };
-      // });
-      // queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
-      //   return {
-      //     ...oldData,
-      //     user: updatedProfile,
-      //   };
-      // });
-  
-      toast("Profile updated", { theme: "dark", autoClose: 2000 });
+  // queryClient.setQueryData(["authUser"], () => {
+  //   return {
+  //     data: user,
+  //   };
+  // });
+  // queryClient.setQueryData(["userProfile"], (oldData: UserType) => {
+  //   return {
+  //     ...oldData,
+  //     user: updatedProfile,
+  //   };
+  // });
 
-      queryClient.invalidateQueries({queryKey: ["userProfile"]});
-      queryClient.invalidateQueries({queryKey: ["authUser"]});
-    // };
-}
+  toast("Profile updated", { theme: "dark", autoClose: 2000 });
+
+  queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+  queryClient.invalidateQueries({ queryKey: ["authUser"] });
+  // };
+};

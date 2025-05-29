@@ -10,7 +10,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
   const {authUser} = useAuthUser();
 
 
-  const { mutate: handleLikeReply } = mutateLikeReply();
+  const { mutate: handleLikeReply, isPending } = mutateLikeReply();
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (
@@ -53,6 +53,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
         <Button
           onClick={() => handleLikeReply({ replyId: replyData._id, postId })}
           className="bg-transparent border border-gray-600 px-2 py-2 rounded-lg"
+          disabled={isPending}
         >
           {isLiked ? (
             <IoHeart className="text-red-500" />
