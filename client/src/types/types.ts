@@ -34,5 +34,5 @@ export type Reply = {
   _id: string;
   user: UserType;
   text: string;
-  likes: [string];
+  likes: string[];
 };
