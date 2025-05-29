@@ -17,7 +17,6 @@ import LoadingPage from "./components/ui/LoadingPage";
 
 function AppRoutes() {
   const { authUser, isLoading } = useAuth();
-
   const navigate = useNavigate();
 
   setNavigator(navigate);

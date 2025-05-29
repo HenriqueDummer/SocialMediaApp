@@ -16,7 +16,6 @@ export const queryClient = new QueryClient({
 });
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
-console.log(axios.defaults.baseURL)
 axios.defaults.withCredentials = true;
 
 axios.interceptors.response.use(
@@ -86,7 +85,7 @@ export const getMe = async (): Promise<ApiResponse<UserType>> => {
 
 export const logout = async (): Promise<{ message: string }> => {
   try {
-    console.log("kajsldkajds");
+    console.log("Logout");
     const res = await axios.get("/auth/logout");
     return res.data; // Expecting { message }
   } catch (error: any) {
