@@ -28,6 +28,7 @@ import type { PostType, UserType } from "../types/types";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { useNavigate } from "react-router-dom";
 import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
+import { useAuth } from "../Context/AuthContext";
 
 // ----------- User --------------
 
@@ -205,14 +206,15 @@ export const queryPost = (postId: string) => {
 };
 
 export const mutateLike = () => {
+  const { authUser } = useAuth();
   return useMutation({
-    mutationFn: ({ postId, userId }: { postId: string, userId: string }) => likePost(postId),
-    onMutate: ({postId, userId}) => {
+    mutationFn: ({ postId }: { postId: string; userId: string }) =>
+      likePost(postId),
+    onMutate: ({ postId }) => {
       queryClient.setQueriesData({ queryKey: ["posts"] }, (old: any) =>
-        updateQueryLike(old, postId, userId)
+        updateQueryLike(old, postId, authUser!._id)
       );
     },
-    
   });
 };
 
