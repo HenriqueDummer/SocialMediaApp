@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-import { mutateSignin } from "../../utils/hooks";
+import { mutateSignin } from "../../hooks/hooks";
 
 const signInInputSchema = z.object({
   email: z.string().email(),

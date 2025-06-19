@@ -7,7 +7,7 @@ import { MdLoop } from "react-icons/md";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostActions from "./PostActions";
-import { useAuthUser } from "../../utils/hooks";
+import { useAuthUser } from "../../hooks/hooks";
 import { CgUnavailable } from "react-icons/cg";
 
 const Post = ({ post }: { post: PostType }) => {

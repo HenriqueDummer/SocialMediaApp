@@ -1,6 +1,6 @@
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
-import { mutateLike, mutateRepost } from "../../utils/hooks";
+import { mutateLike, mutateRepost } from "../../hooks/hooks";
 
 import { MdLoop, MdOutlineModeComment } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
@@ -26,32 +26,32 @@ const PostActions = ({
 }) => {
   const actionModalRef = useRef<HTMLButtonElement>(null);
 
-
-
-  const { mutate: like, isPending: isPendingLike } = mutateLike(postData.user.username);
+  const { mutate: like, isPending: isPendingLike } = mutateLike();
   const { mutate: repost } = mutateRepost();
 
   const isLiked = postData.likes?.includes(authUserId);
 
   const handleLike = (e: any) => {
     e.stopPropagation();
-    like({postId: postData._id});
+    like({postId: postData._id, userId: authUserId});
   };
 
   return (
     <div className="flex justify-between mt-4 gap-4">
       <Button
         onClick={(e) => handleLike(e)}
-        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""} !p-0 rounded-lg flex-1`}
+        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${
+          isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""
+        } !p-0 rounded-lg flex-1`}
         disabled={isPendingLike}
       >
         <p className={`flex gap-2 w-full justify-center items-center`}>
-            {isLiked ? (
-              <IoHeart className="text-3xl" />
-            ) : (
-              <IoHeartOutline className="text-3xl" />
-            )}
-            {postData.likes.length}
+          {isLiked ? (
+            <IoHeart className="text-3xl" />
+          ) : (
+            <IoHeartOutline className="text-3xl" />
+          )}
+          {postData.likes.length}
         </p>
       </Button>
       <div className="flex-1" onClick={(e) => e.stopPropagation()}>

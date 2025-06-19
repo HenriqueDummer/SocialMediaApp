@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       refetchOnReconnect: false,
     });
 
-
   return (
     <AuthContext.Provider value={{ authUser, isLoading }}>
       {children}

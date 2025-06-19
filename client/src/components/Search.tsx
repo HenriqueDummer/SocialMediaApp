@@ -1,7 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import Container from "./ui/Container";
 import { Input } from "./ui/input";
-import { mutateSearchAll, mutateSearchUsers } from "../utils/hooks";
+import { mutateSearchAll, mutateSearchUsers } from "../hooks/hooks";
 import type { PostType, UserType } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
@@ -63,10 +63,10 @@ const Search = ({
     }, 500);
   };
 
-  const handleNavigate = (username: string) => {
+  const handleNavigate = (userId: string) => {
     setUsersResults([]);
     setSearchQuery("");
-    navigate(`/profile/${username}`);
+    navigate(`/profile/${userId}`);
   };
 
   return (
@@ -102,7 +102,7 @@ const Search = ({
                         </button>
                         {usersResults.map((user) => (
                           <div
-                            onClick={() => handleNavigate(user.username)}
+                            onClick={() => handleNavigate(user._id)}
                             key={user._id}
                             className="flex gap-2 items-center cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                           >

@@ -4,7 +4,7 @@ import { Button } from './ui/button'
 import { VscHome } from 'react-icons/vsc'
 import { IoIosSearch } from 'react-icons/io'
 import { TbLogout2 } from 'react-icons/tb'
-import { mutateLogout } from '../utils/hooks'
+import { mutateLogout } from '../hooks/hooks'
 
 const NavBar = () => {
   const { mutate: handleLogout } = mutateLogout();

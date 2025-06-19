@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { Button } from "./ui/button.tsx";
-import { useAuthUser, mutateLikeReply } from "../utils/hooks.ts";
+import { useAuthUser, mutateLikeReply } from "../hooks/hooks.ts";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
   const {authUser} = useAuthUser();
@@ -17,7 +17,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
     <Container className="mt-4 py-2 lg:px-8 flex justify-between items-center">
       <div className="flex gap-2">
         <NavLink
-          to={`/profile/${replyData.user.username}`}
+          to={`/profile/${replyData.user._id}`}
           onClick={(e) => e.stopPropagation()}
         >
           <div

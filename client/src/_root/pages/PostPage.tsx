@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import CreateReply from "../../components/CreateReply";
 import Reply from "../../components/Reply";
 import PrevPageButton from "../../components/PrevPageButton";
-import { queryPost } from "../../utils/hooks";
+import { queryPost } from "../../hooks/hooks";
 import LoadingComponent from "../../components/ui/LoadingComponent";
 
 const PostPage = () => {

@@ -6,13 +6,12 @@ import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
 import { toast } from "react-toastify";
 import { navigateTo } from "./navigation";
 
-
 export const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false,
-		},
-	},
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
 });
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
@@ -22,8 +21,11 @@ axios.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {  
-    if (error.response.request.responseURL === import.meta.env.VITE_BASE_URL + "/auth/me")
+  (error) => {
+    if (
+      error.response.request.responseURL ===
+      import.meta.env.VITE_BASE_URL + "/auth/me"
+    )
       return Promise.reject(error);
     if (error.response && error.response.status === 401) {
       queryClient.setQueryData(["authUser"], { data: null });
@@ -50,7 +52,7 @@ export const signIn = async (
 ): Promise<ApiResponse<UserType>> => {
   try {
     const res = await axios.post("/auth/sign-in", data);
-    return res.data; 
+    return res.data;
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -73,7 +75,7 @@ export const getMe = async (): Promise<ApiResponse<UserType>> => {
   try {
     console.log("Get me");
     const res = await axios.get("/auth/me");
-    return res.data ?? null; 
+    return res.data ?? null;
   } catch (error: any) {
     console.log(error);
     if (error.response?.status === 401) {
@@ -113,16 +115,16 @@ export const updateProfile = async (
 export const getAllPosts = async (
   filter: string,
   pageParam: number = 1
-): Promise<{data: PostType[], nextPage: number}> => {
+): Promise<{ data: PostType[]; nextPage: number }> => {
   try {
     const { data } = await axios.get("/posts/" + filter + "?page=" + pageParam);
-    
-    console.log(data)
-    
+
+    console.log(data);
+
     return {
       data: data.data,
       nextPage: data.nextPage,
-    }; 
+    };
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");
@@ -133,7 +135,6 @@ export const likePost = async (
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
-    console.log("Like post", postId);
     const { data } = await axios.post(`/posts/like/${postId}`);
     return data; // Expecting { message, data: { likes } }
   } catch (error: any) {
@@ -158,12 +159,22 @@ export const createPost = async (postData: {
   }
 };
 
-export const getUserProfile = async (
-  username: string
-): Promise<ApiResponse<{ user: UserType; posts: PostType[] }>> => {
+export const getUserProfile = async (userId: string): Promise<UserType> => {
   try {
-    const res = await axios.get(`/user/profile/${username}`);
-    return res.data; // Expecting { data: { user, posts } }
+    const res = await axios.get(`/user/profile/${userId}`);
+    return res.data.data; // Expecting { data: { user, posts } }
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.response?.data?.message || "Something went wrong");
+  }
+};
+
+export const getUserPosts = async (
+  userId: string
+): Promise<PostType[]> => {
+  try {
+    const res = await axios.get("/posts/" + userId);
+    return res.data;
   } catch (error: any) {
     console.log(error);
     throw new Error(error.response?.data?.message || "Something went wrong");

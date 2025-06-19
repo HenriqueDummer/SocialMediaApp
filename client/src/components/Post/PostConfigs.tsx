@@ -13,7 +13,7 @@ import { updateQueryPostEdit } from "../../utils/queryUpdates";
 import { toast } from "react-toastify";
 import { BsThreeDots } from "react-icons/bs";
 import { useRef } from "react";
-import { mutateDelete } from "../../utils/hooks";
+import { mutateDelete } from "../../hooks/hooks";
 
 const PostConfigs = ({
   postData,

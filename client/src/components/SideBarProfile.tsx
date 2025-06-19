@@ -8,7 +8,7 @@ const SideBarProfile = () => {
     <>
       {authUser && (
         <>
-          <NavLink to={`/profile/${authUser?.username}`} className="lg:hidden">
+          <NavLink to={`/profile/${authUser?._id}`} className="lg:hidden">
             <div
               className="w-14 border border-zinc-600 aspect-square rounded-full bg-center bg-cover"
               style={{
@@ -60,7 +60,7 @@ const SideBarProfile = () => {
               </div>
               <NavLink
                 className="w-full flex justify-center items-center py-6 bg-transparent"
-                to={"/profile/" + authUser!.username}
+                to={"/profile/" + authUser!._id}
               >
                 <p className="font-bold text-cyan-600 bg-gradient-to-br from-blue-600 to-rose-600 bg-clip-text text-transparent">
                   My Profile

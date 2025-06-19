@@ -65,48 +65,40 @@ const updatePostLikes = (
   return post;
 };
 
-export const updateQueryLikesAllPosts = (post: PostType) => {
-  queryClient.setQueryData(["posts", "all"], (old: any) => {
-    const oldData = old.pages[0].data as PostType[] | undefined;
+const updateLikePost = (post: PostType, userId: string): PostType => {
+  let updatedLikes = post.likes;
 
-    if (!oldData) {
-      return { data: [] };
+  if (post.likes.includes(userId)) {
+    updatedLikes = updatedLikes.filter((user) => user !== userId);
+  } else {
+    updatedLikes.push(userId);
+  }
+
+  return { ...post, likes: updatedLikes };
+};
+
+export const updateQueryLike = (old: any, postId: string, userId: string) => {
+  const oldData = old.pages[0].data as PostType[] | undefined;
+
+  if (!oldData) {
+    return { data: [] };
+  }
+
+  const updatedPosts = oldData.map((oldPost) => {
+    if (oldPost._id == postId) return updateLikePost(oldPost, userId);
+     
+    if (oldPost.isRepost && oldPost.originalPost._id === postId) {
+      console.log(oldPost)
+      return {
+        ...oldPost,
+        originalPost: updateLikePost(oldPost.originalPost, userId),
+      };
     }
 
-    const updatedPosts = oldData.map((oldPost) => {
-      if (oldPost.isRepost && oldPost.originalPost._id === post._id) {
-        return {
-          ...oldPost,
-          originalPost: post,
-        };
-      }
-      if (oldPost._id !== post._id) return oldPost;
-      return post;
-    });
-
-    return { ...old, pages: [{ data: updatedPosts }] };
+    return oldPost;
   });
 
-  queryClient.setQueryData(["posts", "following"], (old: any) => {
-    const oldData = old.pages[0].data as PostType[] | undefined;
-
-    if (!oldData) {
-      return { data: [] };
-    }
-
-    const updatedPosts = oldData.map((oldPost) => {
-      if (oldPost.isRepost && oldPost.originalPost._id === post._id) {
-        return {
-          ...oldPost,
-          originalPost: post,
-        };
-      }
-      if (oldPost._id !== post._id) return oldPost;
-      return post;
-    });
-
-    return { ...old, pages: [{ data: updatedPosts }] };
-  });
+  return { ...old, pages: [{ data: updatedPosts }] };
 };
 
 export const updateQueryLikePost = ({
@@ -147,7 +139,6 @@ export const updateQueryLikePostProfile = ({
   username: string;
 }) => {
   queryClient.setQueryData(["userProfile", username], (old: { data: any }) => {
-
     const oldData = old.data.posts;
     console.log(oldData);
 
@@ -157,7 +148,7 @@ export const updateQueryLikePostProfile = ({
     const updatedPosts = oldData.map((oldPost: PostType) => {
       return updatePostLikes(oldPost, postId, userId, isLiked);
     });
-    
+
     return { data: { ...old.data, posts: updatedPosts } };
   });
 };

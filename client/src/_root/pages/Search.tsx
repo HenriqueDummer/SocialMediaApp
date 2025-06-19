@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { PostType, UserType } from "../../types/types";
 import Container from "../../components/ui/Container";
 import Feed from "../../components/Feed";
-import { useInfinityPosts } from "../../utils/hooks";
+import { queryInfinityPosts } from "../../hooks/hooks";
 import FollowButton from "../../components/Post/FollowButton";
 import InfinitFeed from "../../components/InfinitFeed";
 import FeedContainer from "../../components/ui/FeedContainer";
@@ -14,7 +14,7 @@ const SearchPage = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfinityPosts("all");
+    queryInfinityPosts("all");
 
   const [results, setResults] = useState<{
     users: UserType[];

@@ -1,5 +1,5 @@
 import Post from "../models/post.model.js";
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 import User from "../models/user.model.js";
 import mongoose from "mongoose";
 
@@ -9,13 +9,18 @@ export const getPosts = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     const user = req.user;
-    const { filter } = req.params
+    const { filter } = req.params;
 
     const followingIds = user.following;
-    let mongoFilter = {}
+
+    let mongoFilter = {};
+    let targetUser = null;
 
     if (filter === "following") {
-      mongoFilter = { user: { $in: followingIds } }
+      mongoFilter = { user: { $in: followingIds } };
+    } else if (filter !== "all") {
+      // filter = user id
+      mongoFilter = { user: filter};
     }
 
     const [posts, total] = await Promise.all([
@@ -29,21 +34,23 @@ export const getPosts = async (req, res) => {
             { path: "user" },
             {
               path: "originalPost",
-              populate: { path: "user" }
-            }
-          ]
-        }).sort({ createdAt: -1 }),
-      Post.countDocuments(mongoFilter)
-    ])
+              populate: { path: "user" },
+            },
+          ],
+        })
+        .sort({ createdAt: -1 }),
+      Post.countDocuments(mongoFilter),
+    ]);
 
     if (posts.length === 0) {
       return res.status(200).json({
         message: "No posts found",
-        data: { posts: [] },
+        data: [],
       });
     }
 
-    const nextpage = skip + posts.length < total ? page + 1 : null
+    console.log(posts);
+    const nextpage = skip + posts.length < total ? page + 1 : null;
 
     return res.status(200).json({
       data: posts,
@@ -80,7 +87,7 @@ export const createPost = async (req, res) => {
       text,
       selectedFile,
       originalPost,
-      isQuote
+      isQuote,
     });
 
     await newPost.save();
@@ -88,43 +95,6 @@ export const createPost = async (req, res) => {
     return res.status(201).json({
       message: "Post created successfully",
       data: newPost,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: "Something went wrong, please try again later",
-    });
-  }
-};
-
-export const getUserProfile = async (req, res) => {
-  try {
-    const { username } = req.params;
-
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    const userPosts = await Post
-      .find({ user: user._id })
-      .sort({ createdAt: -1 })
-      .populate({ path: "user", select: "-password" })
-      .populate({
-        path: "originalPost",
-        populate: [
-          { path: "user" },
-          {
-            path: "originalPost",
-            populate: { path: "user" }
-          }
-        ]
-      })
-
-    return res.status(200).json({
-      data: { user, posts: userPosts },
     });
   } catch (error) {
     console.log(error);
@@ -150,7 +120,9 @@ export const likePost = async (req, res) => {
     }
 
     if (post.likes.includes(user._id)) {
-      post.likes = post.likes.filter((id) => id.toString() !== user._id.toString());
+      post.likes = post.likes.filter(
+        (id) => id.toString() !== user._id.toString()
+      );
     } else {
       post.likes.push(user._id);
     }
@@ -161,7 +133,6 @@ export const likePost = async (req, res) => {
       message: post.likes.includes(user._id) ? "Post liked" : "Post disliked",
       data: post,
     });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -184,7 +155,7 @@ export const getPostById = async (req, res) => {
       .populate({ path: "user", select: "-password" })
       .populate({ path: "replies.user", select: "-password" })
       .populate({ path: "originalPost" })
-      .populate({ path: "originalPost", populate: "user" })
+      .populate({ path: "originalPost", populate: "user" });
 
     if (!post) {
       return res.status(404).json({
@@ -257,7 +228,7 @@ export const likeReply = async (req, res) => {
       });
     }
 
-    console.log(post)
+    console.log(post);
     const reply = post.replies.id(replyId);
     if (!reply) {
       return res.status(404).json({
@@ -311,7 +282,7 @@ export const editPost = async (req, res) => {
       update.text = text;
     }
     if (!selectedFile && currentPost.selectedFile) {
-      update.selectedFile = ""
+      update.selectedFile = "";
       await cloudinary.uploader.destroy(currentPost.selectedFile);
     } else {
       if (selectedFile !== currentPost.selectedFile) {
@@ -352,10 +323,10 @@ export const deletePost = async (req, res) => {
   try {
     const { postId } = req.params;
 
-    const post = await Post.findById(postId)
+    const post = await Post.findById(postId);
 
-    console.log("Delete")
-    console.log(post)
+    console.log("Delete");
+    console.log(post);
 
     if (!post) {
       return res.status(404).json({
@@ -378,30 +349,29 @@ export const deletePost = async (req, res) => {
       message: "Something went wrong, please try again later",
     });
   }
-}
+};
 
 export const repostPost = async (req, res) => {
-  const user = req.user
-  const { postId } = req.params
+  const user = req.user;
+  const { postId } = req.params;
 
   try {
     const targetPost = await Post.findById(postId);
 
-    let repostReference = targetPost
+    let repostReference = targetPost;
 
     if (targetPost.isRepost) {
-      repostReference = targetPost.originalPost
+      repostReference = targetPost.originalPost;
     }
 
-
     if (!repostReference) {
-      throw new Error('Post not found');
+      throw new Error("Post not found");
     }
 
     const newPost = new Post({
       user: user._id,
       isRepost: true,
-      originalPost: repostReference._id
+      originalPost: repostReference._id,
     });
 
     const repost = await newPost.save();
@@ -411,17 +381,16 @@ export const repostPost = async (req, res) => {
       { path: "user", select: "-password" },
     ]);
 
-    console.log(populatedRepost)
-
+    console.log(populatedRepost);
 
     return res.status(201).json({
       message: "Successfully reposted",
-      data: populatedRepost
-    })
+      data: populatedRepost,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       message: "Something went wrong, please try again later",
     });
   }
-}
+};

@@ -1,5 +1,5 @@
 import { useAuth } from "../Context/AuthContext";
-import { queryWhoToFollow } from "../utils/hooks";
+import { queryWhoToFollow } from "../hooks/hooks";
 import FollowButton from "./Post/FollowButton";
 import Container from "./ui/Container";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ const WhoToFollow = () => {
               {users &&
                 users.map((user) => (
                   <div
-                    onClick={() => navigate(`/profile/${user.username}`)}
+                    onClick={() => navigate(`/profile/${user._id}`)}
                     key={user._id}
                     className="flex gap-2 items-center cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                   >

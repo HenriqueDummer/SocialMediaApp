@@ -7,6 +7,7 @@ import {
   getAllPosts,
   getMe,
   getPostById,
+  getUserPosts,
   getUserProfile,
   getWhoToFollow,
   likePost,
@@ -20,9 +21,9 @@ import {
   signIn,
   signUp,
   type ApiResponse,
-} from "./http";
+} from "../utils/http";
 import { toast } from "react-toastify";
-import { updateQueryFollowing, updateQueryLikesAllPosts } from "./queryUpdates";
+import { updateQueryFollowing, updateQueryLike } from "../utils/queryUpdates";
 import type { PostType, UserType } from "../types/types";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { useNavigate } from "react-router-dom";
@@ -98,19 +99,22 @@ export const mutateFollow = () => {
   });
 };
 
-export const queryUserProfile = (username: string) => {
-  const {
-    data: { data: userProfile } = {} as ApiResponse<{
-      user: UserType;
-      posts: PostType;
-    }>,
-    isLoading,
-  } = useQuery<ApiResponse<{ user: UserType; posts: PostType[] }>>({
-    queryFn: () => getUserProfile(username!),
-    queryKey: ["userProfile", username],
+export const queryUserProfile = (userId: string) => {
+  const { data, isLoading } = useQuery<UserType>({
+    queryFn: () => getUserProfile(userId!),
+    queryKey: ["userProfile", userId],
   });
 
-  return { userProfile, isLoading };
+  return { data, isLoading };
+};
+
+export const queryUserPosts = (userId: string) => {
+  const { data, isLoading } = useQuery<PostType[]>({
+    queryFn: () => getUserPosts(userId),
+    queryKey: ["posts", userId],
+  });
+
+  return { data, isLoading };
 };
 
 export const mutateSearchUsers = (
@@ -167,7 +171,7 @@ export const queryWhoToFollow = () => {
 
 // ----------- Posts --------------
 
-export const useInfinityPosts = (filter: string) => {
+export const queryInfinityPosts = (filter: string) => {
   return useInfiniteQuery({
     queryKey: ["posts", filter],
     queryFn: ({ pageParam }) => getAllPosts(filter, pageParam),
@@ -200,20 +204,15 @@ export const queryPost = (postId: string) => {
   return { postData, isLoading };
 };
 
-export const mutateLike = (username: string) => {
+export const mutateLike = () => {
   return useMutation({
-    mutationFn: ({
-      postId,
-    }: {
-      postId: string;
-    }) => likePost(postId),
-    onSuccess: (res) => {
-      const post = res.data;
-      queryClient.invalidateQueries({ queryKey: ["userProfile", username]});
-      queryClient.invalidateQueries({ queryKey: ["post", post._id] });
-      
-      updateQueryLikesAllPosts(post);
+    mutationFn: ({ postId, userId }: { postId: string, userId: string }) => likePost(postId),
+    onMutate: ({postId, userId}) => {
+      queryClient.setQueriesData({ queryKey: ["posts"] }, (old: any) =>
+        updateQueryLike(old, postId, userId)
+      );
     },
+    
   });
 };
 

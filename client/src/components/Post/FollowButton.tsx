@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { mutateFollow } from "../../utils/hooks";
+import { mutateFollow } from "../../hooks/hooks";
 import { useState } from "react";
 
 const FollowButton = ({

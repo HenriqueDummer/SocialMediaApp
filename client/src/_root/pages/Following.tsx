@@ -1,12 +1,13 @@
 import CreatePost from "../../components/Post/CreatePost";
 import FeedFilter from "../../components/FeedFilter";
-import { useInfinityPosts } from "../../utils/hooks";
+import { queryInfinityPosts } from "../../hooks/hooks";
 import InfinitFeed from "../../components/InfinitFeed";
 import LoadingComponent from "../../components/ui/LoadingComponent";
+import FeedContainer from "../../components/ui/FeedContainer";
 
 const Following = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfinityPosts("following");
+    queryInfinityPosts("following");
 
   if (isLoading) return <LoadingComponent text="Loading posts..." />;
 
@@ -17,23 +18,17 @@ const Following = () => {
       <div className="sticky top-0 z-10 bg-inherit">
         <FeedFilter />
       </div>
-      <div className="flex-1 overflow-auto no_scrollbar mt-2 rounded-3xl border-t border-gray-600">
-        <div className="flex flex-col">
-          <CreatePost isQuote={false} />
-          {isLoading ? (
-            <h1>Loading...</h1>
-          ) : (
-            posts && (
-              <InfinitFeed
-                posts={posts}
-                fetchNextPage={fetchNextPage}
-                hasNextPage={hasNextPage}
-                isFetchingNextPage={isFetchingNextPage}
-              />
-            )
-          )}
-        </div>
-      </div>
+      <FeedContainer className="mt-4">
+        <CreatePost isQuote={false} />
+        {posts && (
+        <InfinitFeed
+          posts={posts}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+        />
+        )}
+      </FeedContainer>
     </div>
   );
 };

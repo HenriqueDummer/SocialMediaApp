@@ -11,7 +11,7 @@ import PostPage from "./_root/pages/PostPage";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";
-import SearchPage from "./_root/pages/SearchPage";
+import SearchPage from "./_root/pages/Search";
 import { setNavigator } from "./utils/navigation";
 import LoadingPage from "./components/ui/LoadingPage";
 
@@ -41,7 +41,7 @@ function AppRoutes() {
               <Route path="/" element={<Home />} />
               <Route path="/following" element={<Following />} />
               <Route path="/search/:query?" element={<SearchPage />} />
-              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/profile/:userId" element={<Profile />} />
               <Route path="/posts/:id" element={<PostPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

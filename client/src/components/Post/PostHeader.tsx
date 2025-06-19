@@ -27,7 +27,7 @@ const PostHeader = ({
       <div className="flex items-center">
         <div>
           <NavLink
-            to={`/profile/${postData.user.username}`}
+            to={`/profile/${postData.user._id}`}
             onClick={(e) => e.stopPropagation()}
           >
             <div
