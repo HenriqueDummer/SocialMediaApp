@@ -33,7 +33,7 @@ const PostActions = ({
 
   const handleLike = (e: any) => {
     e.stopPropagation();
-    like({postId: postData._id, userId: authUserId});
+    like({postId: postData._id});
   };
 
   return (

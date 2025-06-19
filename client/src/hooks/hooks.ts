@@ -208,7 +208,7 @@ export const queryPost = (postId: string) => {
 export const mutateLike = () => {
   const { authUser } = useAuth();
   return useMutation({
-    mutationFn: ({ postId }: { postId: string; userId: string }) =>
+    mutationFn: ({ postId }: { postId: string }) =>
       likePost(postId),
     onMutate: ({ postId }) => {
       queryClient.setQueriesData({ queryKey: ["posts"] }, (old: any) =>
