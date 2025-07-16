@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import type { PostType } from "../../types/types";
 import PostHeader from "../Post/PostHeader";
 import Container from "../ui/Container";
+import { UserInfo } from "../Post/UserInfo";
 
 const EditPostForm = ({
   formData,
@@ -33,7 +34,7 @@ const EditPostForm = ({
 
   return (
     <Container className="bg-light_bg bg-transparent border mt-4 rounded-xl">
-      <PostHeader postData={formData} actions={false} isRepost={false} />
+      <UserInfo user={formData.user} createdAt={formData.createdAt}  />
       <div className="w-full">
         <TextareaAutosize
           onChange={(e) => onChange(e)}

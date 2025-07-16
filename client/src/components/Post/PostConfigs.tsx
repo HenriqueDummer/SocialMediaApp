@@ -34,6 +34,7 @@ const PostConfigs = ({
 
     toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
   };
+  
   return (
     <div onClick={(e) => e.stopPropagation()}>
       {postData && (

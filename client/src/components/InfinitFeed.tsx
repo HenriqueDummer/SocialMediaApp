@@ -37,9 +37,9 @@ const InfinitFeed = ({
     <div className="w-full pb-20 sm:pb-4">
       <Feed posts={posts} />
       <div ref={ref} className="mt-4">
-        {isFetchingNextPage && (
-          <LoadingComponent text="Loading more posts..."/>
-        )}
+          {isFetchingNextPage && (
+            <LoadingComponent text="Loading more posts..."/>
+          )}
       </div>
     </div>
   );

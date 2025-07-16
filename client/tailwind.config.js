@@ -3,14 +3,14 @@ module.exports = {
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
   theme: {
-		screens: {
-			"xs": "500px",
-			"sm": "640px",
-			"md": "768px",
-			"lg": "1024px",
-			"xl": "1280px",
-			"2xl": "1536px",
-		},
+  	screens: {
+  		'xs': '500px',
+  		'sm': '640px',
+  		'md': '768px',
+  		'lg': '1024px',
+  		'xl': '1280px',
+  		'2xl': '1536px'
+  	},
   	extend: {
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -18,8 +18,8 @@ module.exports = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-				dark_bg: '#05141C',
-				light_bg: '#1B2730',
+  			dark_bg: '#05141C',
+  			light_bg: '#1B2730',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

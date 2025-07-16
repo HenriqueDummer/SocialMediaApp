@@ -11,6 +11,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 
@@ -33,16 +34,15 @@ const PostActions = ({
 
   const handleLike = (e: any) => {
     e.stopPropagation();
-    like({postId: postData._id});
+    like({ postId: postData._id });
   };
 
   return (
     <div className="flex justify-between mt-4 gap-4">
       <Button
         onClick={(e) => handleLike(e)}
-        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${
-          isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""
-        } !p-0 rounded-lg flex-1`}
+        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""
+          } !p-0 rounded-lg flex-1`}
         disabled={isPendingLike}
       >
         <p className={`flex gap-2 w-full justify-center items-center`}>
@@ -60,16 +60,16 @@ const PostActions = ({
         </ActionModal>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button className="bg-transparent !text-xs sm:!text-sm border  border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
+            <Button className="bg-transparent !text-xs sm:!text-sm border border-gray-600 px-4 py-2 rounded-lg flex items-center gap-2 text-slate-400 w-full">
               <MdLoop />
               Repost
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="bg-light_bg rounded-lg">
-            <DropdownMenuItem className="p-0">
+          <DropdownMenuContent className="bg-black rounded-lg border mt-1 border-gray-600 ">
+            <DropdownMenuItem className="p-0 border-none ring-0">
               <Button
                 onClick={() => repost(postData._id)}
-                className="w-full h-full !text-xs sm:!text-sm bg-transparent items-start"
+                className="w-full h-full !text-xs sm:!text-sm bg-transparent items-start border-none ring-0"
               >
                 <MdLoop />
                 Repost
