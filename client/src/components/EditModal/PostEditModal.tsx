@@ -26,8 +26,8 @@ export const PostEditModal = ({ initialData, updateFn, children }: PostEditModal
       return response.data;
     },
     onSuccess: (updatedData: PostType) => {
-      // updateFn(updatedData);
-      // toast.success("Post updated!", {theme: "dark", autoClose: 2000})
+      updateFn(updatedData);
+      toast.success("Post updated!", {theme: "dark", autoClose: 2000})
       closeModal();
     },
     onError: (error: Error) => {

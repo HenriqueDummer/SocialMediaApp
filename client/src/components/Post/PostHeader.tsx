@@ -1,7 +1,4 @@
-import { NavLink } from "react-router-dom";
 import type { PostType, UserType } from "../../types/types";
-import PostConfigs from "./PostConfigs";
-import FollowButton from "./FollowButton";
 import { PostHeaderActions } from "./PostHeaderActions";
 import { UserInfo } from "./UserInfo";
 

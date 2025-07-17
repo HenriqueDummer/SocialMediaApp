@@ -11,12 +11,10 @@ import { ConfirmActionDialog } from "../ConfirmActionDialog";
 const PostConfigs = ({
   postData,
   postId,
-  isRepost,
 }: {
   postData: PostType;
   postId: string;
   canEdit: boolean;
-  isRepost: boolean;
 }) => {
   const { mutate: deletePost } = mutateDelete();
 
