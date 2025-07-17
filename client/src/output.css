@@ -966,10 +966,6 @@ body {
   min-width: 8rem;
 }
 
-.min-w-32 {
-  min-width: 8rem;
-}
-
 .max-w-\[30rem\] {
   max-width: 30rem;
 }
@@ -1366,16 +1362,6 @@ body {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
-}
-
-.bg-neutral-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(23 23 23 / var(--tw-bg-opacity, 1));
-}
-
-.bg-neutral-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--tw-bg-opacity, 1));
 }
 
 .bg-gradient-to-br {

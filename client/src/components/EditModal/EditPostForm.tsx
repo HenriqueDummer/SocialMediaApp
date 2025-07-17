@@ -8,7 +8,6 @@ import { IoCloseCircle } from "react-icons/io5";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import type { PostType } from "../../types/types";
-import PostHeader from "../Post/PostHeader";
 import Container from "../ui/Container";
 import { UserInfo } from "../Post/UserInfo";
 
