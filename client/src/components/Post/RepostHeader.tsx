@@ -1,5 +1,4 @@
 import { MdLoop } from "react-icons/md"
-import { UserType } from "../../types/types"
 
 export const RepostHeader = ({ username }: { username: string }) => {
     return (

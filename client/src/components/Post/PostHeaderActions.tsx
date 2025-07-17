@@ -25,7 +25,6 @@ export const PostHeaderActions = ({ postData,
         return (
             <PostConfigs
                 canEdit={isPostAuthor}
-                isRepost={isRepost}
                 postData={postData}
                 postId={postId}
             />
