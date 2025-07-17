@@ -16,7 +16,7 @@ export const PostHeaderActions = ({ postData,
     postId,
     isRepost,
     isPostAuthor, }: PostHeaderActionsProps) => {
- 
+
     const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation();
     };
