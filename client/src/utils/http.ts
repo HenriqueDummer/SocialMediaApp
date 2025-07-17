@@ -135,6 +135,7 @@ export const likePost = async (
   postId: string
 ): Promise<ApiResponse<PostType>> => {
   try {
+    console.log("Liked " + postId)
     const { data } = await axios.post(`/posts/like/${postId}`);
     return data; // Expecting { message, data: { likes } }
   } catch (error: any) {

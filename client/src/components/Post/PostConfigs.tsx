@@ -1,78 +1,40 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
 import { Button } from "../ui/button";
 import EditModal from "../EditModal/EditModal";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { FiEdit3 } from "react-icons/fi";
 import type { PostType } from "../../types/types";
 import { updateQueryPostEdit } from "../../utils/queryUpdates";
-import { toast } from "react-toastify";
-import { BsThreeDots } from "react-icons/bs";
-import { useRef } from "react";
 import { mutateDelete } from "../../hooks/hooks";
+import { MdModeEdit } from "react-icons/md";
 
 const PostConfigs = ({
   postData,
   postId,
   isRepost,
 }: {
-  postData?: PostType;
+  postData: PostType;
   postId: string;
   canEdit: boolean;
   isRepost: boolean;
 }) => {
-  const editModalRef = useRef<HTMLButtonElement>(null);
-
   const { mutate: deletePost } = mutateDelete();
 
-  const onUpdate = () => {
-    updateQueryPostEdit();
-
-    toast.success(`Post updated`, { theme: "dark", autoClose: 2000 });
-  };
-  
   return (
-    <div onClick={(e) => e.stopPropagation()}>
-      {postData && (
-        <EditModal initialData={postData} updateFn={onUpdate} type="post">
-          <Button ref={editModalRef} className="hidden"></Button>
-        </EditModal>
-      )}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button className="bg-transparent border border-none py-2 rounded-full flex items-center text-slate-400 w-full">
-            <BsThreeDots className="text-xl" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-light_bg rounded-lg">
-          <DropdownMenuItem className="p-0">
-            {!isRepost && (
-              <Button
-                className="w-full h-full bg-transparent text-slate-200 !px-6"
-                onClick={() => editModalRef.current?.click()}
-              >
-                <FiEdit3 />
-                Edit
-              </Button>
-            )}
-          </DropdownMenuItem>
-          <DropdownMenuItem className="p-0">
-            <Button
-              onClick={() => {
-                deletePost(postId);
-              }}
-              className="w-full h-full bg-transparent"
-            >
-              <FaRegTrashCan />
-              Delete
-            </Button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+    <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
+      <EditModal
+        type="post"
+        initialData={postData}
+        updateFn={() => updateQueryPostEdit({ id: postData._id })}
+      >
+        <Button className="bg-transparent hover:text-cyan-600 hover:bg-transparent"><MdModeEdit /></Button>
+      </EditModal>
+      <Button
+        onClick={() => {
+          deletePost(postId);
+        }}
+        className="bg-transparent hover:text-red-500 hover:bg-transparent"
+      >
+        <FaRegTrashCan />
+      </Button>
     </div>
   );
 };

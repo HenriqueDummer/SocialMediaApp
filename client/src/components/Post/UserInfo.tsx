@@ -26,7 +26,7 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
 
             <div className="ml-2">
                 <NavLink
-                    to={`/profile/${user.username}`}
+                    to={`/profile/${user._id}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="items-center gap-2 inline-flex">

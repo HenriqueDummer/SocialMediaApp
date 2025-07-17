@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 
@@ -25,17 +24,18 @@ const PostActions = ({
   postData: PostType;
   authUserId: string;
 }) => {
-  const actionModalRef = useRef<HTMLButtonElement>(null);
-
   const { mutate: like, isPending: isPendingLike } = mutateLike();
   const { mutate: repost } = mutateRepost();
 
-  const isLiked = postData.likes?.includes(authUserId);
-
   const handleLike = (e: any) => {
+    console.log("Like")
     e.stopPropagation();
     like({ postId: postData._id });
   };
+
+  const actionModalRef = useRef<HTMLButtonElement>(null);
+
+  const isLiked = postData.likes?.includes(authUserId);
 
   return (
     <div className="flex justify-between mt-4 gap-4">

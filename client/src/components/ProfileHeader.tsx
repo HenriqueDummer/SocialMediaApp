@@ -5,8 +5,9 @@ import EditModal from "./EditModal/EditModal";
 import { updateQueryProfileEdit } from "../utils/queryUpdates";
 import { Button } from "./ui/button";
 import FollowButton from "./Post/FollowButton";
+import { MdModeEdit } from "react-icons/md";
 
-const ProfileHeader = ({user}: {user: UserType}) => {
+const ProfileHeader = ({ user }: { user: UserType }) => {
   const { authUser } = useAuth();
 
   return (
@@ -32,7 +33,7 @@ const ProfileHeader = ({user}: {user: UserType}) => {
               initialData={authUser!}
               updateFn={updateQueryProfileEdit}
             >
-              <Button className="text-cyan-600">Edit Profile</Button>
+              <Button className="bg-transparent border border-zinc-600 "> <MdModeEdit /> Edit </Button>
             </EditModal>
           ) : (
             <FollowButton

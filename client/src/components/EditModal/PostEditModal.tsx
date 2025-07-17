@@ -11,7 +11,7 @@ import EditPostForm from "./EditPostForm";
 
 
 export const PostEditModal = ({ initialData, updateFn, children }: PostEditModalProps) => {
-  const { open, openModal, closeModal } = useModalState();
+  const { open, openModal, closeModal, handleOpenChange } = useModalState();
   const {
     formData,
     handleInputChange,
@@ -26,7 +26,8 @@ export const PostEditModal = ({ initialData, updateFn, children }: PostEditModal
       return response.data;
     },
     onSuccess: (updatedData: PostType) => {
-      updateFn(updatedData);
+      // updateFn(updatedData);
+      // toast.success("Post updated!", {theme: "dark", autoClose: 2000})
       closeModal();
     },
     onError: (error: Error) => {
@@ -49,7 +50,7 @@ export const PostEditModal = ({ initialData, updateFn, children }: PostEditModal
   };
 
   return (
-    <Dialog open={open} onOpenChange={openModal}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild onClick={openModal}>
         {children}
       </DialogTrigger>

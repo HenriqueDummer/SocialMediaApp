@@ -214,6 +214,8 @@ export const mutateLike = () => {
       queryClient.setQueriesData({ queryKey: ["posts"] }, (old: any) =>
         updateQueryLike(old, postId, authUser!._id)
       );
+
+      
     },
   });
 };

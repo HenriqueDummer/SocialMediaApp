@@ -36,8 +36,9 @@ const updatePostLikes = (
   post: PostType,
   postId: string,
   userId: string,
-  isLiked: boolean
+
 ): PostType => {
+  const isLiked = post.likes.includes(userId)
   if (post.isRepost && post.originalPost?._id === postId) {
     const targetPost = post.originalPost;
     const updatedLikes = targetPost.likes;
@@ -86,9 +87,8 @@ export const updateQueryLike = (old: any, postId: string, userId: string) => {
 
   const updatedPosts = oldData.map((oldPost) => {
     if (oldPost._id == postId) return updateLikePost(oldPost, userId);
-     
-    if (oldPost.isRepost && oldPost.originalPost._id === postId) {
-      console.log(oldPost)
+
+    if (oldPost.isRepost && oldPost.originalPost && oldPost.originalPost._id === postId) {
       return {
         ...oldPost,
         originalPost: updateLikePost(oldPost.originalPost, userId),
@@ -98,15 +98,16 @@ export const updateQueryLike = (old: any, postId: string, userId: string) => {
     return oldPost;
   });
 
+  updateQueryLikePost({ postId, userId })
+
+
   return { ...old, pages: [{ data: updatedPosts }] };
 };
 
 export const updateQueryLikePost = ({
-  isLiked,
   postId,
   userId,
 }: {
-  isLiked: boolean;
   postId: string;
   userId: string;
 }) => {
@@ -118,8 +119,9 @@ export const updateQueryLikePost = ({
       }
 
       const oldPost = old.data;
-      const updatedPost = updatePostLikes(oldPost, postId, userId, isLiked);
+      const updatedPost = updatePostLikes(oldPost, postId, userId);
 
+      console.log(updatedPost)
       return {
         data: updatedPost,
       };
@@ -127,51 +129,10 @@ export const updateQueryLikePost = ({
   );
 };
 
-export const updateQueryLikePostProfile = ({
-  isLiked,
-  postId,
-  userId,
-  username,
-}: {
-  isLiked: boolean;
-  postId: string;
-  userId: string;
-  username: string;
-}) => {
-  queryClient.setQueryData(["userProfile", username], (old: { data: any }) => {
-    const oldData = old.data.posts;
-    console.log(oldData);
-
-    if (!oldData) {
-      return { data: [] };
-    }
-    const updatedPosts = oldData.map((oldPost: PostType) => {
-      return updatePostLikes(oldPost, postId, userId, isLiked);
-    });
-
-    return { data: { ...old.data, posts: updatedPosts } };
-  });
-};
-
-export const updateQueryPostEdit = () => {
-  // queryClient.setQueryData(["post", updatedPost._id], updatedPost);
-  // queryClient.setQueryData(
-  //   ["posts"],
-  //   ({ data: oldData }: { data: PostType[] }) => {
-  //     if (!oldData) return [updatedPost]; // If no old data, return the updated post as a new list
-  //     const upatedPosts = oldData.map((oldPost) =>
-  //       oldPost._id === updatedPost._id ? updatedPost : oldPost
-  //     );
-
-  //     return {
-  //       data: upatedPosts,
-  //     };
-  //   }
-  // );
-
+export const updateQueryPostEdit = ({ id }: { id: string }) => {
   queryClient.invalidateQueries({ queryKey: ["posts", "all"] });
   queryClient.invalidateQueries({ queryKey: ["posts", "following"] });
-  queryClient.invalidateQueries({ queryKey: ["post"] });
+  queryClient.invalidateQueries({ queryKey: ["post", id] });
 };
 
 export const updateQueryFollowing = (updatedFollowing: string[]) => {
