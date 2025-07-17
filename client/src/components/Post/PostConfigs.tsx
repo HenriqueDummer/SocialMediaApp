@@ -5,6 +5,8 @@ import type { PostType } from "../../types/types";
 import { updateQueryPostEdit } from "../../utils/queryUpdates";
 import { mutateDelete } from "../../hooks/hooks";
 import { MdModeEdit } from "react-icons/md";
+import { ConfirmActionDialog } from "../ConfirmActionDialog";
+
 
 const PostConfigs = ({
   postData,
@@ -27,14 +29,15 @@ const PostConfigs = ({
       >
         <Button className="bg-transparent hover:text-cyan-600 hover:bg-transparent"><MdModeEdit /></Button>
       </EditModal>
-      <Button
-        onClick={() => {
-          deletePost(postId);
-        }}
-        className="bg-transparent hover:text-red-500 hover:bg-transparent"
-      >
-        <FaRegTrashCan />
-      </Button>
+
+      <ConfirmActionDialog alertDialog="This action cannot be undone. This will permanently delete your post your data from our servers." actionOnConfirm={() => deletePost(postId)}>
+        <Button
+          className="bg-transparent hover:text-red-500 hover:bg-transparent"
+        >
+          <FaRegTrashCan />
+        </Button>
+      </ConfirmActionDialog>
+
     </div>
   );
 };

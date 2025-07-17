@@ -970,6 +970,10 @@ body {
   max-width: 30rem;
 }
 
+.max-w-\[calc\(100\%-2rem\)\] {
+  max-width: calc(100% - 2rem);
+}
+
 .max-w-lg {
   max-width: 32rem;
 }
@@ -1298,6 +1302,10 @@ body {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
 }
 
+.bg-black\/50 {
+  background-color: rgb(0 0 0 / 0.5);
+}
+
 .bg-black\/80 {
   background-color: rgb(0 0 0 / 0.8);
 }
@@ -1438,11 +1446,6 @@ body {
 .\!px-0 {
   padding-left: 0px !important;
   padding-right: 0px !important;
-}
-
-.\!px-6 {
-  padding-left: 1.5rem !important;
-  padding-right: 1.5rem !important;
 }
 
 .\!py-1 {
@@ -1957,6 +1960,10 @@ html {
   background-color: hsl(var(--secondary) / 0.8);
 }
 
+.hover\:bg-transparent:hover {
+  background-color: transparent;
+}
+
 .hover\:bg-violet-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(124 58 237 / var(--tw-bg-opacity, 1));
@@ -1970,17 +1977,13 @@ html {
   background-color: rgb(255 255 255 / 0.2);
 }
 
-.hover\:bg-transparent:hover {
-  background-color: transparent;
-}
-
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
 }
 
-.hover\:text-white:hover {
+.hover\:text-cyan-600:hover {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+  color: rgb(8 145 178 / var(--tw-text-opacity, 1));
 }
 
 .hover\:text-red-500:hover {
@@ -1988,9 +1991,9 @@ html {
   color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
-.hover\:text-cyan-600:hover {
+.hover\:text-white:hover {
   --tw-text-opacity: 1;
-  color: rgb(8 145 178 / var(--tw-text-opacity, 1));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
 .hover\:underline:hover {
@@ -2186,6 +2189,10 @@ html {
 
   .sm\:w-auto {
     width: auto;
+  }
+
+  .sm\:max-w-lg {
+    max-width: 32rem;
   }
 
   .sm\:flex-row {

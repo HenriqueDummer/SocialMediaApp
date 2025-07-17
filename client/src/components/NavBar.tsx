@@ -5,6 +5,7 @@ import { VscHome } from 'react-icons/vsc'
 import { IoIosSearch } from 'react-icons/io'
 import { TbLogout2 } from 'react-icons/tb'
 import { mutateLogout } from '../hooks/hooks'
+import { ConfirmActionDialog } from './ConfirmActionDialog'
 
 const NavBar = () => {
   const { mutate: handleLogout } = mutateLogout();
@@ -37,13 +38,15 @@ const NavBar = () => {
         </NavLink>
       </li>
       <li>
-        <Button
-          onClick={() => handleLogout()}
-          className="lg:w-full lg:aspect-auto font-light aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600"
-        >
-          <TbLogout2 className="scale-150" />
-          <span className="hidden lg:inline">Logout</span>
-        </Button>
+        <ConfirmActionDialog alertDialog='You are going to logout from your account' actionOnConfirm={handleLogout}>
+          <Button
+            className="lg:w-full lg:aspect-auto font-light aspect-square h-14 rounded-full bg-black text-lg flex gap-4 sm:border border-zinc-600"
+          >
+            <TbLogout2 className="scale-150" />
+            <span className="hidden lg:inline">Logout</span>
+          </Button>
+        </ConfirmActionDialog>
+
       </li>
     </ul>
   )
