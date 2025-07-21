@@ -9,7 +9,6 @@ import { useAuthUser } from "../../hooks/hooks";
 import { usePostData } from "../../hooks/usePostData";
 import { RepostHeader } from "./RepostHeader";
 import { UnavailablePost } from "./UnavailablePost";
-import React from "react";
 
 const Post = ({ post }: { post: PostType }) => {
   const { authUser } = useAuthUser();

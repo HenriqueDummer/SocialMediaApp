@@ -1,12 +1,12 @@
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
 import { mutateSignup } from "../../hooks/hooks";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
 
 const signUpInputSchema = z
   .object({
@@ -29,20 +29,23 @@ const signUpInputSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-    path: ["confirmPassword"], 
+    path: ["confirmPassword"],
   });
 
 export type SignUpInputSchema = z.infer<typeof signUpInputSchema>;
 
 const SignupForm = () => {
-  const {mutate: signUp, isPending} = mutateSignup();
+  const { mutate: signUp, isPending } = mutateSignup();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpInputSchema>({
+  const signUpForm = useForm<SignUpInputSchema>({
     resolver: zodResolver(signUpInputSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      fullName: "",
+      username: ""
+    }
   });
 
   function handleSignup(data: SignUpInputSchema) {
@@ -57,46 +60,71 @@ const SignupForm = () => {
           Let's create e new account!
         </h2>
       </div>
-     <form onSubmit={handleSubmit(handleSignup)}>
-        <div className="mb-4">
-          <Label className="text-lg">Email</Label>
-          <Input className="h-12" type="text" {...register("email")} />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <Label className="text-lg">Username</Label>
-          <Input className="h-12" type="text" {...register("username")} />
-          {errors.username && (
-            <p className="text-red-500 text-sm">{errors.username.message}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <Label className="text-lg">Full Name</Label>
-          <Input className="h-12" type="text" {...register("fullName")} />
-          {errors.fullName && (
-            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <Label className="text-lg">Password</Label>
-          <Input className="h-12" type="password" {...register("password")} />
-          {errors.password && (
-            <p className="text-red-700 text-sm">{errors.password.message}</p>
-          )}
-        </div>
-        <div className="mb-4">
-          <Label className="text-lg">Confirm Password</Label>
-          <Input className="h-12" type="password" {...register("confirmPassword")} />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
-          )}
-        </div>
-        <Button className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15" type="submit" disabled={isPending}>
-          {isPending ? "Loading..." : "Sign Up"}
-        </Button>
-      </form>
+      <Form {...signUpForm}>
+        <form onSubmit={signUpForm.handleSubmit(handleSignup)} className="flex flex-col gap-4">
+          <FormField control={signUpForm.control} name="email" render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }} />
+          <FormField control={signUpForm.control} name="username" render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }} />
+          <FormField control={signUpForm.control} name="fullName" render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }} />
+          <FormField control={signUpForm.control} name="password" render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }} />
+          <FormField control={signUpForm.control} name="confirmPassword" render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }} />
+          <Button
+            className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15"
+            type="submit"
+          >
+            {isPending ? "Signin up..." : "Sign up"}
+          </Button>
+        </form>
+      </Form>
       <div className="mt-10 flex flex-col font-light items-center text-lg">
         <p>Already have an account?</p>
         <NavLink to="/sign-in" className="text-violet-600">

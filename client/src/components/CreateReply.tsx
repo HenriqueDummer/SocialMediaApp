@@ -1,7 +1,6 @@
 import { } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
-import { useRef, useState } from "react";
 
 import { queryClient } from "./../utils/http";
 import Container from "./ui/Container";
@@ -9,6 +8,7 @@ import Container from "./ui/Container";
 import TextareaAutosize from "react-textarea-autosize";
 import { mutateCreateReply } from "../hooks/hooks";
 import { useAuth } from "../Context/AuthContext";
+import { useState } from "react";
 
 const CreateReply = ({
   postId,
