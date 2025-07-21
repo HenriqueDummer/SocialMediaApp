@@ -9,6 +9,7 @@ import { useAuthUser } from "../../hooks/hooks";
 import { usePostData } from "../../hooks/usePostData";
 import { RepostHeader } from "./RepostHeader";
 import { UnavailablePost } from "./UnavailablePost";
+import React from "react";
 
 const Post = ({ post }: { post: PostType }) => {
   const { authUser } = useAuthUser();
@@ -17,9 +18,14 @@ const Post = ({ post }: { post: PostType }) => {
     return
   }
 
+  console.log(post)
   const { postData, postId, author, isPostAuthor, isUnavailableRepost } = usePostData(post, authUser);
 
-  if(post.isRepost && isUnavailableRepost) {
+  if (postData == null) {
+    return
+  }
+
+  if (post.isRepost && isUnavailableRepost) {
     return;
   }
 

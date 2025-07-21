@@ -7,7 +7,7 @@ import Home from "./_root/pages/Home";
 import Profile from "./_root/pages/Profile";
 import RootLayout from "./_root/RootLayout";
 
-import PostPage from "./_root/pages/PostPage";
+import PostPage from "./_root/pages/Post";
 import { ToastContainer } from "react-toastify";
 import { AuthProvider, useAuth } from "./Context/AuthContext";
 import Following from "./_root/pages/Following";

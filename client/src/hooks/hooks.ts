@@ -23,12 +23,13 @@ import {
   type ApiResponse,
 } from "../utils/http";
 import { toast } from "react-toastify";
-import { updateQueryFollowing, updateQueryLike } from "../utils/queryUpdates";
+import { updateQueryFollowing } from "../utils/queryUpdates";
 import type { PostType, UserType } from "../types/types";
 import type { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { useNavigate } from "react-router-dom";
 import type { SignUpInputSchema } from "../_auth/forms/SignupForm";
 import { useAuth } from "../Context/AuthContext";
+import { updateQueriesOnLike } from "../utils/updateQueries/updateQueriesOnLike";
 
 // ----------- User --------------
 
@@ -211,11 +212,7 @@ export const mutateLike = () => {
     mutationFn: ({ postId }: { postId: string }) =>
       likePost(postId),
     onMutate: ({ postId }) => {
-      queryClient.setQueriesData({ queryKey: ["posts"] }, (old: any) =>
-        updateQueryLike(old, postId, authUser!._id)
-      );
-
-      
+      updateQueriesOnLike(postId, authUser!._id)
     },
   });
 };

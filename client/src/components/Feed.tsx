@@ -26,6 +26,7 @@ const Feed = ({
             >
               <Post post={post} />
             </div>
+
           );
         })}
     </div>

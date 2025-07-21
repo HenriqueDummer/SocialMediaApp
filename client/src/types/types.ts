@@ -16,14 +16,7 @@ export type PostType = {
   text: string;
   selectedFile: string;
   likes: string[];
-  replies: [
-    {
-      _id: string;
-      text: string;
-      user: UserType;
-      likes: string[];
-    }
-  ];
+  replies: Reply[];
   isRepost: boolean;
   isQuote: boolean;
   originalPost: PostType;
@@ -35,4 +28,5 @@ export type Reply = {
   user: UserType;
   text: string;
   likes: string[];
+  createdAt: string;
 };

@@ -39,7 +39,7 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
                     </div>
                 </NavLink>
                 <p className="text-slate-400 text-sm">
-                    {dayjs().subtract(3, 'hours').to(dayjs(createdAt))}
+                    {dayjs().to(dayjs(createdAt))}
                 </p>
             </div>
         </div>

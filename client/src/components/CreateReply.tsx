@@ -1,7 +1,7 @@
-import {} from "react-icons/fa6";
+import { } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { queryClient } from "./../utils/http";
 import Container from "./ui/Container";
@@ -17,11 +17,11 @@ const CreateReply = ({
   postId: string;
   postAuthor: string;
 }) => {
-  const fileInputRef = useRef<HTMLTextAreaElement>(null);
+  const [replyText, setReplyText] = useState<string>("")
 
   const handleSucceess = () => {
     queryClient.invalidateQueries({ queryKey: ["post", postId] });
-    fileInputRef.current!.value = "";
+    setReplyText("")
   };
   const { mutate: handlePostReply, isPending } =
     mutateCreateReply(handleSucceess);
@@ -29,7 +29,7 @@ const CreateReply = ({
   const { authUser } = useAuth();
 
   const handlePost = () => {
-    handlePostReply({ postId, text: fileInputRef.current!.value });
+    handlePostReply({ postId, text: replyText });
   };
 
   return (
@@ -50,15 +50,16 @@ const CreateReply = ({
         <div className="ml-4 w-full flex gap-2 items-center">
           <TextareaAutosize
             className="w-full resize-none !text-sm md:!text-base pl-2 text-slate-300 focus:outline-none border-none bg-transparent"
-            ref={fileInputRef}
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
             placeholder="Post your reply"
           />
           <Button
             onClick={() => handlePost()}
             className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
-            disabled={isPending || fileInputRef.current?.value === ""}
+            disabled={isPending || replyText.trim() === ""}
           >
-            Reply
+            Post
             <IoSend />
           </Button>
         </div>

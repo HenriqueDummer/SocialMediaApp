@@ -17,6 +17,7 @@ const PostPage = () => {
     return <LoadingComponent text="Loading post..." />;
   }
 
+  console.log(postId)
   return (
     <div className="flex h-full flex-col w-full">
       <PrevPageButton title={"Post"} />

@@ -1,53 +1,25 @@
 import type { Reply } from "../types/types";
 import Container from "./ui/Container.tsx";
-import { NavLink } from "react-router-dom";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { Button } from "./ui/button.tsx";
 import { useAuthUser, mutateLikeReply } from "../hooks/hooks.ts";
+import { UserInfo } from "./Post/UserInfo.tsx";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
-  const {authUser} = useAuthUser();
-
+  const { authUser } = useAuthUser();
+  console.log(replyData.createdAt)
 
   const { mutate: handleLikeReply, isPending } = mutateLikeReply();
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (
     <Container className="mt-4 py-4 lg:px-8 flex justify-between items-center">
-      <div className="flex gap-2">
-        <NavLink
-          to={`/profile/${replyData.user._id}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            className="w-14 aspect-square rounded-full bg-center bg-cover"
-            style={{
-              backgroundImage: `url(${replyData.user.profilePicture})`,
-            }}
-          ></div>
-        </NavLink>
-        <div className="ml-4">
-          <div>
-            <NavLink
-              to={`/profile/${replyData.user.username}`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="items-center gap-2 inline-flex">
-                <p className="!text-sm md:!text-base font-semibold text-slate-300">
-                  {replyData.user.fullName}
-                </p>
-                <p className="!text-sm hidden lg:inline md:!text-base text-slate-300 opacity-50 font-semibold">
-                  @{replyData.user.username}
-                </p>
-              </div>
-            </NavLink>
-            <p className="text-slate-400 text-sm">3 hours ago</p>
-          </div>
-          <div></div>
-          <p className=" text-slate-300 pt-2 !text-sm md:!text-base">{replyData.text}</p>
-        </div>
+      <div className="flex flex-col gap-2">
+        <UserInfo user={replyData.user} createdAt={replyData.createdAt} />
+        <p className=" text-slate-300 pt-2 !text-sm md:!text-base">{replyData.text}</p>
       </div>
+
 
       <div>
         <Button

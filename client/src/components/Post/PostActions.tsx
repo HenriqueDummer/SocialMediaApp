@@ -24,11 +24,10 @@ const PostActions = ({
   postData: PostType;
   authUserId: string;
 }) => {
-  const { mutate: like, isPending: isPendingLike } = mutateLike();
+  const { mutate: like } = mutateLike();
   const { mutate: repost } = mutateRepost();
 
   const handleLike = (e: any) => {
-    console.log("Like")
     e.stopPropagation();
     like({ postId: postData._id });
   };
@@ -43,7 +42,6 @@ const PostActions = ({
         onClick={(e) => handleLike(e)}
         className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-red-500 border-none hover:bg-red-500" : ""
           } !p-0 rounded-lg flex-1`}
-        disabled={isPendingLike}
       >
         <p className={`flex gap-2 w-full justify-center items-center`}>
           {isLiked ? (
