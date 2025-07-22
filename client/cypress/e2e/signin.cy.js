@@ -7,7 +7,7 @@ const signInFormElements = {
 
 describe('Sign in form', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/sign-in')
 
   })
 
@@ -28,16 +28,16 @@ describe('Sign in form', () => {
   })
 
   it('Shows error non email format', () => {
-    signInFormElements.submitForm()
     signInFormElements.emailInput().type('test')
     signInFormElements.passwordInput().type('123456');
+    signInFormElements.submitForm()
     cy.contains('Invalid email')
   })
 
   it('Shows error less than 6 characters password', () => {
-    signInFormElements.submitForm()
     signInFormElements.emailInput().type('test@gmail.com')
     signInFormElements.passwordInput().type('12345')
+    signInFormElements.submitForm()
     cy.contains('Pasword must be at least 6 characters long!')
   })
 
@@ -46,14 +46,14 @@ describe('Sign in form', () => {
 
     cy.intercept('POST', apiBaseUrl + '/auth/sign-in', {
       statusCode: 200,
-      body: { token: 'fake-token' },
+      body: { token: 'token' },
     }).as('loginRequest');
 
     cy.visit('/sign-in');
 
 
-    cy.get('input[name="email"]').type('john@gmail.com');
-    cy.get('input[name="password"]').type('john123');
+    signInFormElements.emailInput().type('john@gmail.com');
+    signInFormElements.passwordInput().type('john123');
     cy.get('button[type="submit"]').click();
 
     cy.wait('@loginRequest').then((interception) => {

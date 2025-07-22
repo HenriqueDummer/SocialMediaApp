@@ -10,19 +10,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 const signUpInputSchema = z
   .object({
-    email: z.string().email(),
+    email: z.string().nonempty("Email is required").email(),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters long" }),
+      .nonempty("Password is required")
+      .min(6, { message: "Password must be at least 6 characters long!" }),
     confirmPassword: z.string(),
     fullName: z
       .string()
+      .nonempty("Full name is required")
       .min(2, { message: "Full name must be at least 2 characters long" })
-      .max(16, { message: "Full name must be at most 16 characters long" }),
+      .max(16, { message: "Full name must have less than 16 characters long" }),
     username: z
       .string()
+      .nonempty("Username is required")
       .min(2, { message: "Username must be at least 2 characters long" })
-      .max(16, { message: "Username must be at most 16 characters long" })
+      .max(16, { message: "Username must have less than 16 characters long" })
       .refine((s) => !s.includes(" "), {
         message: "Username must not contain spaces",
       }),

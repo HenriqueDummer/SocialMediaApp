@@ -33,7 +33,7 @@ axios.interceptors.response.use(
       toast.error("Session expired, please login again", {
         theme: "dark",
         autoClose: 2000,
-        onClose: () => {},
+        onClose: () => { },
       });
     }
     return Promise.reject(error);
@@ -42,7 +42,7 @@ axios.interceptors.response.use(
 
 export type ApiResponse<T> = {
   message?: string;
-  data: T;
+  data: T | null;
 };
 
 // -------------------- AUTH --------------------------------
@@ -73,9 +73,11 @@ export const signUp = async (
 
 export const getMe = async (): Promise<ApiResponse<UserType>> => {
   try {
-    console.log("Get me");
+    const token = localStorage.getItem('token')
+    if (!token) return { message: "No token found", data: null };
+
     const res = await axios.get("/auth/me");
-    return res.data ?? null;
+    return res.data ?? { message: "No token found", data: null }
   } catch (error: any) {
     console.log(error);
     if (error.response?.status === 401) {

@@ -4,7 +4,7 @@ import type { UserType } from '../types/types';
 import { getMe, type ApiResponse,  } from '../utils/http';
 
 type AuthContextType = {
-  authUser: UserType | undefined;
+  authUser: UserType | null;
   isLoading: boolean;
 };
 
