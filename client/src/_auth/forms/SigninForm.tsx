@@ -9,9 +9,9 @@ import { mutateSignin } from "../../hooks/hooks";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
 
 const signInInputSchema = z.object({
-  email: z.string().email(),
+  email: z.string().nonempty("Email is required").email(),
   password: z
-    .string()
+    .string().nonempty("Password is required")
     .min(6, "Pasword must be at least 6 characters long!"),
 });
 
