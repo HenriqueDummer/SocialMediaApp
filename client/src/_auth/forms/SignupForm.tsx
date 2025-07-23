@@ -5,8 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-import { mutateSignup } from "../../hooks/hooks";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
+import { useSignUp } from "../../hooks/useSignUp";
 
 const signUpInputSchema = z
   .object({
@@ -38,7 +38,7 @@ const signUpInputSchema = z
 export type SignUpInputSchema = z.infer<typeof signUpInputSchema>;
 
 const SignupForm = () => {
-  const { mutate: signUp, isPending } = mutateSignup();
+  const { mutate: signUp, isPending } = useSignUp();
 
   const signUpForm = useForm<SignUpInputSchema>({
     resolver: zodResolver(signUpInputSchema),
@@ -114,7 +114,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input type="password"  {...field} />
+                  <Input type="password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

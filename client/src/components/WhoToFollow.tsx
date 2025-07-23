@@ -1,11 +1,11 @@
 import { useAuth } from "../Context/AuthContext";
-import { queryWhoToFollow } from "../hooks/hooks";
+import { useWhoToFollow } from "../hooks/useWhoToFollow";
 import FollowButton from "./Post/FollowButton";
 import Container from "./ui/Container";
 import { useNavigate } from "react-router-dom";
 
 const WhoToFollow = () => {
-  const { users } = queryWhoToFollow();
+  const { users } = useWhoToFollow();
   const navigate = useNavigate();
   const { authUser } = useAuth();
 

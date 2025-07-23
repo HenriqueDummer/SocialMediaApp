@@ -5,8 +5,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { NavLink } from "react-router-dom";
-import { mutateSignin } from "../../hooks/hooks";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../components/ui/form";
+import { useSignIn } from "../../hooks/useSignIn";
 
 const signInInputSchema = z.object({
   email: z.string().nonempty("Email is required").email(),
@@ -18,7 +18,7 @@ const signInInputSchema = z.object({
 export type SignInInputSchema = z.infer<typeof signInInputSchema>;
 
 const SigninForm = () => {
-  const { mutate: signIn, isPending } = mutateSignin();
+  const { mutate: signIn, isPending } = useSignIn();
 
   const signInForm = useForm<SignInInputSchema>({
     resolver: zodResolver(signInInputSchema),

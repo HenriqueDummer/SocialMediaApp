@@ -1,13 +1,10 @@
 import { useEditForm } from "../../hooks/useEditForm";
 import { PostEditModalProps } from "../../types/EditModal";
 import { useModalState } from "../../hooks/useModalState";
-import { useMutation } from "@tanstack/react-query";
-import { editPost } from "../../utils/http";
-import { PostType } from "../../types/types";
-import { toast } from "react-toastify";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Button } from "../ui/button";
 import EditPostForm from "./EditPostForm";
+import { useEditPost } from "../../hooks/useEditPost";
 
 
 export const PostEditModal = ({ initialData, updateFn, children }: PostEditModalProps) => {
@@ -20,24 +17,7 @@ export const PostEditModal = ({ initialData, updateFn, children }: PostEditModal
     resetForm,
   } = useEditForm(initialData);
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: async (data: PostType) => {
-      const response = await editPost(data, initialData._id);
-      return response.data;
-    },
-    onSuccess: (updatedData: PostType) => {
-      updateFn(updatedData);
-      toast.success("Post updated!", {theme: "dark", autoClose: 2000})
-      closeModal();
-    },
-    onError: (error: Error) => {
-      console.error("Error updating post:", error);
-      toast.error(error.message || "Failed to update post", {
-        theme: "dark",
-        autoClose: 2000,
-      });
-    },
-  });
+  const { mutate, isPending } = useEditPost({ updateFn, closeModal, postId: initialData._id })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,13 +1,13 @@
 import CreatePost from "../../components/Post/CreatePost";
 import FeedFilter from "../../components/FeedFilter";
-import { queryInfinityPosts } from "../../hooks/hooks";
 import InfinitFeed from "../../components/InfinitFeed";
 import LoadingComponent from "../../components/ui/LoadingComponent";
 import FeedContainer from "../../components/ui/FeedContainer";
+import { useInfinitPosts } from "../../hooks/useInfinitPosts";
 
 const Following = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    queryInfinityPosts("following");
+    useInfinitPosts("following");
 
   if (isLoading) return <LoadingComponent text="Loading posts..." />;
 

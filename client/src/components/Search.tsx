@@ -1,11 +1,12 @@
 import { useRef, useState, type FormEvent } from "react";
 import Container from "./ui/Container";
 import { Input } from "./ui/input";
-import { mutateSearchAll, mutateSearchUsers } from "../hooks/hooks";
 import type { PostType, UserType } from "../types/types";
 import { useNavigate } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
 import LoadingComponent from "./ui/LoadingComponent";
+import { useSearchUsers } from "../hooks/useSearchUsers";
+import { useSearchAll } from "../hooks/useSearchAll";
 
 const Search = ({
   setResults,
@@ -24,7 +25,7 @@ const Search = ({
 
   const [usersResults, setUsersResults] = useState<UserType[]>([]);
   const { mutate: searchUsers, isPending: isPendingUsers } =
-    mutateSearchUsers(setUsersResults);
+    useSearchUsers(setUsersResults);
 
   const onSuccessAll = (data: { users: UserType[]; posts: PostType[] }) => {
     setResults(data);
@@ -32,7 +33,7 @@ const Search = ({
   };
 
   const { mutate: searchAll } =
-    mutateSearchAll(onSuccessAll);
+    useSearchAll(onSuccessAll);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

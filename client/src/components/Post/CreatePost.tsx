@@ -9,7 +9,8 @@ import { useRef, useState, type ChangeEvent } from "react";
 
 import Quote from "./Quote";
 import Container from "../ui/Container";
-import { useAuthUser, mutateCreatePost } from "../../hooks/hooks";
+import { useAuth } from "../../Context/AuthContext";
+import { useCreatePost } from "../../hooks/useCreatePost";
 
 interface CreatePostProps {
   isQuote: boolean;
@@ -37,9 +38,9 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
     });
   };
 
-  const { mutate: handleCreatePost, isPending } = mutateCreatePost(clearInputs);
+  const { mutate: handleCreatePost, isPending } = useCreatePost(clearInputs);
 
-  const { authUser } = useAuthUser();
+  const { authUser } = useAuth();
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

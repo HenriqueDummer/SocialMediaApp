@@ -1,25 +1,16 @@
 import { createContext, useContext, PropsWithChildren } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import type { UserType } from '../types/types';
-import { getMe, type ApiResponse,  } from '../utils/http';
+import { useGetMe } from '../hooks/useGetMe';
 
 type AuthContextType = {
-  authUser: UserType | null;
+  authUser: UserType | undefined;
   isLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const { data: { data: authUser } = {} as ApiResponse<UserType>, isLoading} =
-    useQuery<ApiResponse<UserType>>({
-      queryKey: ['authUser'],
-      queryFn: getMe,
-      retry: false,
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    });
+  const { authUser, isLoading } = useGetMe()
 
   return (
     <AuthContext.Provider value={{ authUser, isLoading }}>

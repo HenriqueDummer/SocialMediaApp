@@ -3,9 +3,9 @@ import EditModal from "../EditModal/EditModal";
 import { FaRegTrashCan } from "react-icons/fa6";
 import type { PostType } from "../../types/types";
 import { updateQueryPostEdit } from "../../utils/queryUpdates";
-import { mutateDelete } from "../../hooks/hooks";
 import { MdModeEdit } from "react-icons/md";
 import { ConfirmActionDialog } from "../ConfirmActionDialog";
+import { useDeletePost } from "../../hooks/useDeletePost";
 
 
 const PostConfigs = ({
@@ -16,7 +16,7 @@ const PostConfigs = ({
   postId: string;
   canEdit: boolean;
 }) => {
-  const { mutate: deletePost } = mutateDelete();
+  const { mutate: deletePost } = useDeletePost();
 
   return (
     <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>

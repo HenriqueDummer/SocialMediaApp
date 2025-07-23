@@ -1,21 +1,22 @@
 import { useParams } from "react-router-dom";
-import { queryInfinityPosts, queryUserProfile } from "../../hooks/hooks";
 import PrevPageButton from "../../components/PrevPageButton";
 import FeedContainer from "../../components/ui/FeedContainer";
 import LoadingComponent from "../../components/ui/LoadingComponent";
 import InfinitFeed from "../../components/InfinitFeed";
 import ProfileHeader from "../../components/ProfileHeader";
+import { useUserProfile } from "../../hooks/useUserProfile";
+import { useInfinitPosts } from "../../hooks/useInfinitPosts";
 const Profile = () => {
   const { userId: userId } = useParams();
 
-  const { data: user, isLoading: isLoadingUser } = queryUserProfile(userId!);
+  const { data: user, isLoading: isLoadingUser } = useUserProfile(userId!);
   const {
     data: postsData,
     isLoading: isLoadingPosts,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = queryInfinityPosts(userId!);
+  } = useInfinitPosts(userId!);
 
   console.log(user)
 

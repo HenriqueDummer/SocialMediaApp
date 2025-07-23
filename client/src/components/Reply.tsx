@@ -3,14 +3,15 @@ import Container from "./ui/Container.tsx";
 import { IoHeartOutline } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { Button } from "./ui/button.tsx";
-import { useAuthUser, mutateLikeReply } from "../hooks/hooks.ts";
 import { UserInfo } from "./Post/UserInfo.tsx";
+import { useAuth } from "../Context/AuthContext.tsx";
+import { useLikeReply } from "../hooks/useLikeReply.tsx";
 
 const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
-  const { authUser } = useAuthUser();
+  const { authUser } = useAuth();
   console.log(replyData.createdAt)
 
-  const { mutate: handleLikeReply, isPending } = mutateLikeReply();
+  const { mutate: handleLikeReply, isPending } = useLikeReply();
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (

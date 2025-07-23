@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import type { UserType } from "../types/types";
-import { queryClient } from "./http";
+import { queryClient } from "./axiosSetup";
 
 export const updateQueryPostEdit = ({ id }: { id: string }) => {
   queryClient.invalidateQueries({ queryKey: ["posts", "all"] });

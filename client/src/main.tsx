@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { queryClient } from "./utils/http";
+import { queryClient } from "./utils/axiosSetup.ts";
 import App from "./App.tsx";
 import "./output.css";
 

@@ -4,11 +4,11 @@ import { Button } from './ui/button'
 import { VscHome } from 'react-icons/vsc'
 import { IoIosSearch } from 'react-icons/io'
 import { TbLogout2 } from 'react-icons/tb'
-import { mutateLogout } from '../hooks/hooks'
 import { ConfirmActionDialog } from './ConfirmActionDialog'
+import { useLogout } from '../hooks/useLogout'
 
 const NavBar = () => {
-  const { mutate: handleLogout } = mutateLogout();
+  const { mutate: handleLogout } = useLogout();
 
   return (
     <ul className="flex justify-around sm:flex-col xl:justify-center gap-4">

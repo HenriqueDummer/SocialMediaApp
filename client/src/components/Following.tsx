@@ -1,9 +1,9 @@
-import { queryFollowing } from "../hooks/hooks";
+import { useFollowing } from "../hooks/useFollowing";
 import Container from "./ui/Container";
 import { useNavigate } from "react-router-dom";
 
 const Following = () => {
-  const { users } = queryFollowing();
+  const { users } = useFollowing();
   const navigate = useNavigate();
 
   return (

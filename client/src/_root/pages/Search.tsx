@@ -4,17 +4,17 @@ import { useState } from "react";
 import type { PostType, UserType } from "../../types/types";
 import Container from "../../components/ui/Container";
 import Feed from "../../components/Feed";
-import { queryInfinityPosts } from "../../hooks/hooks";
 import FollowButton from "../../components/Post/FollowButton";
 import InfinitFeed from "../../components/InfinitFeed";
 import FeedContainer from "../../components/ui/FeedContainer";
 import { useAuth } from "../../Context/AuthContext";
 import LoadingComponent from "../../components/ui/LoadingComponent";
+import { useInfinitPosts } from "../../hooks/useInfinitPosts";
 const SearchPage = () => {
   const navigate = useNavigate();
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    queryInfinityPosts("all");
+    useInfinitPosts("all");
 
   const [results, setResults] = useState<{
     users: UserType[];
@@ -34,9 +34,9 @@ const SearchPage = () => {
 
       {searching ? (
         <>
-        <div className="mt-4">
-          <LoadingComponent text="Searching..." />
-        </div>
+          <div className="mt-4">
+            <LoadingComponent text="Searching..." />
+          </div>
         </>
       ) : results.users.length === 0 && results.posts.length === 0 && posts ? (
         <>

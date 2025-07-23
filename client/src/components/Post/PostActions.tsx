@@ -1,7 +1,5 @@
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 
-import { mutateLike, mutateRepost } from "../../hooks/hooks";
-
 import { MdLoop, MdOutlineModeComment } from "react-icons/md";
 import { FiEdit3 } from "react-icons/fi";
 import { Button } from "../ui/button";
@@ -16,6 +14,8 @@ import {
 
 import type { PostType } from "../../types/types";
 import { useRef } from "react";
+import { useLike } from "../../hooks/useLike";
+import { useRepost } from "../../hooks/useRepost";
 
 const PostActions = ({
   postData,
@@ -24,12 +24,12 @@ const PostActions = ({
   postData: PostType;
   authUserId: string;
 }) => {
-  const { mutate: like } = mutateLike();
-  const { mutate: repost } = mutateRepost();
+  const { mutate: like } = useLike();
+  const { mutate: repost } = useRepost();
 
   const handleLike = (e: any) => {
     e.stopPropagation();
-    like({ postId: postData._id });
+    like(postData._id );
   };
 
   const actionModalRef = useRef<HTMLButtonElement>(null);

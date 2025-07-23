@@ -5,13 +5,13 @@ import { useParams } from "react-router-dom";
 import CreateReply from "../../components/CreateReply";
 import Reply from "../../components/Reply";
 import PrevPageButton from "../../components/PrevPageButton";
-import { queryPost } from "../../hooks/hooks";
 import LoadingComponent from "../../components/ui/LoadingComponent";
+import { usePost } from "../../hooks/usePost";
 
 const PostPage = () => {
   const { id: postId } = useParams();
-  
-  const {postData, isLoading} = queryPost(postId!)
+
+  const { postData, isLoading } = usePost(postId!)
 
   if (isLoading) {
     return <LoadingComponent text="Loading post..." />;
@@ -28,7 +28,7 @@ const PostPage = () => {
           {postData.replies.length > 0 && (
             postData.replies.map((reply) => {
               return (
-                <Reply key={reply._id} replyData={reply} postId={postId!}/>
+                <Reply key={reply._id} replyData={reply} postId={postId!} />
               )
             })
           )}

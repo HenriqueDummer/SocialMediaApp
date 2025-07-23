@@ -2,13 +2,13 @@ import { } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 import { Button } from "./ui/button";
 
-import { queryClient } from "./../utils/http";
+import { queryClient } from "../utils/axiosSetup";
 import Container from "./ui/Container";
 
 import TextareaAutosize from "react-textarea-autosize";
-import { mutateCreateReply } from "../hooks/hooks";
 import { useAuth } from "../Context/AuthContext";
 import { useState } from "react";
+import { useReply } from "../hooks/useReply";
 
 const CreateReply = ({
   postId,
@@ -24,7 +24,7 @@ const CreateReply = ({
     setReplyText("")
   };
   const { mutate: handlePostReply, isPending } =
-    mutateCreateReply(handleSucceess);
+    useReply(handleSucceess);
 
   const { authUser } = useAuth();
 

@@ -1,5 +1,5 @@
 import { PostType } from "../../types/types";
-import { queryClient } from "../http";
+import { queryClient } from "../axiosSetup";
 
 export const updateQueriesOnLike = (postId: string, userId: string) => {
     updateFeeds(postId, userId);

@@ -1,6 +1,6 @@
 import { Button } from "../ui/button";
-import { mutateFollow } from "../../hooks/hooks";
 import { useState } from "react";
+import { useFollow } from "../../hooks/useFollow";
 
 const FollowButton = ({
   following,
@@ -9,7 +9,7 @@ const FollowButton = ({
   following: String[];
   targetUserId: string;
 }) => {
-  const { mutate: follow, isPending } = mutateFollow();
+  const { mutate: follow, isPending } = useFollow();
   
   const isFollowing = following.includes(targetUserId);
 

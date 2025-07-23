@@ -1,14 +1,10 @@
-
 import { useEditForm } from "../../hooks/useEditForm";
 import { ProfileEditModalProps } from "../../types/EditModal";
 import { useModalState } from "../../hooks/useModalState";
-import { useMutation } from "@tanstack/react-query";
-import { updateProfile } from "../../utils/http";
-import { UserType } from "../../types/types";
-import { toast } from "react-toastify";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import EditProfileForm from "./EditProfileForm";
 import { Button } from "../ui/button";
+import { useUpdateProfile } from "../../hooks/useUpdateProfile";
 
 export const ProfileEditModal = ({ initialData, updateFn, children }: ProfileEditModalProps) => {
     const { open, openModal, closeModal } = useModalState();
@@ -19,23 +15,7 @@ export const ProfileEditModal = ({ initialData, updateFn, children }: ProfileEdi
         resetForm,
     } = useEditForm(initialData);
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: async (data: UserType) => {
-            const response = await updateProfile(data);
-            return response.data;
-        },
-        onSuccess: (updatedData: UserType) => {
-            updateFn(updatedData);
-            closeModal();
-        },
-        onError: (error: Error) => {
-            console.error("Error updating profile:", error);
-            toast.error(error.message || "Failed to update profile", {
-                theme: "dark",
-                autoClose: 2000,
-            });
-        },
-    });
+    const { mutate, isPending } = useUpdateProfile({ updateFn, closeModal })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

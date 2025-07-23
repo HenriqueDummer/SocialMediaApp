@@ -5,19 +5,18 @@ import Container from "../ui/Container";
 import PostHeader from "./PostHeader";
 import PostContent from "./PostContent";
 import PostActions from "./PostActions";
-import { useAuthUser } from "../../hooks/hooks";
 import { usePostData } from "../../hooks/usePostData";
 import { RepostHeader } from "./RepostHeader";
 import { UnavailablePost } from "./UnavailablePost";
+import { useAuth } from "../../Context/AuthContext";
 
 const Post = ({ post }: { post: PostType }) => {
-  const { authUser } = useAuthUser();
+  const { authUser } = useAuth();
 
   if (!authUser) {
     return
   }
 
-  console.log(post)
   const { postData, postId, author, isPostAuthor, isUnavailableRepost } = usePostData(post, authUser);
 
   if (postData == null) {
