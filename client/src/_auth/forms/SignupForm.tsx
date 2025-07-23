@@ -103,7 +103,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password"  {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,7 +114,7 @@ const SignupForm = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password"  {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
