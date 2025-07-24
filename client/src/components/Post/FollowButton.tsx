@@ -1,6 +1,9 @@
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useFollow } from "../../hooks/useFollow";
+import { AiOutlineUserAdd } from "react-icons/ai";
+import { RiUserUnfollowLine } from "react-icons/ri";
+import { RiVerifiedBadgeLine } from "react-icons/ri";
 
 const FollowButton = ({
   following,
@@ -17,17 +20,19 @@ const FollowButton = ({
   return (
     <>
       <Button
-        className={`text-slate-300 bg-transparent border border-gray-600 rounded-full transition-colors duration-200 ${
+        className={`text-slate-300 bg-transparent border-none  rounded-full transition-colors duration-200 ${
           isFollowing
-            ? " hover:bg-red-500 hover:text-white hover:border-rose-600"   
-            : "border-2 text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white"
+            ? "bg-accent_blue hover:bg-red-500 hover:text-white"   
+            : "bg-accent_blue hover:text-white hover:bg-accent_blue"
         }`}
+        size="sm"
         onClick={() => follow(targetUserId)}
-        disabled={isPending} // Prevent clicks during mutation
+        disabled={isPending}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {isFollowing ? (isHovered ? "Unfollow" : "Following ") : "Follow"}
+
+        {isFollowing ? (isHovered ? <><RiUserUnfollowLine /> Unfollow</> : <><RiVerifiedBadgeLine /> Following</>) : <><AiOutlineUserAdd /> Follow</>}
       </Button>
     </>
   );

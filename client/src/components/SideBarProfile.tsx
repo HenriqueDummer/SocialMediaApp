@@ -62,7 +62,7 @@ const SideBarProfile = () => {
                 className="w-full flex justify-center items-center py-6 bg-transparent"
                 to={"/profile/" + authUser!._id}
               >
-                <p className="font-bold text-cyan-600 bg-gradient-to-br from-blue-600 to-rose-600 bg-clip-text text-transparent">
+                <p className="font-bold text-accent_purple bg-gradient-to-br ">
                   My Profile
                 </p>
               </NavLink>

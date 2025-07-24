@@ -35,7 +35,7 @@ const CreateReply = ({
   return (
     <Container className="mt-4 px-8">
       <p className="text-slate-400 text-sm">
-        Replying to <span className="text-cyan-600">@{postAuthor}</span>
+        Replying to <span className="text-accent_purple">@{postAuthor}</span>
       </p>
       <div className="flex mt-2">
         <div>
@@ -56,7 +56,7 @@ const CreateReply = ({
           />
           <Button
             onClick={() => handlePost()}
-            className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-blue-600 to-rose-600"
+            className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-accent_purple to-rose-600"
             disabled={isPending || replyText.trim() === ""}
           >
             Post

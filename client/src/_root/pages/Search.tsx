@@ -42,7 +42,7 @@ const SearchPage = () => {
         <>
           <FeedContainer className="mt-2">
             <Container className="overflow-hidden !p-0 bg-black/80 mt-2">
-              <div className="h-full px-4 py-2 border-b-4 border-blue-600">
+              <div className="h-full px-4 py-2 border-b-4 border-accent_purple">
                 <h2 className="text-xl text-slate-200 font-semibold">
                   Recent posts
                 </h2>
@@ -63,7 +63,7 @@ const SearchPage = () => {
               {results.users.length !== 0 ? (
                 <>
                   <Container className="overflow-hidden !p-0 bg-black/80 mt-2">
-                    <div className="h-full px-4 py-2 border-b-4 border-blue-600">
+                    <div className="h-full px-4 py-2 border-b-4 border-accent_purple">
                       <h2 className="text-xl text-slate-200 font-semibold">
                         Users found
                       </h2>
@@ -111,7 +111,7 @@ const SearchPage = () => {
                 </>
               ) : (
                 <Container className="mt-4 overflow-hidden !p-0 bg-black/80">
-                  <div className="h-full px-4 py-2 border-b-4 border-blue-600">
+                  <div className="h-full px-4 py-2 border-b-4 border-accent_purple">
                     <h2 className="text-xl text-slate-200 font-semibold">
                       No users found
                     </h2>
@@ -122,7 +122,7 @@ const SearchPage = () => {
               {results.posts.length !== 0 ? (
                 <>
                   <Container className="mt-2 overflow-hidden !p-0 bg-black/80">
-                    <div className="h-full px-4 py-2 border-b-4 border-blue-600">
+                    <div className="h-full px-4 py-2 border-b-4 border-accent_purple">
                       <h2 className="text-xl text-slate-200 font-semibold">
                         Posts found
                       </h2>
@@ -132,7 +132,7 @@ const SearchPage = () => {
                 </>
               ) : (
                 <Container className="mt-4 overflow-hidden !p-0 bg-black/80">
-                  <div className="h-full px-4 py-2 border-b-4 border-blue-600">
+                  <div className="h-full px-4 py-2 border-b-4 border-accent_purple">
                     <h2 className="text-xl text-slate-200 font-semibold">
                       No posts found
                     </h2>

@@ -31,8 +31,8 @@ export const ConfirmActionDialog = ({children, alertDialog, actionOnConfirm}: Co
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="bg-transparent">Cancel</AlertDialogCancel>
-          <AlertDialogAction className="" onClick={actionOnConfirm}>Continue</AlertDialogAction>
+          <AlertDialogCancel className="bg-red-500 hover:bg-red-500 text-white">Cancel</AlertDialogCancel>
+          <AlertDialogAction className="bg-accent_purple hover:bg-accent_purple/80" onClick={actionOnConfirm}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
