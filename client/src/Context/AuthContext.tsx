@@ -10,7 +10,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const { authUser, isLoading } = useGetMe()
+  const { authUser, isLoading } = useGetMe();
 
   return (
     <AuthContext.Provider value={{ authUser, isLoading }}>

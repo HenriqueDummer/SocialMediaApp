@@ -3,7 +3,7 @@ import Container from "./ui/Container";
 import { useAuth } from "../Context/AuthContext";
 
 const SideBarProfile = () => {
-  const {authUser} = useAuth();
+  const { authUser } = useAuth();
   return (
     <>
       {authUser && (

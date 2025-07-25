@@ -1,17 +1,23 @@
-import { useNavigate } from "react-router-dom";
-import Search from "../../components/Search";
-import { useState } from "react";
-import type { PostType, UserType } from "../../types/types";
-import Container from "../../components/ui/Container";
-import Feed from "../../components/Feed";
-import FollowButton from "../../components/Post/FollowButton";
-import InfinitFeed from "../../components/InfinitFeed";
-import FeedContainer from "../../components/ui/FeedContainer";
-import { useAuth } from "../../Context/AuthContext";
-import LoadingComponent from "../../components/ui/LoadingComponent";
-import { useInfinitPosts } from "../../hooks/useInfinitPosts";
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useInfinitPosts } from '../hooks/useInfinitPosts';
+import { useState } from 'react';
+import { PostType, UserType } from '../types/types';
+import { useAuth } from '../Context/AuthContext';
+import LoadingComponent from '../components/ui/LoadingComponent';
+import Search from '../components/Search';
+import FeedContainer from '../components/ui/FeedContainer';
 
-const SearchPage = () => {
+import InfinitFeed from '../components/InfinitFeed';
+import FollowButton from '../components/Post/FollowButton';
+import Feed from '../components/Feed';
+import Container from '../components/ui/Container';
+
+
+export const Route = createFileRoute('/_layout/search')({
+  component: RouteComponent,
+})
+
+function RouteComponent(){
   const navigate = useNavigate();
 
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
@@ -73,7 +79,7 @@ const SearchPage = () => {
                   <Container className="mt-2 !p-2">
                     {results.users.map((user) => (
                       <div
-                        onClick={() => navigate(`/profile/${user.username}`)}
+                        onClick={() => navigate({to: `/profile/${user.username}`})}
                         key={user._id}
                         className="flex gap-2 cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                       >
@@ -147,5 +153,3 @@ const SearchPage = () => {
     </div>
   );
 };
-
-export default SearchPage;

@@ -29,7 +29,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
           disabled={isPending}
         >
           {isLiked ? (
-            <IoHeart className="text-red-500" />
+            <IoHeart className="text-accent_purple" />
           ) : (
             <IoHeartOutline className="text-slate-200" />
           )}

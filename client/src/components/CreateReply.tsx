@@ -56,7 +56,7 @@ const CreateReply = ({
           />
           <Button
             onClick={() => handlePost()}
-            className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-gradient-to-r from-accent_purple to-rose-600"
+            className="!text-sm sm:!text-base font-semibold px-4 rounded-xl flex items-center bg-accent_purple"
             disabled={isPending || replyText.trim() === ""}
           >
             Post

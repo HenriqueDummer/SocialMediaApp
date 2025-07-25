@@ -9,9 +9,6 @@ export const useGetMe = () => {
         queryKey: ["authUser"],
         queryFn: async (): Promise<ApiResponse<UserType>> => {
             try {
-                const token = localStorage.getItem('token')
-                if (!token) return { message: "No token found", data: undefined };
-
                 const res = await axios.get("/auth/me");
                 return res.data ?? { message: "No token found", data: undefined }
             } catch (error: any) {
@@ -25,9 +22,10 @@ export const useGetMe = () => {
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         refetchOnReconnect: false,
+        staleTime: 1000 * 60 * 5,
+
     });
 
-    // Extract authUser from the ApiResponse structure
     const authUser = data?.data;
 
     return { authUser, isLoading, error };

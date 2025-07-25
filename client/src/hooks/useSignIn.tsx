@@ -1,11 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { SignInInputSchema } from "../_auth/forms/SigninForm";
 import { queryClient } from "../utils/axiosSetup";
 import { ApiResponse } from "../types/ApiResponse";
 import { UserType } from "../types/types";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { SignInInputSchema } from "../routes/_auth/_layout.login";
+import { useNavigate } from "@tanstack/react-router";
 
 export const useSignIn = () => {
     const navigate = useNavigate();
@@ -22,7 +22,8 @@ export const useSignIn = () => {
             }
         },
         onSuccess: (res) => {
-            navigate("/");
+            
+            navigate({to: "/"});
             queryClient.setQueryData(["authUser"], { data: res.data });
             toast(res.message, {
                 theme: "dark",

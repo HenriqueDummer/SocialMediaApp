@@ -41,6 +41,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
   const { mutate: handleCreatePost, isPending } = useCreatePost(clearInputs);
 
   const { authUser } = useAuth();
+  console.log(authUser)
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

@@ -1,10 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-import { queryClient } from "../utils/axiosSetup";
 import axios from "axios";
+import { useRouter } from "@tanstack/react-router";
 
 export const useLogout = () => {
-    const navigate = useNavigate();
+    const router = useRouter()
+
     return useMutation({
         mutationFn: async (): Promise<{ message: string }> => {
             try {
@@ -17,10 +17,7 @@ export const useLogout = () => {
             }
         },
         onSuccess: async () => {
-            queryClient.setQueryData(["authUser"], { data: undefined });
-            await queryClient.cancelQueries();
-            queryClient.clear();
-            navigate("/sign-in");
+            router.invalidate()
         },
     });
 };

@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate } from "@tanstack/react-router";
 import type { PostType } from "../types/types";
 import Post from "./Post/Post";
 
@@ -11,7 +12,7 @@ const Feed = ({
 
   const handleNavigate = (post: PostType) => {
     const path = post.isRepost ? post.originalPost._id : post._id;
-    navigate(`/posts/${path}`);
+    navigate({ to: `/post/${path}` });
   };
 
   return (
