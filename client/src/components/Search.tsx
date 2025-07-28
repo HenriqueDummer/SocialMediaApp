@@ -2,11 +2,11 @@ import { useRef, useState, type FormEvent } from "react";
 import Container from "./ui/Container";
 import { Input } from "./ui/input";
 import type { PostType, UserType } from "../types/types";
-import { useNavigate } from "react-router-dom";
 import { IoSearchSharp } from "react-icons/io5";
 import LoadingComponent from "./ui/LoadingComponent";
 import { useSearchUsers } from "../hooks/useSearchUsers";
 import { useSearchAll } from "../hooks/useSearchAll";
+import { useNavigate } from "@tanstack/react-router"
 
 const Search = ({
   setResults,
@@ -67,7 +67,7 @@ const Search = ({
   const handleNavigate = (userId: string) => {
     setUsersResults([]);
     setSearchQuery("");
-    navigate(`/profile/${userId}`);
+    navigate({ to: "/profile/$userId", params: { userId } });
   };
 
   return (

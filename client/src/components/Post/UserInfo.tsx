@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
 import { UserType } from "../../types/types";
 import { dayjs } from "../../utils/relativeTime";
+import { Link } from '@tanstack/react-router'
 
 interface UserInfoProps {
     user: UserType;
@@ -11,8 +11,9 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
     return (
         <div className="flex items-center">
             <div>
-                <NavLink
-                    to={`/profile/${user._id}`}
+                <Link
+                    to={"/profile/$userId"}
+                    params={{ userId: user._id }}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div
@@ -21,12 +22,13 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
                             backgroundImage: `url(${user.profilePicture})`,
                         }}
                     ></div>
-                </NavLink>
+                </Link>
             </div>
 
             <div className="ml-2">
-                <NavLink
-                    to={`/profile/${user._id}`}
+                <Link
+                    to="/profile/$userId"
+                    params={{ userId: user._id }}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="items-center gap-2 inline-flex">
@@ -37,7 +39,7 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
                             @{user.username}
                         </p>
                     </div>
-                </NavLink>
+                </Link>
                 <p className="text-slate-400 text-sm">
                     {dayjs().to(dayjs(createdAt))}
                 </p>

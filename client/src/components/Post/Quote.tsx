@@ -1,6 +1,7 @@
-import { NavLink } from "react-router-dom";
 import { PostType } from "../../types/types";
 import { CgUnavailable } from "react-icons/cg";
+import { Link } from "@tanstack/react-router"
+import Container from "../ui/Container";
 
 const Quote = ({ originalPost: postData }: { originalPost: PostType }) => {
   if (postData === null) {
@@ -14,8 +15,8 @@ const Quote = ({ originalPost: postData }: { originalPost: PostType }) => {
     );
   }
   return (
-    <NavLink onClick={(e) => e.stopPropagation()} to={`/posts/${postData._id}`}>
-      <div className="border border-slate-500 rounded-xl mt-4 overflow-hidden">
+    <Link onClick={(e) => e.stopPropagation()} to="/profile/$userId" params={{userId: postData.user._id}}>
+      <Container className="mt-2 !rounded-xl !p-2">
         <div className="flex gap-2 p-2 pb-0">
           <div>
             <div
@@ -52,8 +53,8 @@ const Quote = ({ originalPost: postData }: { originalPost: PostType }) => {
             ></div>
           )}
         </div>
-      </div>
-    </NavLink>
+      </Container>
+    </Link>
   );
 };
 

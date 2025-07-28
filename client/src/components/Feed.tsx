@@ -23,7 +23,7 @@ const Feed = ({
             <div
               key={post._id}
               onClick={() => handleNavigate(post)}
-              className="cursor-pointer mt-4"
+              className="cursor-pointer mt-2 sm:mt-4"
             >
               <Post post={post} />
             </div>

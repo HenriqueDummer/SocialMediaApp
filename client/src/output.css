@@ -1203,6 +1203,18 @@ body {
   border-radius: 0.75rem;
 }
 
+.\!rounded-sm {
+  border-radius: calc(var(--radius) - 4px) !important;
+}
+
+.\!rounded-lg {
+  border-radius: var(--radius) !important;
+}
+
+.\!rounded-xl {
+  border-radius: 0.75rem !important;
+}
+
 .rounded-b-none {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
@@ -1393,20 +1405,6 @@ body {
 
 .bg-gradient-to-br {
   background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
-.bg-gradient-to-r {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
-
-.from-accent_purple {
-  --tw-gradient-from: #7723D5 var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(119 35 213 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.to-rose-600 {
-  --tw-gradient-to: #e11d48 var(--tw-gradient-to-position);
 }
 
 .bg-cover {
@@ -1727,11 +1725,6 @@ body {
 
 .text-primary-foreground {
   color: hsl(var(--primary-foreground));
-}
-
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity, 1));
 }
 
 .text-secondary-foreground {
@@ -2244,6 +2237,10 @@ html {
 @media (min-width: 640px) {
   .sm\:static {
     position: static;
+  }
+
+  .sm\:mt-4 {
+    margin-top: 1rem;
   }
 
   .sm\:inline {

@@ -2,7 +2,7 @@ import { useAuth } from "../Context/AuthContext";
 import { useWhoToFollow } from "../hooks/useWhoToFollow";
 import FollowButton from "./Post/FollowButton";
 import Container from "./ui/Container";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from '@tanstack/react-router'
 
 const WhoToFollow = () => {
   const { users } = useWhoToFollow();
@@ -21,7 +21,7 @@ const WhoToFollow = () => {
               {users &&
                 users.map((user) => (
                   <div
-                    onClick={() => navigate(`/profile/${user._id}`)}
+                    onClick={() => navigate({to: '/profile/$userId', params: {userId: user._id}})}
                     key={user._id}
                     className="flex gap-2 items-center cursor-pointer p-2 rounded-lg duration-200 hover:bg-white/20"
                   >

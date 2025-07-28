@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
 import Container from "./ui/Container";
 import { useAuth } from "../Context/AuthContext";
+import { Link } from "@tanstack/react-router"
 
 const SideBarProfile = () => {
   const { authUser } = useAuth();
@@ -8,14 +8,14 @@ const SideBarProfile = () => {
     <>
       {authUser && (
         <>
-          <NavLink to={`/profile/${authUser?._id}`} className="lg:hidden">
+          <Link to={'/profile/$userId'} params={{ userId: authUser._id }} className="lg:hidden">
             <div
               className="w-14 border border-zinc-600 aspect-square rounded-full bg-center bg-cover"
               style={{
                 backgroundImage: `url(${authUser?.profilePicture})`,
               }}
             ></div>
-          </NavLink>
+          </Link>
 
           <div className="hidden lg:inline">
             <Container className="w-full overflow-hidden  !p-0 ">
@@ -58,14 +58,13 @@ const SideBarProfile = () => {
                   <p className="text-slate-400">Following</p>
                 </div>
               </div>
-              <NavLink
+              <Link to={'/profile/$userId'} params={{ userId: authUser._id }}
                 className="w-full flex justify-center items-center py-6 bg-transparent"
-                to={"/profile/" + authUser!._id}
               >
                 <p className="font-bold text-accent_purple bg-gradient-to-br ">
                   My Profile
                 </p>
-              </NavLink>
+              </Link>
             </Container>
           </div>
         </>
