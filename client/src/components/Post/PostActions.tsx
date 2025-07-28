@@ -40,7 +40,7 @@ const PostActions = ({
     <div className="flex justify-between mt-4 gap-4">
       <Button
         onClick={(e) => handleLike(e)}
-        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-accent_purple border-none hover:bg-accent_purple" : ""
+        className={`bg-transparent border !text-xs sm:!text-sm  border-gray-600 ${isLiked ? "bg-accent_purple border-none hover:bg-accent_purple/90" : ""
           } !p-0 rounded-lg flex-1`}
       >
         <p className={`flex gap-2 w-full justify-center items-center`}>

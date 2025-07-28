@@ -15,7 +15,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
 
   const isLiked = replyData.likes.includes(authUser!._id);
   return (
-    <Container className="mt-4 py-4 lg:px-8 flex justify-between items-center">
+    <Container className="mt-4 flex justify-between items-center">
       <div className="flex flex-col gap-2">
         <UserInfo user={replyData.user} createdAt={replyData.createdAt} />
         <p className=" text-slate-300 pt-2 !text-sm md:!text-base">{replyData.text}</p>
@@ -25,7 +25,7 @@ const Reply = ({ replyData, postId }: { replyData: Reply; postId: string }) => {
       <div>
         <Button
           onClick={() => handleLikeReply({ replyId: replyData._id, postId })}
-          className="bg-transparent border border-gray-600 px-2 py-2 rounded-lg"
+          className="bg-transparent border border-none px-2 py-2 rounded-lg"
           disabled={isPending}
         >
           {isLiked ? (

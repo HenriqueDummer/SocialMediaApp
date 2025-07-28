@@ -144,7 +144,7 @@ const CreatePost = ({ isQuote, originalPost, closeModal }: CreatePostProps) => {
             )}
             <Button
               onClick={() => handlePost()}
-              className="text-sm grow xs:text-base font-semibold px-4 flex items-center bg-accent_purple hover:bg-accent_purple"
+              className="text-sm grow xs:text-base font-semibold px-4 flex items-center bg-accent_purple hover:bg-accent_purple/90"
               disabled={
                 isPending || (!inputData.text && !inputData.selectedFile)
               }

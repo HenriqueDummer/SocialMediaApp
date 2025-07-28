@@ -28,7 +28,7 @@ const Post = ({ post }: { post: PostType }) => {
   }
 
   return (
-    <Container className="px-4 sm:px-8 z-10">
+    <Container>
       {post.isRepost && (
         <RepostHeader username={post.user.fullName} />
       )}

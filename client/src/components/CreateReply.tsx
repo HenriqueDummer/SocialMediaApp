@@ -33,7 +33,7 @@ const CreateReply = ({
   };
 
   return (
-    <Container className="mt-4 px-8">
+    <Container className="mt-4">
       <p className="text-slate-400 text-sm">
         Replying to <span className="text-accent_purple">@{postAuthor}</span>
       </p>

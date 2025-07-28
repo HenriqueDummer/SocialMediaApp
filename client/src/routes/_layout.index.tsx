@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useInfinitPosts } from '../hooks/useInfinitPosts';
 import LoadingComponent from '../components/ui/LoadingComponent';
-import FeedFilter from '../components/FeedFilter';
 import FeedContainer from '../components/ui/FeedContainer';
 import CreatePost from '../components/Post/CreatePost';
 import InfinitFeed from '../components/InfinitFeed';
@@ -20,10 +19,7 @@ function Home() {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="sticky top-0 z-10 bg-inherit">
-        <FeedFilter />
-      </div>
-      <FeedContainer className="mt-4">
+      <FeedContainer>
         <CreatePost isQuote={false} />
         {posts && (
           <InfinitFeed

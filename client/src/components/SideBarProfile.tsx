@@ -61,7 +61,7 @@ const SideBarProfile = () => {
               <Link to={'/profile/$userId'} params={{ userId: authUser._id }}
                 className="w-full flex justify-center items-center py-6 bg-transparent"
               >
-                <p className="font-bold text-accent_purple bg-gradient-to-br ">
+                <p className="font-bold text-accent_purple">
                   My Profile
                 </p>
               </Link>
