@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { UserType } from "../types/types";
 import axios from "axios";
-import { navigateTo } from "../utils/navigation";
 import { ApiResponse } from "../types/ApiResponse";
 
 export const useGetMe = () => {
@@ -10,11 +9,9 @@ export const useGetMe = () => {
         queryFn: async (): Promise<ApiResponse<UserType>> => {
             try {
                 const res = await axios.get("/auth/me");
+
                 return res.data ?? { message: "No token found", data: undefined }
             } catch (error: any) {
-                if (error.response?.status === 401) {
-                    navigateTo("/sign-in");
-                }
                 throw new Error(error.response?.data?.message || "Something went wrong");
             }
         },

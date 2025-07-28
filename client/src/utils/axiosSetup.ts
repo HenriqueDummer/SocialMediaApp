@@ -1,7 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { navigateTo } from "./navigation";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,7 +25,6 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     if (error.response && error.response.status === 401) {
       queryClient.setQueryData(["authUser"], { data: null });
-      navigateTo("/sign-in"); // Redirect to sign-in page
       toast.error("Session expired, please login again", {
         theme: "dark",
         autoClose: 2000,

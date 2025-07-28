@@ -73,7 +73,7 @@ function RouteComponent() {
             className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15"
             type="submit"
           >
-            {isPending ? "Signin in..." : "Login"}
+            {isPending ? "Logging in..." : "Login"}
           </Button>
         </form>
       </Form>

@@ -127,7 +127,7 @@ function RouteComponent() {
             className="mt-10 w-full bg-violet-700 hover:bg-violet-600 text-lg h-15"
             type="submit"
           >
-            {isPending ? "Signin up..." : "Sign up"}
+            {isPending ? "Signing up..." : "Sign up"}
           </Button>
         </form>
       </Form>

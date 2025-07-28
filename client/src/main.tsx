@@ -8,6 +8,7 @@ import "./output.css";
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 import { AuthProvider } from "./Context/AuthContext.tsx";
+import { ToastContainer } from "react-toastify";
 
 // Create a new router instance
 const router = createRouter({ routeTree })
@@ -20,9 +21,10 @@ declare module '@tanstack/react-router' {
 }
 
 createRoot(document.getElementById("root")!).render(
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <ToastContainer />
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </QueryClientProvider>
 );
