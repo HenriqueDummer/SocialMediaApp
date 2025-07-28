@@ -1,6 +1,5 @@
 import Container from './ui/Container';
 import { Button } from './ui/button'
-import { useNavigate } from '@tanstack/react-router'
 import { IoIosArrowBack } from "react-icons/io";
 
 const PrevPageButton = ({ title }: { title: string }) => {

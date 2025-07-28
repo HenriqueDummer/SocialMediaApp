@@ -742,6 +742,10 @@ body {
   margin-bottom: 1rem;
 }
 
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .ml-2 {
   margin-left: 0.5rem;
 }
@@ -786,6 +790,10 @@ body {
   margin-top: 1.5rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .flex {
   display: flex;
 }
@@ -812,10 +820,6 @@ body {
 
 .h-12 {
   height: 3rem;
-}
-
-.h-14 {
-  height: 3.5rem;
 }
 
 .h-2 {
@@ -1220,6 +1224,10 @@ body {
   border-width: 0px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-4 {
   border-width: 4px;
 }
@@ -1259,9 +1267,9 @@ body {
   border-color: hsl(var(--input));
 }
 
-.border-light_bg {
+.border-secondary_bg {
   --tw-border-opacity: 1;
-  border-color: rgb(27 39 48 / var(--tw-border-opacity, 1));
+  border-color: rgb(12 12 12 / var(--tw-border-opacity, 1));
 }
 
 .border-slate-500 {
@@ -1286,11 +1294,6 @@ body {
 .border-zinc-600 {
   --tw-border-opacity: 1;
   border-color: rgb(82 82 91 / var(--tw-border-opacity, 1));
-}
-
-.\!bg-black {
-  --tw-bg-opacity: 1 !important;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1)) !important;
 }
 
 .\!bg-secondary_bg {
@@ -1518,12 +1521,12 @@ body {
   padding-bottom: 0px;
 }
 
-.pb-20 {
-  padding-bottom: 5rem;
+.pb-12 {
+  padding-bottom: 3rem;
 }
 
-.pb-4 {
-  padding-bottom: 1rem;
+.pb-20 {
+  padding-bottom: 5rem;
 }
 
 .pl-2 {
@@ -1552,18 +1555,6 @@ body {
 
 .pt-4 {
   padding-top: 1rem;
-}
-
-.pb-10 {
-  padding-bottom: 2.5rem;
-}
-
-.pb-12 {
-  padding-bottom: 3rem;
-}
-
-.pb-14 {
-  padding-bottom: 3.5rem;
 }
 
 .text-center {
@@ -1687,11 +1678,6 @@ body {
 .text-accent_purple {
   --tw-text-opacity: 1;
   color: rgb(119 35 213 / var(--tw-text-opacity, 1));
-}
-
-.text-cyan-600 {
-  --tw-text-opacity: 1;
-  color: rgb(8 145 178 / var(--tw-text-opacity, 1));
 }
 
 .text-destructive {
@@ -1929,11 +1915,6 @@ html {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.hover\:border-cyan-600:hover {
-  --tw-border-opacity: 1;
-  border-color: rgb(8 145 178 / var(--tw-border-opacity, 1));
 }
 
 .hover\:bg-accent:hover {
@@ -2198,6 +2179,10 @@ html {
     position: static;
   }
 
+  .sm\:mb-16 {
+    margin-bottom: 4rem;
+  }
+
   .sm\:mt-4 {
     margin-top: 1rem;
   }
@@ -2210,12 +2195,12 @@ html {
     height: 3.5rem;
   }
 
-  .sm\:w-auto {
-    width: auto;
-  }
-
   .sm\:w-14 {
     width: 3.5rem;
+  }
+
+  .sm\:w-auto {
+    width: auto;
   }
 
   .sm\:max-w-lg {

@@ -24,7 +24,7 @@ function Layout() {
     <div className='w-full h-screen flex'>
       <ToastContainer />
 
-      <div className='flex w-full xl:w-2/4 flex-col items-center xl:items-start justify-center xl:px-20 bg-black/90 xl:min-w-[50rem]'>
+      <div className='flex w-full xl:w-2/4 flex-col items-center xl:items-start justify-center xl:px-20 bg-secondary_bg xl:min-w-[50rem]'>
         <Outlet />
       </div>
       <div className='flex-1 bg-cover bg-center' style={{ backgroundImage: `url('/assets/login_bg4.png')` }}>

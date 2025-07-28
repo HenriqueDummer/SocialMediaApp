@@ -50,7 +50,7 @@ const EditProfileForm = ({
 
         {/* Profile Picture Button */}
         <button
-          className="absolute -bottom-10 left-5 w-20 h-20 rounded-full bg-center bg-cover border-4 border-light_bg shadow-lg hover:scale-105 transition-transform duration-200"
+          className="absolute -bottom-10 left-5 w-20 h-20 rounded-full bg-center bg-cover border-2 border-secondary_bg shadow-lg hover:scale-105 transition-transform duration-200"
           style={{
             backgroundImage: `url(${formData.profilePicture})`,
           }}

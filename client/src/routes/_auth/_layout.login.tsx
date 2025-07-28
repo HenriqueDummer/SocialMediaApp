@@ -36,7 +36,7 @@ function RouteComponent() {
   function handleLogin(data: SignInInputSchema) {
     signIn(data);
   }
-  
+
   return (
     <div className="w-[80%] max-w-[30rem] xl:max-w-[60%]  text-slate-200 ">
       <div className="mb-16">
@@ -61,7 +61,7 @@ function RouteComponent() {
           <FormField control={signInForm.control} name="password" render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Passord</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
@@ -77,12 +77,22 @@ function RouteComponent() {
           </Button>
         </form>
       </Form>
-      <div className="mt-10 flex flex-col font-light items-center text-lg">
-        <p>Don't have an account?</p>
-        <Link to="/sign-up" className="text-violet-600">
-          Sign up
-        </Link>
+      <div className='flex flex-col items-center gap-2'>
+        <div className="w-full mt-8 flex gap-2 font-light justify-center text-lg">
+          <p>Don't have an account?</p>
+          <Link to="/sign-up" className="text-violet-600">
+            Sign up
+          </Link>
+        </div>
+        <p>or</p>
+        <Button
+          className="px-4 bg-violet-700 rounded-full hover:bg-violet-600 text-lg h-10"
+          onClick={() => handleLogin({email: "demo@gmail.com", password: "demo123"})}
+        >
+          Use a demo account
+        </Button>
       </div>
+
     </div>
   );
 }

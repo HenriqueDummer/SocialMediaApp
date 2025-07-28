@@ -37,12 +37,12 @@ export const signin = async (req, res) => {
       });
     }
 
-    user = await User.findOne(({email})).select("-password")
+    user = await User.findOne(({ email })).select("-password")
 
     generateAndSaveToken(user._id, res);
     return res.status(200).json({
       message: `Welcome back ${user.fullName}`,
-      data: user  
+      data: user
     });
   } catch (error) {
     console.log(error);
@@ -110,17 +110,19 @@ export const signup = async (req, res) => {
   }
 };
 
+
 export const getMe = async (req, res) => {
+
   try {
-    console.log("get me called")
     const user = await User.findById(req.user._id).select("-password");
     if (!user) {
       return res.status(404).json({
         message: "User not found",
       });
     }
+    
     return res.status(200).json({
-      data: user ,
+      data: user,
     });
   } catch (error) {
     console.log(error);
