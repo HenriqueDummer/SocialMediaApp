@@ -10,7 +10,7 @@ const SideBarProfile = () => {
         <>
           <Link to={'/profile/$userId'} params={{ userId: authUser._id }} className="lg:hidden">
             <div
-              className="w-14 border border-zinc-600 aspect-square rounded-full bg-center bg-cover"
+              className="w-12 sm:w-14 border border-zinc-600 aspect-square rounded-full bg-center bg-cover"
               style={{
                 backgroundImage: `url(${authUser?.profilePicture})`,
               }}

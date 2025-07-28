@@ -622,11 +622,6 @@ body {
   display: none;
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -649,10 +644,6 @@ body {
 
 .relative {
   position: relative;
-}
-
-.sticky {
-  position: sticky;
 }
 
 .inset-0 {
@@ -689,10 +680,6 @@ body {
 
 .right-4 {
   right: 1rem;
-}
-
-.top-0 {
-  top: 0px;
 }
 
 .top-2 {
@@ -891,6 +878,10 @@ body {
   max-height: 34rem;
 }
 
+.max-h-\[85vh\] {
+  max-height: 85vh;
+}
+
 .max-h-\[var\(--radix-dropdown-menu-content-available-height\)\] {
   max-height: var(--radix-dropdown-menu-content-available-height);
 }
@@ -1085,6 +1076,10 @@ body {
 
 .flex-col-reverse {
   flex-direction: column-reverse;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .items-start {
@@ -1338,10 +1333,6 @@ body {
   background-color: hsl(var(--destructive));
 }
 
-.bg-inherit {
-  background-color: inherit;
-}
-
 .bg-light_bg {
   --tw-bg-opacity: 1;
   background-color: rgb(27 39 48 / var(--tw-bg-opacity, 1));
@@ -1531,6 +1522,10 @@ body {
   padding-bottom: 5rem;
 }
 
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
 .pl-2 {
   padding-left: 0.5rem;
 }
@@ -1555,8 +1550,20 @@ body {
   padding-top: 0.5rem;
 }
 
-.pt-5 {
-  padding-top: 1.25rem;
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
+}
+
+.pb-12 {
+  padding-bottom: 3rem;
+}
+
+.pb-14 {
+  padding-bottom: 3.5rem;
 }
 
 .text-center {
@@ -1884,25 +1891,9 @@ body {
   animation-duration: 200ms;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 html {
   color: #cbd5e1;
   /* Equivalent to text-slate-200 */
-}
-
-@media not all and (min-width: 1024px) {
-  .max-lg\:no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
 }
 
 .file\:border-0::file-selector-button {
@@ -2187,31 +2178,6 @@ html {
   color: rgb(75 85 99 / var(--tw-text-opacity, 1));
 }
 
-@media not all and (min-width: 1024px) {
-  .max-lg\:no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .max-lg\:no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .max-lg\:no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .max-lg\:no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .max-lg\:no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-}
-
 @media (min-width: 500px) {
   .xs\:mt-0 {
     margin-top: 0px;
@@ -2240,8 +2206,16 @@ html {
     display: inline;
   }
 
+  .sm\:h-14 {
+    height: 3.5rem;
+  }
+
   .sm\:w-auto {
     width: auto;
+  }
+
+  .sm\:w-14 {
+    width: 3.5rem;
   }
 
   .sm\:max-w-lg {
@@ -2256,8 +2230,16 @@ html {
     flex-direction: column;
   }
 
+  .sm\:justify-start {
+    justify-content: flex-start;
+  }
+
   .sm\:justify-end {
     justify-content: flex-end;
+  }
+
+  .sm\:gap-4 {
+    gap: 1rem;
   }
 
   .sm\:space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -2281,6 +2263,11 @@ html {
   .sm\:\!px-2 {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
+  }
+
+  .sm\:py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   .sm\:pb-0 {
@@ -2388,12 +2375,12 @@ html {
     flex: none;
   }
 
-  .lg\:gap-0 {
-    gap: 0px;
+  .lg\:justify-start {
+    justify-content: flex-start;
   }
 
-  .lg\:gap-10 {
-    gap: 2.5rem;
+  .lg\:gap-0 {
+    gap: 0px;
   }
 
   .lg\:rounded-3xl {
@@ -2403,6 +2390,10 @@ html {
   .lg\:px-10 {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+  }
+
+  .lg\:pl-4 {
+    padding-left: 1rem;
   }
 }
 
@@ -2445,6 +2436,23 @@ html {
   .\32xl\:inline {
     display: inline;
   }
+}
+
+.\[\&\:\:-webkit-scrollbar-thumb\]\:rounded-full::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+}
+
+.\[\&\:\:-webkit-scrollbar-thumb\]\:bg-neutral-700::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 64 64 / var(--tw-bg-opacity, 1));
+}
+
+.\[\&\:\:-webkit-scrollbar-track\]\:bg-transparent::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.\[\&\:\:-webkit-scrollbar\]\:w-1::-webkit-scrollbar {
+  width: 0.25rem;
 }
 
 .\[\&\>svg\]\:size-4>svg {

@@ -31,11 +31,9 @@ const InfinitFeed = ({
     )
   }
 
-
   return (
-    <div className="w-full pb-20 sm:pb-4">
+    <div className="w-full pb-12 sm:pb-4 ">
       <Feed posts={posts} />
-
       <div ref={ref} className="mt-4">
         {isFetchingNextPage && <div className="flex justify-center py-4">
           <p className='text-lg text-slate-200'>Loading more posts...</p>

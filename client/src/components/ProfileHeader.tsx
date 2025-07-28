@@ -33,7 +33,7 @@ const ProfileHeader = ({ user }: { user: UserType }) => {
               initialData={authUser!}
               updateFn={updateQueryProfileEdit}
             >
-              <Button className="bg-transparent border border-zinc-600 hover:bg-transparent hover:text-cyan-600 hover:border-cyan-600 !py-2 !px-2 text-sm"> <MdModeEdit/> Edit </Button>
+              <Button className="bg-accent_purple hover:bg-accent_purple/90 !py-2 !px-2 text-sm"> <MdModeEdit /> Edit </Button>
             </EditModal>
           ) : (
             <FollowButton

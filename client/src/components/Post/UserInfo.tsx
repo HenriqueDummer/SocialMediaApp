@@ -31,8 +31,8 @@ export const UserInfo = ({ user, createdAt }: UserInfoProps) => {
                     params={{ userId: user._id }}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <div className="items-center gap-2 inline-flex">
-                        <p className="font-semibold text-sm md:text-base text-slate-300 ">
+                    <div className="items-center inline-flex flex-wrap">
+                        <p className="font-semibold text-sm pr-2 md:text-base text-slate-300 ">
                             {user.fullName}
                         </p>
                         <p className="text-xs md:text-sm text-slate-500">

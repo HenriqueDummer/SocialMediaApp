@@ -56,7 +56,7 @@ export const ProfileEditModal = ({ initialData, updateFn, children }: ProfileEdi
                             Cancel
                         </Button>
                         <Button
-                            className="text-cyan-600 grow h-10 lg:flex-none"
+                            className="bg-accent_purple hover:bg-accent_purple/90 grow h-10 lg:flex-none"
                             disabled={isPending}
                             type="submit"
                         >
