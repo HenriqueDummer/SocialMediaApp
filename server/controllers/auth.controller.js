@@ -120,7 +120,7 @@ export const getMe = async (req, res) => {
         message: "User not found",
       });
     }
-    
+
     return res.status(200).json({
       data: user,
     });
